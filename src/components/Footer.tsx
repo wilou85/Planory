@@ -22,10 +22,10 @@ export function Footer({ compactMobile = false }: FooterProps) {
       } lg:pb-10`}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
-          <div>
+        <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
             <PlanoryLogo size={32} />
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-500">
+            <p className="max-w-xl text-sm leading-relaxed text-slate-500 sm:text-right">
               Planning augmenté par l&apos;IA — solution française pour la planification
               d&apos;équipes et de ressources en environnement réglementé.
             </p>
@@ -47,7 +47,7 @@ export function Footer({ compactMobile = false }: FooterProps) {
               />
             </button>
             <ul
-              className={`grid gap-4 sm:grid-cols-2 ${sitemapOpen ? "grid" : "hidden lg:grid"}`}
+              className={`grid gap-3 sm:grid-cols-2 lg:grid-cols-3 ${sitemapOpen ? "grid" : "hidden lg:grid"}`}
             >
               {pages.map((page) => {
                 const PageIcon = getPageIcon(page.path);
@@ -56,7 +56,7 @@ export function Footer({ compactMobile = false }: FooterProps) {
                   <Link
                     href={page.path}
                     title={page.snippet}
-                    className="group flex min-h-[44px] items-center gap-3 rounded-lg py-1 transition-colors"
+                    className="group flex min-h-[44px] w-full items-center gap-3 rounded-lg py-1 transition-colors"
                   >
                     <IconBox
                       icon={PageIcon}
