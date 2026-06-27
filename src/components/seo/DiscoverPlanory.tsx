@@ -24,6 +24,10 @@ export function DiscoverPlanory() {
           Planory accélère la planification sans remplacer l&apos;expertise. L&apos;IA propose,
           vous décidez.
         </p>
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-500 sm:text-base">
+          Planning augmenté par l&apos;IA — solution française pour la planification
+          d&apos;équipes et de ressources en environnement réglementé.
+        </p>
 
         <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {pages.map((page) => {

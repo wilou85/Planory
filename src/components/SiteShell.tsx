@@ -36,7 +36,7 @@ export function SiteShell({
       >
         {children}
       </main>
-      <Footer compactMobile={isContent} />
+      <Footer compactMobile={isContent} minimal={currentPath === "/"} />
       {!isContent && <MobileTabBar />}
       <StickyContactBar hasTabBar={!isContent} />
       <MobileNavDrawer />
