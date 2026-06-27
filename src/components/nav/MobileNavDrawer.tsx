@@ -1,0 +1,135 @@
+"use client";
+
+import { useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
+import { X, Mail } from "lucide-react";
+import { CONTACT_EMAIL, DRAWER_NAV_SECTIONS } from "@/lib/content";
+import { getNavItemIcon } from "@/lib/icons";
+import { useNavDrawer } from "@/components/nav/NavDrawerContext";
+
+export function MobileNavDrawer() {
+  const { open, closeDrawer } = useNavDrawer();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    closeDrawer();
+  }, [pathname, closeDrawer]);
+
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeDrawer();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, closeDrawer]);
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.button
+            type="button"
+            aria-label="Fermer le menu"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm lg:hidden"
+            onClick={closeDrawer}
+          />
+          <motion.nav
+            id="mobile-nav-drawer"
+            aria-label="Navigation mobile complète"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", stiffness: 380, damping: 36 }}
+            className="fixed inset-y-0 right-0 z-[70] flex w-[min(100%,20rem)] flex-col border-l border-white/10 bg-[#0c1220] shadow-2xl lg:hidden"
+            style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
+          >
+            <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+              <span className="text-sm font-semibold text-white">Menu</span>
+              <button
+                type="button"
+                onClick={closeDrawer}
+                className="flex h-10 w-10 items-center justify-center rounded-lg text-slate-400 hover:bg-white/5 hover:text-white"
+                aria-label="Fermer"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-3 py-4">
+              {DRAWER_NAV_SECTIONS.map((section) => (
+                <div key={section.title} className="mb-6 last:mb-0">
+                  <p className="mb-2 px-2 text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-500">
+                    {section.title}
+                  </p>
+                  <ul className="space-y-0.5">
+                    {section.items.map((item) => {
+                      const ItemIcon = getNavItemIcon(item.href);
+                      const baseHref = item.href.split("#")[0];
+                      const isActive =
+                        pathname === item.href ||
+                        pathname === baseHref ||
+                        (baseHref !== "/" && pathname.startsWith(`${baseHref}/`));
+                      return (
+                        <li key={item.href}>
+                          <Link
+                            href={item.href}
+                            onClick={closeDrawer}
+                            className={`flex min-h-[44px] items-start gap-3 rounded-xl px-3 py-2.5 transition-colors ${
+                              isActive
+                                ? "bg-white/10 text-white"
+                                : "text-slate-300 hover:bg-white/5 hover:text-white"
+                            }`}
+                          >
+                            <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-slate-400">
+                              <ItemIcon className="h-4 w-4" aria-hidden />
+                            </span>
+                            <span className="min-w-0">
+                            <span className="block text-sm font-medium">{item.label}</span>
+                            {"description" in item && !!item.description && (
+                              <span className="mt-0.5 block text-xs text-slate-500">
+                                {item.description}
+                              </span>
+                            )}
+                            </span>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            <div
+              className="border-t border-white/10 p-4"
+              style={{ paddingBottom: "calc(1rem + env(safe-area-inset-bottom, 0px))" }}
+            >
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-white text-sm font-medium text-[#050a14]"
+              >
+                <Mail className="h-4 w-4" aria-hidden />
+                Prendre contact
+              </a>
+            </div>
+          </motion.nav>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}

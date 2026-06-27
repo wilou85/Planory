@@ -23,6 +23,8 @@
 # misc
 .DS_Store
 *.pem
+.cursor/
+graphify-out/
 
 # debug
 npm-debug.log*
