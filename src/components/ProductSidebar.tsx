@@ -1,15 +1,20 @@
 "use client";
 
-import Link from "next/link";
 import { getPageUi, getProductModules } from "@/lib/get-content";
 import type { Locale } from "@/lib/i18n";
 import { PRODUCT_MODULE_ICONS } from "@/lib/icons";
 
 type ProductSidebarProps = {
   locale?: Locale;
+  activeModuleId: string;
+  onSelectModule: (moduleId: string) => void;
 };
 
-export function ProductSidebar({ locale = "fr" }: ProductSidebarProps) {
+export function ProductSidebar({
+  locale = "fr",
+  activeModuleId,
+  onSelectModule,
+}: ProductSidebarProps) {
   const ui = getPageUi(locale);
   const modules = getProductModules(locale);
 
@@ -24,15 +29,25 @@ export function ProductSidebar({ locale = "fr" }: ProductSidebarProps) {
         </p>
         {modules.map((mod) => {
           const ModIcon = PRODUCT_MODULE_ICONS[mod.id];
+          const isActive = mod.id === activeModuleId;
           return (
-            <Link
+            <button
               key={mod.id}
-              href={`#${mod.id}`}
-              className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-400 transition-colors hover:bg-white/5 hover:text-white"
+              type="button"
+              onClick={() => onSelectModule(mod.id)}
+              aria-current={isActive ? "true" : undefined}
+              className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm transition-colors ${
+                isActive
+                  ? "bg-white/10 font-medium text-white"
+                  : "text-slate-400 hover:bg-white/5 hover:text-white"
+              }`}
             >
-              <ModIcon className="h-4 w-4 shrink-0 text-slate-500" aria-hidden />
+              <ModIcon
+                className={`h-4 w-4 shrink-0 ${isActive ? "text-sky-400" : "text-slate-500"}`}
+                aria-hidden
+              />
               {mod.title}
-            </Link>
+            </button>
           );
         })}
       </div>
