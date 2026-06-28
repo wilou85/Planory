@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { sectionStack, sectionY } from "@/components/ui/section";
@@ -23,6 +24,7 @@ export function ProductSection({ locale = "fr" }: ProductSectionProps) {
   const defaultModuleId = modules[0]?.id ?? "rh";
 
   const [activeModuleId, setActiveModuleId] = useState<string>(defaultModuleId);
+  const pathname = usePathname();
 
   const selectModule = useCallback((moduleId: string) => {
     setActiveModuleId(moduleId);
@@ -39,7 +41,7 @@ export function ProductSection({ locale = "fr" }: ProductSectionProps) {
     syncFromHash();
     window.addEventListener("hashchange", syncFromHash);
     return () => window.removeEventListener("hashchange", syncFromHash);
-  }, [modules]);
+  }, [modules, pathname]);
 
   return (
     <section id="produit" className={`relative ${sectionY}`}>

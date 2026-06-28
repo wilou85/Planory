@@ -54,6 +54,9 @@ export function localePath(targetLocale: Locale, currentPath = "/"): string {
   return localizePath(stripLocalePrefix(currentPath), targetLocale);
 }
 
+/** Lien « Voir un exemple » → module Planification RH / HR scheduling */
+export const PRODUCT_EXAMPLE_HREF = "/produit#rh";
+
 export const HERO_COPY = {
   fr: {
     pilot: "Pilote en cours — Aéroport de Paris-Orly",
@@ -64,7 +67,7 @@ export const HERO_COPY = {
       "Planory respecte vos règles métier, contraintes RH et facteurs humains. Vous révisez, ajustez et publiez.",
     ctaPrimary: "Prendre contact",
     ctaSecondary: "Voir un exemple de planning",
-    ctaSecondaryHref: "/produit#planning",
+    ctaSecondaryHref: PRODUCT_EXAMPLE_HREF,
     ctaLeadMagnet: "Encore sur Excel ? Questionnaire en 2 min",
     ctaLeadMagnetHref: "/ressources/outils/grille-excel-vs-logiciel",
     stats: [
@@ -82,7 +85,7 @@ export const HERO_COPY = {
       "Planory respects your business rules, HR constraints and human factors. You review, adjust and publish.",
     ctaPrimary: "Get in touch",
     ctaSecondary: "See a scheduling example",
-    ctaSecondaryHref: "/produit#planning",
+    ctaSecondaryHref: PRODUCT_EXAMPLE_HREF,
     ctaLeadMagnet: "Still on Excel? 2-min questionnaire",
     ctaLeadMagnetHref: "/ressources/outils/grille-excel-vs-logiciel",
     stats: [
@@ -207,6 +210,7 @@ export const HEADER_COPY = {
   fr: {
     tagline: "IA de planification",
     ctaExample: "Voir un exemple",
+    ctaExampleHref: PRODUCT_EXAMPLE_HREF,
     ctaContact: "Prendre contact",
     ctaContactShort: "Contact",
     openMenu: "Ouvrir le menu",
@@ -224,6 +228,7 @@ export const HEADER_COPY = {
   en: {
     tagline: "Planning AI",
     ctaExample: "See an example",
+    ctaExampleHref: PRODUCT_EXAMPLE_HREF,
     ctaContact: "Get in touch",
     ctaContactShort: "Contact",
     openMenu: "Open menu",

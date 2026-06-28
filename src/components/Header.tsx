@@ -183,7 +183,7 @@ export function Header() {
 
         <div className="flex shrink-0 items-center justify-end gap-1.5 lg:justify-self-end lg:gap-2">
           <Button
-            href={localizePath("/produit#planning", locale)}
+            href={localizePath(copy.ctaExampleHref, locale)}
             variant="ghost"
             size="sm"
             className="!hidden lg:!inline-flex"
