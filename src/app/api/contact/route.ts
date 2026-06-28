@@ -5,6 +5,8 @@ import {
   formatContactEmail,
   validateContactForm,
 } from "@/lib/contact";
+import { getContactFormCopy } from "@/lib/get-content";
+import type { Locale } from "@/lib/i18n";
 import {
   emailNotConfiguredResponse,
   getContactEmailFrom,
@@ -17,12 +19,21 @@ export async function POST(request: Request) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Corps de requête invalide." }, { status: 400 });
+    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
+
+  const locale: Locale =
+    body && typeof body === "object" && (body as Record<string, unknown>).locale === "en"
+      ? "en"
+      : "fr";
+  const apiCopy = getContactFormCopy(locale);
 
   const result = validateContactForm(body);
   if (!result.ok) {
-    return NextResponse.json({ error: "Champs invalides.", fields: result.errors }, { status: 400 });
+    return NextResponse.json(
+      { error: apiCopy.formErrorGeneric, fields: result.errors },
+      { status: 400 },
+    );
   }
 
   if (isEmailDevBypass()) {
@@ -32,7 +43,7 @@ export async function POST(request: Request) {
 
   const apiKey = getResendApiKey();
   if (!apiKey) {
-    return emailNotConfiguredResponse();
+    return emailNotConfiguredResponse(locale);
   }
 
   const from = getContactEmailFrom();
@@ -51,7 +62,12 @@ export async function POST(request: Request) {
   if (error) {
     console.error("[contact]", error);
     return NextResponse.json(
-      { error: "Impossible d'envoyer le message. Réessayez plus tard." },
+      {
+        error:
+          locale === "en"
+            ? "Unable to send the message. Please try again later."
+            : "Impossible d'envoyer le message. Réessayez plus tard.",
+      },
       { status: 502 },
     );
   }

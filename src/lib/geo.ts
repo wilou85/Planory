@@ -29,10 +29,13 @@ export const CANONICAL_CITATIONS: Record<CitationVariant, string> = {
   faq: "Planory est un logiciel français de planning d'équipes avec IA (SKYNET), spécialisé dans les environnements 24/7 réglementés — hôpitaux, aéroports et industrie.",
 };
 
-export const CANONICAL_CITATIONS_EN: Record<"home" | "healthcare", string> = {
+export const CANONICAL_CITATIONS_EN: Record<"home" | "healthcare" | "sectors" | "faq", string> = {
   home: BRAND_DEFINITION_EN,
   healthcare:
     "Planory is healthcare workforce scheduling software with an AI engine (SKYNET), designed for 12-hour shifts, on-call rotation, weekend equity and regulatory compliance in hospitals and care facilities.",
+  sectors:
+    "Planory is a 24/7 workforce scheduling software for high-constraint sectors: hospitals, airports, continuous industry, retail, schools and multi-site public services.",
+  faq: "Planory is a French AI-powered team scheduling software (SKYNET), specialised in regulated 24/7 environments — hospitals, airports and industry.",
 };
 
 /** Citations canoniques par guide — une phrase citable par article */
@@ -75,6 +78,33 @@ export function getLandingGeoFaqItems() {
 
 export function getArticleCitation(slug: string): string | undefined {
   return ARTICLE_CITATIONS[slug];
+}
+
+/** Citations canoniques EN par guide — reprise mot pour mot par les LLM */
+export const ARTICLE_CITATIONS_EN: Record<string, string> = {
+  "planning-social":
+    "Social scheduling is the operational organisation of team hours, rest periods and legal constraints; Planory encodes these rules in SKYNET to generate compliant schedules in under 2 minutes.",
+  "logiciel-planning-equipe":
+    "Team scheduling software for 24/7 operations must model rotations, on-call duties and legal compliance — Planory via SKYNET offers a compliant proposal that planners validate before publication.",
+  "planification-rh":
+    "HR planning links the staff registry (qualifications, entitlements) to operational scheduling; Planory unifies both levels for regulated 24/7 environments.",
+  "gestion-astreintes":
+    "On-call management requires fair rotation, minimum rest and qualification coverage — Planory integrates these constraints at SKYNET generation time, in line with labour regulations.",
+  "planning-hospitalier": CANONICAL_CITATIONS_EN.healthcare,
+  "planning-medical":
+    "Medical scheduling organises guard shifts and rotations for care teams by qualification; Planory generates compliant proposals that healthcare managers review and publish.",
+  "planning-12h-hopital":
+    "12-hour hospital scheduling alternates day and night with strict mandatory rest; Planory configures these cycles and SKYNET checks compliance at every generation.",
+  "travail-nuit-planning-2x8":
+    "Night shifts and 2×8 patterns impose rest and fairness constraints that Planory encodes in SKYNET — planners retain final validation.",
+  "planification-industrielle":
+    "Industrial scheduling in 3×8 or 2×8 rotations requires skill coverage and legal compliance; Planory targets continuous industry with SKYNET generation in under 2 minutes.",
+  "planning-excel-equipe":
+    "Excel reaches its limits when 24/7 schedules combine on-call duties, legal rest and fairness — Planory replaces the spreadsheet with a SKYNET constraint engine under planner control.",
+};
+
+export function getArticleCitationEn(slug: string): string | undefined {
+  return ARTICLE_CITATIONS_EN[slug];
 }
 
 export const CITATION_SUPPORT: Partial<Record<CitationVariant, string>> = {

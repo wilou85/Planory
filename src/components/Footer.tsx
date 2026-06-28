@@ -1,17 +1,19 @@
 import Link from "next/link";
+import { getPageUi } from "@/lib/get-content";
+import { localizePath, type Locale } from "@/lib/i18n";
 
 type FooterProps = {
-  /** Pages contenu sans tab bar mobile */
   compactMobile?: boolean;
+  locale?: Locale;
 };
 
-const FOOTER_LINKS = [
-  { href: "/faq", label: "FAQ" },
-  { href: "/contact", label: "Contact" },
-] as const;
-
-export function Footer({ compactMobile = false }: FooterProps) {
+export function Footer({ compactMobile = false, locale = "fr" }: FooterProps) {
   const year = new Date().getFullYear();
+  const ui = getPageUi(locale);
+  const links = [
+    { href: localizePath("/faq", locale), label: ui.footer.faqLabel },
+    { href: localizePath("/contact", locale), label: ui.footer.contactLabel },
+  ];
 
   return (
     <footer
@@ -25,10 +27,10 @@ export function Footer({ compactMobile = false }: FooterProps) {
         <div className="flex flex-col items-center justify-between gap-3 text-xs text-slate-500 sm:flex-row">
           <p suppressHydrationWarning>© {year} Planory</p>
           <nav
-            aria-label="Liens footer"
+            aria-label={ui.footer.navAriaLabel}
             className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 sm:justify-end"
           >
-            {FOOTER_LINKS.map((link) => (
+            {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}

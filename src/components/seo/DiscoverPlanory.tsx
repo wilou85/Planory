@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { IconBox } from "@/components/ui/IconBox";
 import { sectionY } from "@/components/ui/section";
-import { getHomeCopy, type Locale } from "@/lib/i18n";
+import { getHomeCopy, localizePath, type Locale } from "@/lib/i18n";
 import { getSitePlanPages } from "@/lib/site";
 import { getPageIcon } from "@/lib/icons";
 
@@ -39,7 +39,7 @@ export function DiscoverPlanory({ locale = "fr" }: DiscoverPlanoryProps) {
             return (
               <li key={page.path}>
                 <Link
-                  href={page.path}
+                  href={localizePath(page.path, locale)}
                   title={localized.snippet}
                   className="group flex items-center gap-3 rounded-xl border border-white/8 bg-[#0c1220]/50 px-4 py-3 transition-colors hover:border-white/15 hover:bg-[#0c1220]/80"
                 >

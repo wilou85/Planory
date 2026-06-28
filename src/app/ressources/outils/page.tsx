@@ -2,9 +2,8 @@ import { SiteShell } from "@/components/SiteShell";
 import { PageContent } from "@/components/PageContent";
 import { ToolsHub } from "@/components/lead-magnets/LeadMagnetsSection";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { LEAD_MAGNETS, TOOLS_HUB_PATH } from "@/lib/lead-magnets";
-import { breadcrumbJsonLd, createPageMetadata, webPageJsonLd } from "@/lib/seo";
-import { SITE_URL } from "@/lib/site";
+import { TOOLS_HUB_PATH } from "@/lib/lead-magnets";
+import { breadcrumbJsonLd, createPageMetadata, webPageJsonLd, toolsItemListJsonLd } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   path: TOOLS_HUB_PATH,
@@ -19,20 +18,8 @@ export const metadata = createPageMetadata({
   ],
 });
 
-function toolsItemListJsonLd() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: "Outils gratuits Planory",
-    url: `${SITE_URL}${TOOLS_HUB_PATH}`,
-    numberOfItems: LEAD_MAGNETS.length,
-    itemListElement: LEAD_MAGNETS.map((magnet, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name: magnet.title,
-      url: `${SITE_URL}${magnet.path}`,
-    })),
-  };
+function toolsItemListJsonLdFr() {
+  return toolsItemListJsonLd("fr");
 }
 
 export default function OutilsPage() {
@@ -54,7 +41,7 @@ export default function OutilsPage() {
             { name: "Articles", path: "/ressources" },
             { name: "Outils", path: TOOLS_HUB_PATH },
           ]),
-          toolsItemListJsonLd(),
+          toolsItemListJsonLdFr(),
           ...(webPage ? [webPage] : []),
         ]}
       />

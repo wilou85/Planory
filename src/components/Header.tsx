@@ -9,12 +9,22 @@ import { Button } from "@/components/ui/Button";
 import { ContactButton } from "@/components/ContactButton";
 import { PlanoryLogo } from "@/components/PlanoryLogo";
 import { useNavDrawer } from "@/components/nav/NavDrawerContext";
-import { NAV_ITEMS } from "@/lib/content";
+import { getHeaderCopy, getHomeCopy, getLocaleFromPath, getNavItems, localizePath, stripLocalePrefix, type Locale } from "@/lib/i18n";
 import { getNavItemIcon, TOP_NAV_ICONS } from "@/lib/icons";
 import { SITE_PAGES } from "@/lib/site";
 
-function pageSnippet(path: string) {
-  return SITE_PAGES.find((p) => p.path === path)?.snippet;
+function pageSnippet(path: string, locale: Locale) {
+  const base = stripLocalePrefix(path);
+  const page = SITE_PAGES.find((p) => p.path === base);
+  if (!page) return undefined;
+  if (locale === "en") {
+    const enEntry =
+      getHomeCopy("en").sitePlanLabels[
+        base as "/produit" | "/secteurs" | "/ressources" | "/offre" | "/faq"
+      ];
+    return enEntry?.snippet ?? page.snippet;
+  }
+  return page.snippet;
 }
 
 const navLinkClass = (isActive: boolean) =>
@@ -24,15 +34,20 @@ const navLinkClass = (isActive: boolean) =>
       : "text-slate-300 hover:bg-white/5 hover:text-white"
   }`;
 
+type NavChild = { label: string; href: string; description: string };
+type NavItem =
+  | { label: string; href: string; children: readonly NavChild[] }
+  | { label: string; href: string };
+
 type NavDropdownProps = {
-  item: (typeof NAV_ITEMS)[number] & { children: readonly { label: string; href: string; description: string }[] };
+  item: NavItem & { children: readonly NavChild[] };
   isActive: boolean;
 };
 
 function NavDropdown({ item, isActive }: NavDropdownProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const NavIcon = TOP_NAV_ICONS[item.href];
+  const NavIcon = TOP_NAV_ICONS[stripLocalePrefix(item.href)];
 
   useEffect(() => {
     if (!open) return;
@@ -105,6 +120,9 @@ function NavDropdown({ item, isActive }: NavDropdownProps) {
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const locale: Locale = getLocaleFromPath(pathname);
+  const copy = getHeaderCopy(locale);
+  const navItems = getNavItems(locale);
   const { openDrawer, open } = useNavDrawer();
 
   useEffect(() => {
@@ -129,31 +147,31 @@ export function Header() {
             type="button"
             onClick={openDrawer}
             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-300 hover:bg-white/5 hover:text-white lg:hidden"
-            aria-label="Ouvrir le menu"
+            aria-label={copy.openMenu}
             aria-controls="mobile-nav-drawer"
             aria-expanded={open}
           >
             <Menu className="h-5 w-5" />
           </button>
-          <PlanoryLogo size={36} />
+          <PlanoryLogo size={36} locale={locale} />
         </div>
 
         <nav
           className="hidden items-center gap-0.5 lg:flex lg:justify-self-center"
-          aria-label="Navigation principale"
+          aria-label={copy.mainNav}
         >
-          {NAV_ITEMS.map((item) => {
+          {navItems.map((item) => {
             const isActive =
               pathname === item.href || pathname.startsWith(`${item.href}/`);
             if ("children" in item) {
               return <NavDropdown key={item.label} item={item} isActive={isActive} />;
             }
-            const NavIcon = TOP_NAV_ICONS[item.href];
+            const NavIcon = TOP_NAV_ICONS[stripLocalePrefix(item.href)];
             return (
               <Link
                 key={item.label}
                 href={item.href}
-                title={pageSnippet(item.href)}
+                title={pageSnippet(item.href, locale)}
                 className={`${navLinkClass(isActive)} gap-1.5`}
               >
                 {NavIcon && <NavIcon className="h-4 w-4 shrink-0 opacity-70" aria-hidden />}
@@ -165,16 +183,16 @@ export function Header() {
 
         <div className="flex shrink-0 items-center justify-end gap-1.5 lg:justify-self-end lg:gap-2">
           <Button
-            href="/produit#planning"
+            href={localizePath("/produit#planning", locale)}
             variant="ghost"
             size="sm"
             className="!hidden lg:!inline-flex"
           >
-            Voir un exemple
+            {copy.ctaExample}
           </Button>
           <ContactButton variant="primary" size="sm">
-            <span className="hidden sm:inline">Prendre contact</span>
-            <span className="sm:hidden">Contact</span>
+            <span className="hidden sm:inline">{copy.ctaContact}</span>
+            <span className="sm:hidden">{copy.ctaContactShort}</span>
           </ContactButton>
         </div>
       </div>

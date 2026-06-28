@@ -5,14 +5,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Mail } from "lucide-react";
-import { DRAWER_NAV_SECTIONS } from "@/lib/content";
-import { CONTACT_PATH } from "@/lib/contact-nav";
+import { getDrawerNavSections, getHeaderCopy, getLocaleFromPath } from "@/lib/i18n";
+import { getContactPath } from "@/lib/contact-nav";
 import { getNavItemIcon } from "@/lib/icons";
 import { useNavDrawer } from "@/components/nav/NavDrawerContext";
 
 export function MobileNavDrawer() {
   const { open, closeDrawer } = useNavDrawer();
   const pathname = usePathname();
+  const locale = getLocaleFromPath(pathname);
+  const copy = getHeaderCopy(locale);
+  const drawerSections = getDrawerNavSections(locale);
 
   useEffect(() => {
     closeDrawer();
@@ -42,7 +45,7 @@ export function MobileNavDrawer() {
         <>
           <motion.button
             type="button"
-            aria-label="Fermer le menu"
+            aria-label={copy.closeMenu}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -51,7 +54,7 @@ export function MobileNavDrawer() {
           />
           <motion.nav
             id="mobile-nav-drawer"
-            aria-label="Navigation mobile complète"
+            aria-label={copy.mobileNav}
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
@@ -60,19 +63,19 @@ export function MobileNavDrawer() {
             style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
           >
             <div className="flex items-center justify-between px-4 py-3">
-              <span className="text-sm font-semibold text-white">Menu</span>
+              <span className="text-sm font-semibold text-white">{copy.menu}</span>
               <button
                 type="button"
                 onClick={closeDrawer}
                 className="flex h-10 w-10 items-center justify-center rounded-lg text-slate-400 hover:bg-white/5 hover:text-white"
-                aria-label="Fermer"
+                aria-label={copy.close}
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
             <div className="flex-1 overflow-y-auto px-3 py-4">
-              {DRAWER_NAV_SECTIONS.map((section) => (
+              {drawerSections.map((section) => (
                 <div key={section.title} className="mb-6 last:mb-0">
                   <p className="mb-2 px-2 text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-500">
                     {section.title}
@@ -121,12 +124,12 @@ export function MobileNavDrawer() {
               style={{ paddingBottom: "calc(1rem + env(safe-area-inset-bottom, 0px))" }}
             >
               <Link
-                href={CONTACT_PATH}
+                href={getContactPath(locale)}
                 onClick={closeDrawer}
                 className="flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-white text-sm font-medium text-[#050a14]"
               >
                 <Mail className="h-4 w-4" aria-hidden />
-                Prendre contact
+                {copy.ctaContact}
               </Link>
             </div>
           </motion.nav>

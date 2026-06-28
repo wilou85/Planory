@@ -1,6 +1,14 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import { SITE_PAGES } from "@/lib/site";
+import {
+  getHeaderCopy,
+  getLocaleFromPath,
+  getSitePageBreadcrumbLabel,
+  homePath,
+  isLocaleHome,
+  stripLocalePrefix,
+} from "@/lib/i18n";
+import { getSitePage } from "@/lib/site";
 
 type BreadcrumbItem = { name: string; path: string };
 
@@ -12,21 +20,24 @@ type BreadcrumbsProps = {
 };
 
 function normalizeTrail(trail: BreadcrumbItem[]): BreadcrumbItem[] {
-  if (trail.length > 0 && trail[0].path === "/") {
+  if (trail.length > 0 && (trail[0].path === "/" || trail[0].path === "/en")) {
     return trail.slice(1);
   }
   return trail;
 }
 
 export function Breadcrumbs({ currentPath, trail, variant = "default" }: BreadcrumbsProps) {
-  if (currentPath === "/") return null;
+  if (isLocaleHome(currentPath)) return null;
 
+  const locale = getLocaleFromPath(currentPath);
+  const copy = getHeaderCopy(locale);
   const items: BreadcrumbItem[] = normalizeTrail(
     trail ??
       (() => {
-        const current = SITE_PAGES.find((p) => p.path === currentPath);
-        if (!current) return [];
-        return [{ name: current.label, path: current.path }];
+        const basePath = stripLocalePrefix(currentPath);
+        const label = getSitePageBreadcrumbLabel(basePath, locale);
+        if (!label || !getSitePage(basePath)) return [];
+        return [{ name: label, path: currentPath }];
       })(),
   );
 
@@ -36,15 +47,15 @@ export function Breadcrumbs({ currentPath, trail, variant = "default" }: Breadcr
 
   return (
     <nav
-      aria-label="Fil d'Ariane"
+      aria-label={copy.breadcrumbLabel}
       className={`site-header-offset mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ${
         isContent ? "pb-3" : "pb-2"
       }`}
     >
       <ol className="flex flex-wrap items-center gap-1 text-xs text-slate-500 sm:text-sm">
         <li>
-          <Link href="/" className="transition-colors hover:text-white">
-            Accueil
+          <Link href={homePath(locale)} className="transition-colors hover:text-white">
+            {copy.breadcrumbHome}
           </Link>
         </li>
         {items.map((item, index) => {

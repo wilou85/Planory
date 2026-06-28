@@ -2,14 +2,19 @@ import Link from "next/link";
 import { ContactButton } from "@/components/ContactButton";
 import { Button } from "@/components/ui/Button";
 import { GeoDefinition, hasArticleGeoCitation } from "@/components/geo/GeoDefinition";
+import { getPageUi } from "@/lib/get-content";
+import type { Locale } from "@/lib/i18n";
+import { localizePath } from "@/lib/i18n";
 import type { ResourceArticle } from "@/lib/resources";
 import { formatArticleDate, getArticleUpdatedAt } from "@/lib/resources";
 
 type ResourceArticleContentProps = {
   article: ResourceArticle;
+  locale?: Locale;
 };
 
-export function ResourceArticleContent({ article }: ResourceArticleContentProps) {
+export function ResourceArticleContent({ article, locale = "fr" }: ResourceArticleContentProps) {
+  const ui = getPageUi(locale).resourcesArticle;
   const updatedAt = getArticleUpdatedAt(article);
   const datesDiffer = updatedAt !== article.publishedAt;
 
@@ -18,15 +23,18 @@ export function ResourceArticleContent({ article }: ResourceArticleContentProps)
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <header>
           <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">
-            Guide · {article.readTime}
+            {ui.guidePrefix} {article.readTime}
           </p>
           <p className="mt-2 text-xs text-slate-500">
-            Publié le{" "}
-            <time dateTime={article.publishedAt}>{formatArticleDate(article.publishedAt)}</time>
+            {ui.published}{" "}
+            <time dateTime={article.publishedAt}>
+              {formatArticleDate(article.publishedAt, locale)}
+            </time>
             {datesDiffer ? (
               <>
                 {" "}
-                · Mis à jour le <time dateTime={updatedAt}>{formatArticleDate(updatedAt)}</time>
+                · {ui.updated}{" "}
+                <time dateTime={updatedAt}>{formatArticleDate(updatedAt, locale)}</time>
               </>
             ) : null}
           </p>
@@ -36,7 +44,7 @@ export function ResourceArticleContent({ article }: ResourceArticleContentProps)
           <p className="mt-4 text-lg leading-relaxed text-slate-400">{article.description}</p>
           {hasArticleGeoCitation(article.slug) && (
             <div className="mt-6 rounded-xl border border-white/8 bg-[#0c1220]/40 p-4">
-              <GeoDefinition articleSlug={article.slug} />
+              <GeoDefinition articleSlug={article.slug} locale={locale} />
             </div>
           )}
         </header>
@@ -84,7 +92,9 @@ export function ResourceArticleContent({ article }: ResourceArticleContentProps)
                   >
                     <p className="text-base text-slate-300">{section.text}</p>
                     <div className="mt-4">
-                      {section.href === "/contact" || section.href === "#contact" ? (
+                      {section.href === "/contact" ||
+                      section.href === "#contact" ||
+                      section.href === "/en/contact" ? (
                         <ContactButton variant="primary" showArrow className="!px-8">
                           {section.label}
                         </ContactButton>
@@ -105,7 +115,7 @@ export function ResourceArticleContent({ article }: ResourceArticleContentProps)
         <footer className="mt-12 pt-8">
           {article.relatedLinks && article.relatedLinks.length > 0 && (
             <p className="text-sm text-slate-500">
-              Voir aussi :{" "}
+              {ui.seeAlso}{" "}
               {article.relatedLinks.map((link, i) => (
                 <span key={link.href}>
                   {i > 0 && " · "}
@@ -117,16 +127,25 @@ export function ResourceArticleContent({ article }: ResourceArticleContentProps)
             </p>
           )}
           <p className={`text-sm text-slate-500 ${article.relatedLinks?.length ? "mt-4" : ""}`}>
-            <Link href="/ressources" className="text-sky-400 hover:text-sky-300">
-              ← Tous les guides
+            <Link
+              href={localizePath("/ressources", locale)}
+              className="text-sky-400 hover:text-sky-300"
+            >
+              {ui.allGuides}
             </Link>
             {" · "}
-            <Link href="/secteurs" className="text-sky-400 hover:text-sky-300">
-              Secteurs
+            <Link
+              href={localizePath("/secteurs", locale)}
+              className="text-sky-400 hover:text-sky-300"
+            >
+              {ui.sectors}
             </Link>
             {" · "}
-            <Link href="/produit" className="text-sky-400 hover:text-sky-300">
-              Produit Planory
+            <Link
+              href={localizePath("/produit", locale)}
+              className="text-sky-400 hover:text-sky-300"
+            >
+              {ui.product}
             </Link>
           </p>
         </footer>

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { SkipToContent } from "@/components/SkipToContent";
 import { createPageMetadata, globalGraphJsonLd } from "@/lib/seo";
 import "./globals.css";
 
@@ -39,12 +40,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className="min-h-full w-full min-w-0 overflow-x-clip bg-[#050a14] font-sans text-white antialiased"
       >
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-[#050a14]"
-        >
-          Aller au contenu
-        </a>
+        <SkipToContent />
         <JsonLd data={globalGraphJsonLd()} />
         {children}
       </body>

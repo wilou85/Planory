@@ -16,6 +16,8 @@ export type LeadMagnetSector =
   | "services-publics"
   | "autre";
 
+import type { Locale } from "@/lib/i18n";
+
 export type LeadMagnetFormData = {
   firstName: string;
   lastName: string;
@@ -24,6 +26,7 @@ export type LeadMagnetFormData = {
   sector: LeadMagnetSector;
   gdprConsent: boolean;
   magnetSlug: LeadMagnetSlug;
+  locale?: Locale;
 };
 
 export type LeadMagnetFormFieldErrors = Partial<

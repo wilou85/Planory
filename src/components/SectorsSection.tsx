@@ -5,9 +5,18 @@ import { motion } from "framer-motion";
 import { sectionHeadMb, sectionY } from "@/components/ui/section";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { IconBox } from "@/components/ui/IconBox";
-import { SECTORS } from "@/lib/content";
+import { getPageUi, getSectors } from "@/lib/get-content";
+import { localizePath, type Locale } from "@/lib/i18n";
 import { SECTOR_ICONS } from "@/lib/icons";
-export function SectorsSection() {
+
+type SectorsSectionProps = {
+  locale?: Locale;
+};
+
+export function SectorsSection({ locale = "fr" }: SectorsSectionProps) {
+  const ui = getPageUi(locale);
+  const sectors = getSectors(locale);
+
   return (
     <section id="secteurs" className={`relative ${sectionY}`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -18,9 +27,9 @@ export function SectorsSection() {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.5 }}
           >
-            <SectionLabel>Secteurs</SectionLabel>
+            <SectionLabel>{ui.sectors.sectionLabel}</SectionLabel>
             <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl">
-              Des exemples concrets par secteur
+              {ui.sectors.heading}
             </h2>
           </motion.div>
           <motion.p
@@ -30,13 +39,12 @@ export function SectorsSection() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="self-end text-lg leading-relaxed text-slate-400 lg:pb-1"
           >
-            Planory s&apos;adapte à la structure de contraintes de chaque secteur —
-            réglementaire, opérationnel ou social.
+            {ui.sectors.intro}
           </motion.p>
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {SECTORS.map((sector, i) => {
+          {sectors.map((sector, i) => {
             const Icon = SECTOR_ICONS[sector.icon];
             return (
               <motion.article
@@ -59,10 +67,10 @@ export function SectorsSection() {
                 </p>
                 {"href" in sector && sector.href ? (
                   <Link
-                    href={sector.href}
+                    href={localizePath(sector.href, locale)}
                     className="mt-4 inline-flex text-sm font-medium text-sky-400 hover:text-sky-300"
                   >
-                    En savoir plus →
+                    {ui.sectors.learnMore}
                   </Link>
                 ) : null}
                 <div className="mt-5 flex flex-wrap gap-2">

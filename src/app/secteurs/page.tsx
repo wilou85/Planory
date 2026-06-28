@@ -23,7 +23,7 @@ export default function SecteursPage() {
       <PageContent>
         <section className="py-14 sm:pb-0">
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-            <GeoDefinition variant="sectors" />
+            <GeoDefinition variant="sectors" showSupport={false} />
           </div>
         </section>
         <SectorsSection />

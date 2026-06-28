@@ -3,21 +3,26 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { getHeaderCopy, homePath, type Locale } from "@/lib/i18n";
 
 type PlanoryLogoProps = {
   size?: number;
   showWordmark?: boolean;
   className?: string;
+  locale?: Locale;
 };
 
 export function PlanoryLogo({
   size = 36,
   showWordmark = true,
   className = "",
+  locale = "fr",
 }: PlanoryLogoProps) {
+  const copy = getHeaderCopy(locale);
+
   return (
     <Link
-      href="/"
+      href={homePath(locale)}
       className={`group inline-flex shrink-0 items-center gap-3 ${className}`}
     >
       <motion.span
@@ -39,7 +44,7 @@ export function PlanoryLogo({
       {showWordmark && (
         <span className="flex flex-col justify-center leading-tight">
           <span className="text-base font-semibold text-white">Planory</span>
-          <span className="text-[11px] text-slate-400">IA de planification</span>
+          <span className="text-[11px] text-slate-400">{copy.tagline}</span>
         </span>
       )}
     </Link>

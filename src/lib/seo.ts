@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { FAQ_ITEMS } from "@/lib/content";
-import { getArticleUpdatedAt, RESOURCE_ARTICLES } from "@/lib/resources";
+import { EN_SITE, getLocaleFromPath, localizePath, stripLocalePrefix, type Locale } from "@/lib/i18n";
+import { getLeadMagnet, LEAD_MAGNETS, TOOLS_HUB_PATH } from "@/lib/lead-magnets";
+import { getArticleUpdatedAt, getResourceArticle, RESOURCE_ARTICLES } from "@/lib/resources";
 import {
   ORGANIZATION,
   BRAND,
@@ -12,6 +14,7 @@ import {
   SITE_REGION,
   SITE_TAGLINE,
   SITE_URL,
+  getSitePage,
 } from "@/lib/site";
 
 type PageMetaInput = {
@@ -21,49 +24,134 @@ type PageMetaInput = {
   keywords?: string[];
 };
 
+/** Titres/descriptions EN pour WebPage JSON-LD (pages sans entrée SITE_PAGES EN) */
+const EN_WEB_PAGE_META: Record<string, { title: string; description: string }> = {
+  "/": { title: EN_SITE.title, description: EN_SITE.description },
+  "/produit": {
+    title: "Team scheduling software, HR planning & social scheduling | Planory",
+    description:
+      "Workforce scheduling software for 24/7 teams: HR planning, shift scheduling, personal schedule management and SKYNET optimisation.",
+  },
+  "/secteurs": {
+    title: "Hospital, airport, industry & retail scheduling | Planory",
+    description:
+      "Hospital scheduling, on-call duties, 3×8 industrial rotations, retail staffing and 24/7 airport planning. Concrete use cases by sector with Planory.",
+  },
+  "/secteurs/hopital": {
+    title: "Hospital scheduling, medical rostering & on-call planning | Planory",
+    description:
+      "Hospital and medical scheduling software with AI: on-call duties, hospital rotation planning, 12-hour shifts and public healthcare compliance.",
+  },
+  "/ressources": {
+    title: "Scheduling guides & team planning | Planory",
+    description: "Practical guides on team scheduling, on-call duties and 24/7 shift patterns.",
+  },
+  "/ressources/outils": {
+    title: "Free tools — grids and scheduling templates | Planory",
+    description:
+      "Free Planory tools: Excel vs software self-assessment grids, templates and checklists to scope a 24/7 team scheduling project.",
+  },
+  "/offre": {
+    title: "Planory pricing: Self-serve, Supported, Mission-critical",
+    description:
+      "Three engagement levels to deploy Planory: self-serve, supported with a dedicated contact, or mission-critical for regulated 24/7 environments.",
+  },
+  "/faq": {
+    title: "Planory FAQ: scheduling, on-call, SKYNET and deployment",
+    description:
+      "Answers on HR planning, on-call duties, SKYNET, workforce scheduling, deployment and HRIS integration.",
+  },
+  "/contact": {
+    title: "Contact Planory — Demo request and inquiry",
+    description:
+      "Contact Planory for a 20-minute call about your 24/7 team scheduling context. Contact form — quick response.",
+  },
+};
+
+const EN_NAV_LABELS: Record<string, string> = {
+  "/produit": "Product",
+  "/secteurs": "Sectors",
+  "/secteurs/hopital": "Hospital scheduling",
+  "/ressources": "Resources",
+  "/offre": "Pricing",
+  "/faq": "FAQ",
+  "/contact": "Contact",
+};
+
+function buildHreflangAlternates(path: string) {
+  const basePath = stripLocalePrefix(path);
+  const frPath = basePath === "/" ? "/" : basePath;
+  const enPath = localizePath(basePath, "en");
+  return {
+    "fr-FR": frPath === "/" ? SITE_URL : `${SITE_URL}${frPath}`,
+    "en-GB": `${SITE_URL}${enPath}`,
+  };
+}
+
+function resolvePageLanguage(path: string): Locale {
+  return getLocaleFromPath(path);
+}
+
+function buildDefaultKeywords(locale: Locale): string[] {
+  if (locale === "en") {
+    return [
+      "Planory",
+      "workforce scheduling software",
+      "team scheduling",
+      "SKYNET",
+      "24/7 scheduling",
+      "healthcare workforce scheduling",
+    ];
+  }
+  return [
+    "Planory",
+    "planning IA",
+    "planification équipes",
+    "logiciel planning France",
+    "SKYNET",
+  ];
+}
+
 export function createPageMetadata({
   path,
   title,
   description,
   keywords = [],
 }: PageMetaInput): Metadata {
-  const page = SITE_PAGES.find((p) => p.path === path);
-  const pageTitle = title ?? page?.title ?? SITE_NAME;
-  const pageDescription = description ?? page?.description ?? SITE_DESCRIPTION;
+  const locale = resolvePageLanguage(path);
+  const basePath = stripLocalePrefix(path);
+  const page = getSitePage(basePath);
+  const enMeta = locale === "en" ? EN_WEB_PAGE_META[basePath] : undefined;
+  const pageTitle = title ?? enMeta?.title ?? page?.title ?? SITE_NAME;
+  const pageDescription =
+    description ?? enMeta?.description ?? page?.description ?? SITE_DESCRIPTION;
   const url = `${SITE_URL}${path}`;
 
   return {
     title: pageTitle,
     description: pageDescription,
-    keywords: [
-      "Planory",
-      "planning IA",
-      "planification équipes",
-      "logiciel planning France",
-      "SKYNET",
-      ...keywords,
-    ],
+    keywords: [...buildDefaultKeywords(locale), ...keywords],
     alternates: {
       canonical: url,
-      languages: {
-        [SITE_LANGUAGE]: path === "/" ? SITE_URL : url,
-        "en-GB": `${SITE_URL}/en`,
-        ...(path === "/en" ? { "fr-FR": SITE_URL } : {}),
-      },
+      languages: buildHreflangAlternates(path),
     },
     openGraph: {
       title: pageTitle,
       description: pageDescription,
       url,
       siteName: SITE_NAME,
-      locale: SITE_LOCALE,
+      locale: locale === "en" ? "en_GB" : SITE_LOCALE,
+      alternateLocale: locale === "en" ? ["fr_FR"] : ["en_GB"],
       type: "website",
       images: [
         {
           url: "/og-planory.png",
           width: 1200,
           height: 630,
-          alt: "Planory — logiciel de planning d'équipes 24/7 avec IA SKYNET",
+          alt:
+            locale === "en"
+              ? "Planory — 24/7 workforce scheduling software with SKYNET AI"
+              : "Planory — logiciel de planning d'équipes 24/7 avec IA SKYNET",
         },
         {
           url: "/planory-logo.png",
@@ -97,7 +185,7 @@ export function createPageMetadata({
     other: {
       "geo.region": SITE_REGION,
       "geo.placename": "France",
-      "content-language": SITE_LANGUAGE,
+      "content-language": locale === "en" ? "en-GB" : SITE_LANGUAGE,
     },
   };
 }
@@ -133,7 +221,7 @@ export function websiteJsonLd() {
     alternateName: SITE_TAGLINE,
     url: SITE_URL,
     description: SITE_DESCRIPTION,
-    inLanguage: SITE_LANGUAGE,
+    inLanguage: [SITE_LANGUAGE, "en-GB"],
     publisher: { "@id": `${SITE_URL}/#organization` },
     potentialAction: {
       "@type": "ContactAction",
@@ -145,12 +233,22 @@ export function websiteJsonLd() {
 
 /** Liste des pages principales — aide Google à comprendre la structure (sitelinks) */
 export function siteNavigationJsonLd() {
-  return SITE_PAGES.filter((p) => p.path !== "/").map((page) => ({
+  const frNav = SITE_PAGES.filter((p) => p.path !== "/").map((page) => ({
     "@type": "SiteNavigationElement",
     name: page.label,
     description: page.snippet,
     url: `${SITE_URL}${page.path}`,
   }));
+
+  const enNav = SITE_PAGES.filter((p) => p.path !== "/" && p.path !== "/en").map((page) => ({
+    "@type": "SiteNavigationElement",
+    name: EN_NAV_LABELS[page.path] ?? page.label,
+    description: page.snippet,
+    url: `${SITE_URL}${localizePath(page.path, "en")}`,
+    inLanguage: "en-GB",
+  }));
+
+  return [...frNav, ...enNav];
 }
 
 export function mainPagesItemListJsonLd() {
@@ -176,7 +274,7 @@ export function softwareApplicationJsonLd() {
     operatingSystem: "Web",
     description: ORGANIZATION.description,
     url: SITE_URL,
-    inLanguage: SITE_LANGUAGE,
+    inLanguage: [SITE_LANGUAGE, "en-GB"],
     offers: {
       "@type": "Offer",
       url: `${SITE_URL}/contact`,
@@ -195,17 +293,76 @@ export function softwareApplicationJsonLd() {
   };
 }
 
+function resolveWebPageMeta(path: string): {
+  title: string;
+  description: string;
+  inLanguage: string;
+} | null {
+  const locale = resolvePageLanguage(path);
+  const basePath = stripLocalePrefix(path);
+  const inLanguage = locale === "en" ? "en-GB" : SITE_LANGUAGE;
+
+  if (basePath.startsWith("/ressources/") && basePath !== "/ressources/outils") {
+    const slug = basePath.split("/").pop();
+    if (!slug) return null;
+    const article = getResourceArticle(slug, locale);
+    if (!article) return null;
+    return {
+      title: `${article.title} | Planory`,
+      description: article.description,
+      inLanguage,
+    };
+  }
+
+  if (basePath.startsWith("/ressources/outils/")) {
+    const slug = basePath.split("/").pop();
+    if (!slug) return null;
+    const magnet = getLeadMagnet(slug, locale);
+    if (!magnet) return null;
+    return {
+      title: magnet.title,
+      description: magnet.description,
+      inLanguage,
+    };
+  }
+
+  const page = getSitePage(basePath);
+  if (page) {
+    const enMeta = locale === "en" ? EN_WEB_PAGE_META[basePath] : undefined;
+    return {
+      title: enMeta?.title ?? page.title,
+      description: enMeta?.description ?? page.description,
+      inLanguage,
+    };
+  }
+
+  if (basePath === "/ressources/outils") {
+    const meta = EN_WEB_PAGE_META["/ressources/outils"];
+    if (locale === "en" && meta) {
+      return { ...meta, inLanguage };
+    }
+    return {
+      title: "Outils gratuits — grilles et modèles planification | Planory",
+      description:
+        "Outils gratuits Planory : grilles d'auto-diagnostic Excel vs logiciel, modèles et checklists pour cadrer un projet de planification d'équipes 24/7.",
+      inLanguage,
+    };
+  }
+
+  return null;
+}
+
 export function webPageJsonLd(path: string) {
-  const page = SITE_PAGES.find((p) => p.path === path);
-  if (!page) return null;
+  const meta = resolveWebPageMeta(path);
+  if (!meta) return null;
 
   return {
     "@type": "WebPage",
     "@id": `${SITE_URL}${path}#webpage`,
     url: `${SITE_URL}${path}`,
-    name: page.title,
-    description: page.description,
-    inLanguage: SITE_LANGUAGE,
+    name: meta.title,
+    description: meta.description,
+    inLanguage: meta.inLanguage,
     isPartOf: { "@id": `${SITE_URL}/#website` },
     about: { "@id": `${SITE_URL}/#software` },
     primaryImageOfPage: {
@@ -244,13 +401,16 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
   };
 }
 
-export function articleJsonLd(article: {
-  path: string;
-  title: string;
-  description: string;
-  publishedAt: string;
-  updatedAt: string;
-}) {
+export function articleJsonLd(
+  article: {
+    path: string;
+    title: string;
+    description: string;
+    publishedAt: string;
+    updatedAt: string;
+  },
+  locale: Locale = "fr",
+) {
   return {
     "@type": "Article",
     "@id": `${SITE_URL}${article.path}#article`,
@@ -258,7 +418,7 @@ export function articleJsonLd(article: {
     description: article.description,
     datePublished: article.publishedAt,
     dateModified: article.updatedAt,
-    inLanguage: SITE_LANGUAGE,
+    inLanguage: locale === "en" ? "en-GB" : SITE_LANGUAGE,
     author: { "@id": `${SITE_URL}/#organization` },
     publisher: { "@id": `${SITE_URL}/#organization` },
     mainEntityOfPage: { "@id": `${SITE_URL}${article.path}#webpage` },
@@ -278,6 +438,26 @@ export function resourceArticlesItemListJsonLd() {
       description: article.description,
       url: `${SITE_URL}${article.path}`,
     })),
+  };
+}
+
+export function toolsItemListJsonLd(locale: Locale = "fr") {
+  const hubPath = localizePath(TOOLS_HUB_PATH, locale);
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: locale === "en" ? "Free Planory tools" : "Outils gratuits Planory",
+    url: `${SITE_URL}${hubPath}`,
+    numberOfItems: LEAD_MAGNETS.length,
+    itemListElement: LEAD_MAGNETS.map((base, index) => {
+      const magnet = getLeadMagnet(base.slug, locale)!;
+      return {
+        "@type": "ListItem",
+        position: index + 1,
+        name: magnet.title,
+        url: `${SITE_URL}${localizePath(magnet.path, locale)}`,
+      };
+    }),
   };
 }
 

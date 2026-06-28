@@ -1,10 +1,13 @@
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
+import type { Locale } from "@/lib/i18n";
+import { localizePath } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
 import {
   getLeadMagnet,
-  LEAD_MAGNET_ROLE_LABELS,
-  LEAD_MAGNET_SECTOR_LABELS,
+  getLeadMagnetFormCopy,
+  getLeadMagnetRoleLabels,
+  getLeadMagnetSectorLabels,
 } from "@/lib/lead-magnets";
 import type { LeadMagnetDefinition } from "@/lib/lead-magnets/types";
 import type {
@@ -59,11 +62,21 @@ const VALID_SECTORS = new Set<LeadMagnetSector>([
 
 const VALID_SLUGS = new Set<LeadMagnetSlug>(["grille-excel-vs-logiciel"]);
 
+function resolveLocale(value: unknown): Locale {
+  return value === "en" ? "en" : "fr";
+}
+
 export function validateLeadMagnetForm(
   input: unknown,
 ): { ok: true; data: LeadMagnetFormData } | { ok: false; errors: LeadMagnetFormFieldErrors } {
+  const locale =
+    input && typeof input === "object" && (input as Record<string, unknown>).locale === "en"
+      ? "en"
+      : "fr";
+  const v = getLeadMagnetFormCopy(locale).validation;
+
   if (!input || typeof input !== "object") {
-    return { ok: false, errors: { firstName: "Données invalides." } };
+    return { ok: false, errors: { firstName: v.invalidData } };
   }
 
   const body = input as Record<string, unknown>;
@@ -76,22 +89,23 @@ export function validateLeadMagnetForm(
   const sector = body.sector as LeadMagnetSector;
   const magnetSlug = body.magnetSlug as LeadMagnetSlug;
   const gdprConsent = body.gdprConsent === true;
+  const resolvedLocale = resolveLocale(body.locale);
 
-  if (!firstName) errors.firstName = "Le prénom est requis.";
-  else if (firstName.length > 80) errors.firstName = "Prénom trop long.";
+  if (!firstName) errors.firstName = v.firstNameRequired;
+  else if (firstName.length > 80) errors.firstName = v.firstNameTooLong;
 
-  if (!lastName) errors.lastName = "Le nom est requis.";
-  else if (lastName.length > 80) errors.lastName = "Nom trop long.";
+  if (!lastName) errors.lastName = v.lastNameRequired;
+  else if (lastName.length > 80) errors.lastName = v.lastNameTooLong;
 
-  if (!email) errors.email = "L'email est requis.";
-  else if (!EMAIL_PATTERN.test(email)) errors.email = "Email invalide.";
+  if (!email) errors.email = v.emailRequired;
+  else if (!EMAIL_PATTERN.test(email)) errors.email = v.emailInvalid;
 
-  if (!VALID_ROLES.has(role)) errors.role = "Fonction invalide.";
-  if (!VALID_SECTORS.has(sector)) errors.sector = "Secteur invalide.";
-  if (!VALID_SLUGS.has(magnetSlug)) errors.magnetSlug = "Ressource invalide.";
+  if (!VALID_ROLES.has(role)) errors.role = v.roleInvalid;
+  if (!VALID_SECTORS.has(sector)) errors.sector = v.sectorInvalid;
+  if (!VALID_SLUGS.has(magnetSlug)) errors.magnetSlug = v.magnetInvalid;
 
   if (!gdprConsent) {
-    errors.gdprConsent = "Vous devez accepter le traitement de vos données.";
+    errors.gdprConsent = v.gdprRequired;
   }
 
   if (Object.keys(errors).length > 0) {
@@ -100,7 +114,16 @@ export function validateLeadMagnetForm(
 
   return {
     ok: true,
-    data: { firstName, lastName, email, role, sector, gdprConsent, magnetSlug },
+    data: {
+      firstName,
+      lastName,
+      email,
+      role,
+      sector,
+      gdprConsent,
+      magnetSlug,
+      locale: resolvedLocale,
+    },
   };
 }
 
@@ -109,14 +132,18 @@ export function formatLeadMagnetTeamEmail(data: LeadMagnetFormData): {
   text: string;
   html: string;
 } {
-  const magnet = getLeadMagnet(data.magnetSlug)!;
-  const roleLabel = LEAD_MAGNET_ROLE_LABELS[data.role];
-  const sectorLabel = LEAD_MAGNET_SECTOR_LABELS[data.sector];
+  const locale = data.locale ?? "fr";
+  const magnet = getLeadMagnet(data.magnetSlug, locale)!;
+  const roleLabels = getLeadMagnetRoleLabels(locale);
+  const sectorLabels = getLeadMagnetSectorLabels(locale);
+  const roleLabel = roleLabels[data.role];
+  const sectorLabel = sectorLabels[data.sector];
 
   const subject = `Lead magnet — ${data.email} — ${data.firstName} ${data.lastName}`;
   const text = [
     "Nouveau téléchargement lead magnet Planory",
     "",
+    `Langue : ${locale === "en" ? "EN" : "FR"}`,
     `Email du contact : ${data.email}`,
     `Ressource : ${magnet.title}`,
     `Prénom : ${data.firstName}`,
@@ -130,6 +157,7 @@ export function formatLeadMagnetTeamEmail(data: LeadMagnetFormData): {
 
   const html = `
     <h2>Nouveau téléchargement lead magnet</h2>
+    <p><strong>Langue :</strong> ${locale === "en" ? "EN" : "FR"}</p>
     <p><strong>Email du contact :</strong> <a href="mailto:${escapeHtml(data.email)}">${escapeHtml(data.email)}</a></p>
     <p><strong>Ressource :</strong> ${escapeHtml(magnet.title)}</p>
     <p><strong>Prénom :</strong> ${escapeHtml(data.firstName)}</p>
@@ -147,9 +175,42 @@ export function formatLeadMagnetUserEmail(data: LeadMagnetFormData): {
   text: string;
   html: string;
 } {
-  const magnet = getLeadMagnet(data.magnetSlug)!;
+  const locale = data.locale ?? "fr";
+  const magnet = getLeadMagnet(data.magnetSlug, locale)!;
   const downloadUrl = `${SITE_URL}${magnet.downloadPath}`;
-  const contactUrl = `${SITE_URL}/contact`;
+  const contactUrl = `${SITE_URL}${localizePath("/contact", locale)}`;
+
+  if (locale === "en") {
+    const subject = `Your Planory resource: ${magnet.title}`;
+    const text = [
+      `Hello ${data.firstName},`,
+      "",
+      "Thank you for your interest in Planory.",
+      "",
+      `Your PDF is attached to this email: ${magnet.title}`,
+      `Backup link: ${downloadUrl}`,
+      "",
+      magnet.ctaAfterDownload,
+      `Contact: ${contactUrl}`,
+      "",
+      "— The Planory team",
+      "contact@planory.net",
+    ].join("\n");
+
+    const html = `
+      <p>Hello ${escapeHtml(data.firstName)},</p>
+      <p>Thank you for your interest in Planory.</p>
+      <p><strong>${escapeHtml(magnet.title)}</strong></p>
+      <p>The PDF is attached to this email. You can also download it here:</p>
+      <p><a href="${downloadUrl}" style="display:inline-block;padding:12px 24px;background:#0ea5e9;color:#fff;text-decoration:none;border-radius:9999px;font-weight:600;">Download the resource</a></p>
+      <p style="font-size:14px;color:#64748b;">Direct link: <a href="${downloadUrl}">${downloadUrl}</a></p>
+      <p>${escapeHtml(magnet.ctaAfterDownload)}</p>
+      <p><a href="${contactUrl}">Get in touch with Planory</a></p>
+      <p style="margin-top:24px;font-size:14px;color:#64748b;">— The Planory team<br>contact@planory.net</p>
+    `.trim();
+
+    return { subject, text, html };
+  }
 
   const subject = `Votre ressource Planory : ${magnet.title}`;
   const text = [

@@ -9,7 +9,7 @@ import { ContactButton } from "@/components/ContactButton";
 import { HeroMockup } from "@/components/HeroMockup";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { fadeUp, staggerContainer } from "@/components/ui/motion";
-import { HERO_COPY, type Locale } from "@/lib/i18n";
+import { HERO_COPY, localizePath, type Locale } from "@/lib/i18n";
 
 type HeroProps = {
   locale?: Locale;
@@ -79,13 +79,18 @@ export function Hero({ locale = "fr" }: HeroProps) {
               <ContactButton variant="primary" size="sm" showArrow className="w-full sm:w-auto">
                 {copy.ctaPrimary}
               </ContactButton>
-              <Button href={copy.ctaSecondaryHref} variant="secondary" size="sm" className="w-full sm:w-auto">
+              <Button
+                href={localizePath(copy.ctaSecondaryHref, locale)}
+                variant="secondary"
+                size="sm"
+                className="w-full sm:w-auto"
+              >
                 {copy.ctaSecondary}
               </Button>
             </div>
             <p>
               <Link
-                href={copy.ctaLeadMagnetHref}
+                href={localizePath(copy.ctaLeadMagnetHref, locale)}
                 className="inline-flex items-center gap-1 text-sm font-medium text-sky-400 transition-colors hover:text-sky-300"
               >
                 {copy.ctaLeadMagnet}
@@ -99,7 +104,7 @@ export function Hero({ locale = "fr" }: HeroProps) {
             variants={fadeUp}
             className="mt-6 lg:hidden"
           >
-            <HeroMockup compact />
+            <HeroMockup compact locale={locale} />
           </motion.div>
 
           <motion.div
@@ -138,7 +143,7 @@ export function Hero({ locale = "fr" }: HeroProps) {
           transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
           className="hidden min-w-0 w-full lg:block"
         >
-          <HeroMockup />
+          <HeroMockup locale={locale} />
         </motion.div>
       </div>
     </section>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ContactButton } from "@/components/ContactButton";
 import { sectionY } from "@/components/ui/section";
+import { localizePath } from "@/lib/i18n";
 
 export function EnMarketSection() {
   return (
@@ -28,11 +29,11 @@ export function EnMarketSection() {
         </p>
         <p className="mt-4 text-sm text-slate-500">
           Related (French site):{" "}
-          <Link href="/secteurs/hopital" className="text-sky-400 hover:text-sky-300">
+          <Link href={localizePath("/secteurs/hopital", "en")} className="text-sky-400 hover:text-sky-300">
             hospital scheduling
           </Link>
           {" · "}
-          <Link href="/ressources/planning-hospitalier" className="text-sky-400 hover:text-sky-300">
+          <Link href={localizePath("/ressources/planning-hospitalier", "en")} className="text-sky-400 hover:text-sky-300">
             hospital planning guide
           </Link>
         </p>

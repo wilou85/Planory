@@ -28,6 +28,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
+import { stripLocalePrefix } from "@/lib/i18n";
 
 export type ProductModuleId = "rh" | "planning" | "ressources" | "skynet";
 
@@ -104,13 +105,16 @@ export const RESOURCE_ARTICLE_ICONS: Record<string, LucideIcon> = {
 };
 
 export function getNavItemIcon(href: string): LucideIcon {
-  if (href === "/") return Languages;
-  if (NAV_CHILD_ICONS[href]) return NAV_CHILD_ICONS[href];
-  if (PAGE_ICONS[href]) return PAGE_ICONS[href];
-  const base = href.split("#")[0];
-  return PAGE_ICONS[base] ?? FileText;
+  const path = stripLocalePrefix(href.split("#")[0]);
+  const hash = href.includes("#") ? href.slice(href.indexOf("#")) : "";
+  const full = `${path}${hash}`;
+  if (NAV_CHILD_ICONS[full]) return NAV_CHILD_ICONS[full];
+  if (PAGE_ICONS[path]) return PAGE_ICONS[path];
+  if (path === "/") return Languages;
+  return FileText;
 }
 
 export function getPageIcon(path: string): LucideIcon {
-  return PAGE_ICONS[path] ?? FileText;
+  const base = stripLocalePrefix(path);
+  return PAGE_ICONS[base] ?? FileText;
 }

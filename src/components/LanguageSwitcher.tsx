@@ -3,7 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FlagIcon } from "@/components/flags/FlagIcon";
-import { LOCALES, getLocaleFromPath, type Locale } from "@/lib/i18n";
+import {
+  LOCALES,
+  getLocaleFromPath,
+  localePath,
+  type Locale,
+} from "@/lib/i18n";
 
 type LanguageSwitcherProps = {
   className?: string;
@@ -17,14 +22,15 @@ export function LanguageSwitcher({ className = "" }: LanguageSwitcherProps) {
     <div
       className={`inline-flex items-center rounded-full border border-white/15 bg-white/5 p-0.5 backdrop-blur-sm ${className}`}
       role="group"
-      aria-label="Choisir la langue"
+      aria-label={current === "en" ? "Choose language" : "Choisir la langue"}
     >
       {LOCALES.map((locale) => {
         const isActive = current === locale.code;
+        const href = localePath(locale.code, pathname);
         return (
           <Link
             key={locale.code}
-            href={locale.href}
+            href={href}
             hrefLang={locale.htmlLang}
             aria-current={isActive ? "true" : undefined}
             title={locale.label}

@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import type { Locale } from "@/lib/i18n";
 
 const DashboardMockup = dynamic(
   () => import("@/components/DashboardMockup").then((mod) => mod.DashboardMockup),
@@ -16,8 +17,9 @@ const DashboardMockup = dynamic(
 
 type HeroMockupProps = {
   compact?: boolean;
+  locale?: Locale;
 };
 
-export function HeroMockup({ compact = false }: HeroMockupProps) {
-  return <DashboardMockup compact={compact} />;
+export function HeroMockup({ compact = false, locale = "fr" }: HeroMockupProps) {
+  return <DashboardMockup compact={compact} locale={locale} />;
 }

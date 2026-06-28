@@ -4,6 +4,7 @@ import { DiscoverPlanory } from "@/components/seo/DiscoverPlanory";
 import { Hero } from "@/components/Hero";
 import { ValuePropositionSection } from "@/components/ValuePropositionSection";
 import { HomeLeadMagnetSection } from "@/components/HomeLeadMagnetSection";
+import { EnGeoSection } from "@/components/geo/EnGeoSection";
 import { SetHtmlLang } from "@/components/SetHtmlLang";
 import { EN_SITE } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
@@ -51,6 +52,7 @@ export default function EnglishHomePage() {
       <Hero locale="en" />
       <HomeLeadMagnetSection locale="en" />
       <ValuePropositionSection locale="en" />
+      <EnGeoSection />
       <DiscoverPlanory locale="en" />
     </SiteShell>
   );

@@ -2,45 +2,52 @@
 
 import { useMemo, useState } from "react";
 import {
-  EXCEL_DIAGNOSTIC_CRITERIA,
+  getExcelDiagnosticCriteria,
+  getExcelDiagnosticUi,
+  getExcelDiagnosticZoneLabels,
   scoreExcelDiagnostic,
 } from "@/lib/lead-magnets/content";
+import type { Locale } from "@/lib/i18n";
 
 const ZONE_STYLES = {
   green: {
     border: "border-emerald-500/30",
     bg: "bg-emerald-500/10",
     text: "text-emerald-300",
-    label: "Zone verte",
   },
   orange: {
     border: "border-amber-500/30",
     bg: "bg-amber-500/10",
     text: "text-amber-300",
-    label: "Zone orange",
   },
   red: {
     border: "border-red-500/30",
     bg: "bg-red-500/10",
     text: "text-red-300",
-    label: "Zone rouge",
   },
 } as const;
 
-export function ExcelDiagnosticChecklist() {
+type ExcelDiagnosticChecklistProps = {
+  locale?: Locale;
+};
+
+export function ExcelDiagnosticChecklist({ locale = "fr" }: ExcelDiagnosticChecklistProps) {
   const [checked, setChecked] = useState<Set<string>>(new Set());
 
-  const result = useMemo(() => scoreExcelDiagnostic(checked), [checked]);
+  const criteria = useMemo(() => getExcelDiagnosticCriteria(locale), [locale]);
+  const ui = useMemo(() => getExcelDiagnosticUi(locale), [locale]);
+  const zoneLabels = useMemo(() => getExcelDiagnosticZoneLabels(locale), [locale]);
+  const result = useMemo(() => scoreExcelDiagnostic(checked, locale), [checked, locale]);
 
   const byCategory = useMemo(() => {
-    const map = new Map<string, typeof EXCEL_DIAGNOSTIC_CRITERIA>();
-    for (const c of EXCEL_DIAGNOSTIC_CRITERIA) {
+    const map = new Map<string, typeof criteria>();
+    for (const c of criteria) {
       const list = map.get(c.category) ?? [];
       list.push(c);
       map.set(c.category, list);
     }
     return map;
-  }, []);
+  }, [criteria]);
 
   function toggle(id: string) {
     setChecked((prev) => {
@@ -55,10 +62,7 @@ export function ExcelDiagnosticChecklist() {
 
   return (
     <div className="space-y-6" data-lead-magnet="excel-diagnostic">
-      <p className="text-sm text-slate-400">
-        Cochez les critères qui s&apos;appliquent à votre situation. Le score se calcule
-        automatiquement.
-      </p>
+      <p className="text-sm text-slate-400">{ui.intro}</p>
 
       {Array.from(byCategory.entries()).map(([category, items]) => (
         <div key={category}>
@@ -78,7 +82,7 @@ export function ExcelDiagnosticChecklist() {
                   <span className="text-sm leading-relaxed text-slate-300">
                     {item.label}
                     <span className="ml-1 text-xs text-slate-500">
-                      ({item.weight} pt{item.weight > 1 ? "s" : ""})
+                      ({item.weight} {item.weight > 1 ? ui.pointsPlural : ui.points})
                     </span>
                   </span>
                 </label>
@@ -93,7 +97,9 @@ export function ExcelDiagnosticChecklist() {
         role="status"
         aria-live="polite"
       >
-        <p className={`text-sm font-semibold ${zoneStyle.text}`}>{zoneStyle.label}</p>
+        <p className={`text-sm font-semibold ${zoneStyle.text}`}>
+          {zoneLabels[result.zone]}
+        </p>
         <p className="mt-1 text-2xl font-bold text-white">
           {result.score} / {result.maxScore} pts ({result.percentage} %)
         </p>

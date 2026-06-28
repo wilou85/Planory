@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
+import { getMockupCopy, type Locale } from "@/lib/i18n";
+
 const AGENTS = [
   { initials: "MA", name: "Martin A.", role: "CDS", shifts: ["M", "M", "N", "—", "S", "—", "J"] },
   { initials: "LS", name: "Leblanc S.", role: "ICNA", shifts: ["N", "—", "M", "M", "—", "S", "—"] },
@@ -34,11 +36,10 @@ const SHIFT_LABELS_COMPACT: Record<string, string> = {
   "—": "·",
 };
 
-const DAYS = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
-
 type DashboardMockupProps = {
   /** Version réduite pour mobile sous les CTAs */
   compact?: boolean;
+  locale?: Locale;
 };
 
 function canEnableFloat(compact: boolean) {
@@ -48,7 +49,8 @@ function canEnableFloat(compact: boolean) {
   return !mobile && !reduced && !compact;
 }
 
-export function DashboardMockup({ compact = false }: DashboardMockupProps) {
+export function DashboardMockup({ compact = false, locale = "fr" }: DashboardMockupProps) {
+  const copy = getMockupCopy(locale);
   const [float, setFloat] = useState(false);
   const agents = compact ? AGENTS.slice(0, 2) : AGENTS;
 
@@ -84,15 +86,15 @@ export function DashboardMockup({ compact = false }: DashboardMockupProps) {
           </div>
           <p className="min-w-0 truncate text-[10px] text-slate-400 sm:text-xs">
             <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
-            <span className="sm:hidden">SKYNET — 1m 23s</span>
-            <span className="hidden sm:inline">SKYNET — Proposition générée en 1m 23s</span>
+            <span className="sm:hidden">{copy.skynetShort}</span>
+            <span className="hidden sm:inline">{copy.skynetLong}</span>
           </p>
           <div className="flex shrink-0 gap-2">
             <span className="rounded-md border border-emerald-500/40 px-2 py-0.5 text-[10px] text-emerald-400">
-              Conforme
+              {copy.compliant}
             </span>
             <span className="hidden rounded-md border border-sky-500/40 px-2 py-0.5 text-[10px] text-sky-400 sm:inline">
-              Brouillon
+              {copy.draft}
             </span>
           </div>
         </div>
@@ -100,8 +102,8 @@ export function DashboardMockup({ compact = false }: DashboardMockupProps) {
         <div className="-mx-px overflow-x-auto overscroll-x-contain">
           <div className="min-w-[300px] px-3 py-3 sm:min-w-[480px] sm:px-4">
             <div className="mb-2 grid grid-cols-[minmax(88px,1fr)_repeat(7,minmax(28px,1fr))] gap-0.5 text-[9px] font-medium uppercase tracking-wider text-slate-500 sm:grid-cols-[120px_repeat(7,1fr)] sm:gap-1 sm:text-[10px]">
-              <span>Agent</span>
-              {DAYS.map((d) => (
+              <span>{copy.agent}</span>
+              {copy.days.map((d) => (
                 <span key={d} className="text-center">
                   {d}
                 </span>
@@ -150,22 +152,22 @@ export function DashboardMockup({ compact = false }: DashboardMockupProps) {
             <div className="flex flex-wrap gap-x-4 gap-y-1 text-[10px] sm:text-[11px]">
               <span>
                 <strong className="text-white">98%</strong>{" "}
-                <span className="text-slate-500">Équité</span>
+                <span className="text-slate-500">{copy.equity}</span>
               </span>
               <span>
                 <strong className="text-emerald-400">100%</strong>{" "}
-                <span className="text-slate-500">Conformité</span>
+                <span className="text-slate-500">{copy.compliance}</span>
               </span>
               <span>
                 <strong className="text-white">0</strong>{" "}
-                <span className="text-slate-500">Alertes</span>
+                <span className="text-slate-500">{copy.alerts}</span>
               </span>
             </div>
             <button
               type="button"
               className="min-h-[36px] w-full rounded-lg bg-sky-400 px-3 py-1.5 text-xs font-medium text-[#050a14] transition-colors hover:bg-sky-300 sm:w-auto"
             >
-              Publier →
+              {copy.publish}
             </button>
           </div>
         )}

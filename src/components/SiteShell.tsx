@@ -5,6 +5,7 @@ import { StickyContactBar } from "@/components/StickyContactBar";
 import { MobileNavDrawer } from "@/components/nav/MobileNavDrawer";
 import { NavDrawerProvider } from "@/components/nav/NavDrawerContext";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
+import { getLocaleFromPath } from "@/lib/i18n";
 
 type SiteShellProps = {
   children: React.ReactNode;
@@ -27,6 +28,7 @@ export function SiteShell({
   suppressStickyContact = false,
 }: SiteShellProps) {
   const isContent = layout === "content";
+  const locale = getLocaleFromPath(currentPath);
 
   return (
     <NavDrawerProvider>
@@ -46,7 +48,7 @@ export function SiteShell({
       >
         {children}
       </main>
-      <Footer compactMobile={isContent} />
+      <Footer compactMobile={isContent} locale={locale} />
       {!isContent && <MobileTabBar />}
       {!suppressStickyContact && <StickyContactBar hasTabBar={!isContent} />}
       <MobileNavDrawer />

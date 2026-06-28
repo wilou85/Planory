@@ -3,6 +3,7 @@ import {
   CANONICAL_CITATIONS_EN,
   CITATION_SUPPORT,
   getArticleCitation,
+  getArticleCitationEn,
   type CitationVariant,
 } from "@/lib/geo";
 
@@ -26,31 +27,53 @@ function resolveCitation(props: GeoDefinitionProps): {
   id: string;
 } {
   const { variant, articleSlug, locale = "fr", enVariant = "home" } = props;
-
-  if (locale === "en") {
-    return {
-      canonical: CANONICAL_CITATIONS_EN[enVariant],
-      support: `Live pilot: Paris-Orly Airport. Contact: contact@planory.net`,
-      id: `planory-definition-en-${enVariant}`,
-    };
-  }
+  const enSupport = "Live pilot: Paris-Orly Airport. Contact: contact@planory.net";
 
   if (articleSlug) {
-    const citation = getArticleCitation(articleSlug);
-    if (citation) {
-      return {
-        canonical: citation,
-        support: "Planory — logiciel français de planification 24/7, moteur IA SKYNET.",
-        id: `planory-definition-article-${articleSlug}`,
-      };
+    if (locale === "en") {
+      const citation = getArticleCitationEn(articleSlug);
+      if (citation) {
+        return {
+          canonical: citation,
+          support: enSupport,
+          id: `planory-definition-article-en-${articleSlug}`,
+        };
+      }
+    } else {
+      const citation = getArticleCitation(articleSlug);
+      if (citation) {
+        return {
+          canonical: citation,
+          support: "Planory — logiciel français de planification 24/7, moteur IA SKYNET.",
+          id: `planory-definition-article-${articleSlug}`,
+        };
+      }
     }
   }
 
   if (variant) {
+    const canonical =
+      locale === "en" && variant in CANONICAL_CITATIONS_EN
+        ? CANONICAL_CITATIONS_EN[variant as keyof typeof CANONICAL_CITATIONS_EN]
+        : CANONICAL_CITATIONS[variant];
+    const support =
+      locale === "en"
+        ? variant === "home"
+          ? enSupport
+          : undefined
+        : CITATION_SUPPORT[variant];
     return {
-      canonical: CANONICAL_CITATIONS[variant],
-      support: CITATION_SUPPORT[variant],
-      id: `planory-definition-${variant}`,
+      canonical,
+      support,
+      id: `planory-definition-${locale === "en" ? `en-${variant}` : variant}`,
+    };
+  }
+
+  if (locale === "en") {
+    return {
+      canonical: CANONICAL_CITATIONS_EN[enVariant],
+      support: enVariant === "home" ? enSupport : undefined,
+      id: `planory-definition-en-${enVariant}`,
     };
   }
 

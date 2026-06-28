@@ -5,10 +5,17 @@ import { Plus, CircleHelp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { sectionHeadMb, sectionY } from "@/components/ui/section";
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { FAQ_ITEMS } from "@/lib/content";
+import { getFaqItems, getPageUi } from "@/lib/get-content";
+import type { Locale } from "@/lib/i18n";
 
-export function FaqSection() {
+type FaqSectionProps = {
+  locale?: Locale;
+};
+
+export function FaqSection({ locale = "fr" }: FaqSectionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const ui = getPageUi(locale);
+  const items = getFaqItems(locale);
 
   return (
     <section id="faq" className={`relative ${sectionY}`}>
@@ -20,17 +27,17 @@ export function FaqSection() {
           transition={{ duration: 0.5 }}
           className={sectionHeadMb}
         >
-          <SectionLabel>FAQ</SectionLabel>
+          <SectionLabel>{ui.faq.sectionLabel}</SectionLabel>
           <h2 className="flex items-center gap-3 text-3xl font-bold text-white sm:text-4xl">
             <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-sky-400">
               <CircleHelp className="h-5 w-5" aria-hidden />
             </span>
-            Questions fréquentes
+            {ui.faq.heading}
           </h2>
         </motion.div>
 
         <div className="space-y-1">
-          {FAQ_ITEMS.map((item, index) => {
+          {items.map((item, index) => {
             const isOpen = openIndex === index;
             const panelId = `faq-panel-${index}`;
             const buttonId = `faq-button-${index}`;

@@ -1,7 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
-import { CONTACT_PATH } from "@/lib/contact-nav";
+import { useLocale } from "@/components/LanguageSwitcher";
+import { getContactPath } from "@/lib/contact-nav";
 
 type ContactButtonProps = {
   children: React.ReactNode;
@@ -18,9 +19,11 @@ export function ContactButton({
   className = "",
   showArrow = false,
 }: ContactButtonProps) {
+  const locale = useLocale();
+
   return (
     <Button
-      href={CONTACT_PATH}
+      href={getContactPath(locale)}
       variant={variant}
       size={size}
       className={className}

@@ -3,16 +3,19 @@
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import { ContactForm } from "@/components/ContactForm";
-import { CONTACT_TOPICS } from "@/lib/content";
+import { getContactTopics, getPageUi } from "@/lib/get-content";
+import type { Locale } from "@/lib/i18n";
 import { CONTACT_TOPIC_ICONS } from "@/lib/icons";
 import { sectionY } from "@/components/ui/section";
 
 type ContactSectionProps = {
-  /** Page /contact : titre h1 et padding page */
   standalone?: boolean;
+  locale?: Locale;
 };
 
-export function ContactSection({ standalone = false }: ContactSectionProps) {
+export function ContactSection({ standalone = false, locale = "fr" }: ContactSectionProps) {
+  const ui = getPageUi(locale);
+  const topics = getContactTopics(locale);
   const Heading = standalone ? "h1" : "h2";
 
   return (
@@ -31,18 +34,17 @@ export function ContactSection({ standalone = false }: ContactSectionProps) {
           <div className="text-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-1.5 text-xs text-slate-300">
               <MessageCircle className="h-3.5 w-3.5 text-sky-400" aria-hidden />
-              Un premier échange, sans prérequis
+              {ui.contact.badge}
             </span>
             <Heading className="mt-4 text-2xl font-bold text-white sm:text-3xl">
-              Parlons de votre contexte
+              {ui.contact.heading}
             </Heading>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg">
-              20 minutes pour couvrir vos contraintes clés, évaluer la faisabilité, et définir le
-              niveau d&apos;accompagnement adapté.
+              {ui.contact.intro}
             </p>
 
             <ul className="mt-5 grid gap-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-x-5 sm:gap-y-2">
-              {CONTACT_TOPICS.map((topic, i) => {
+              {topics.map((topic, i) => {
                 const TopicIcon = CONTACT_TOPIC_ICONS[i];
                 return (
                   <li key={topic} className="flex items-center gap-2 text-sm text-slate-300">

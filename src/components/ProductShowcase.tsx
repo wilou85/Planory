@@ -2,21 +2,16 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { getPageUi } from "@/lib/get-content";
+import type { Locale } from "@/lib/i18n";
 
-const SHOWCASE_ITEMS = [
-  {
-    src: "/produit-planning-equipe.png",
-    alt: "Interface Planory — planning équipe avec roulements, astreintes et codes métier sur un horizon mensuel",
-    caption: "Planning équipe — vue mensuelle avec contraintes et codes métier",
-  },
-  {
-    src: "/produit-secteurs-planning.png",
-    alt: "Planory — planification 24/7 pour aéroport, hôpital et industrie avec calendrier de roulements",
-    caption: "Hôpital, aéroport, industrie — un même moteur de planification",
-  },
-] as const;
+type ProductShowcaseProps = {
+  locale?: Locale;
+};
 
-export function ProductShowcase() {
+export function ProductShowcase({ locale = "fr" }: ProductShowcaseProps) {
+  const items = getPageUi(locale).productShowcase.items;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -25,7 +20,7 @@ export function ProductShowcase() {
       transition={{ duration: 0.5, delay: 0.05 }}
       className="mt-8 grid gap-4 sm:mt-10 sm:gap-5 lg:grid-cols-2"
     >
-      {SHOWCASE_ITEMS.map((item) => (
+      {items.map((item) => (
         <figure
           key={item.src}
           className="overflow-hidden rounded-2xl border border-white/10 bg-[#0c1220]/60 shadow-[0_0_48px_-16px_rgba(56,189,248,0.12)]"

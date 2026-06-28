@@ -30,9 +30,28 @@ export function getLocaleFromPath(pathname: string): Locale {
   return pathname === "/en" || pathname.startsWith("/en/") ? "en" : "fr";
 }
 
-export function localePath(locale: Locale, frPath = "/"): string {
-  if (locale === "en") return "/en";
-  return frPath === "/en" ? "/" : frPath;
+/** Chemin sans préfixe /en (ex. /en/produit → /produit, /en → /) */
+export function stripLocalePrefix(pathname: string): string {
+  if (pathname === "/en") return "/";
+  if (pathname.startsWith("/en/")) return pathname.slice(3) || "/";
+  return pathname;
+}
+
+/** Préfixe /en pour les liens internes selon la locale */
+export function localizePath(path: string, locale: Locale): string {
+  const hashIndex = path.indexOf("#");
+  const pathname = hashIndex >= 0 ? path.slice(0, hashIndex) : path;
+  const hash = hashIndex >= 0 ? path.slice(hashIndex) : "";
+  const base = stripLocalePrefix(pathname);
+  if (locale === "en") {
+    const enPath = base === "/" ? "/en" : `/en${base}`;
+    return `${enPath}${hash}`;
+  }
+  return `${base}${hash}`;
+}
+
+export function localePath(targetLocale: Locale, currentPath = "/"): string {
+  return localizePath(stripLocalePrefix(currentPath), targetLocale);
 }
 
 export const HERO_COPY = {
@@ -182,4 +201,277 @@ export const HOME_COPY = {
 
 export function getHomeCopy(locale: Locale) {
   return HOME_COPY[locale];
+}
+
+export const HEADER_COPY = {
+  fr: {
+    tagline: "IA de planification",
+    ctaExample: "Voir un exemple",
+    ctaContact: "Prendre contact",
+    ctaContactShort: "Contact",
+    openMenu: "Ouvrir le menu",
+    closeMenu: "Fermer le menu",
+    close: "Fermer",
+    mainNav: "Navigation principale",
+    mobileNav: "Navigation mobile complète",
+    menu: "Menu",
+    breadcrumbHome: "Accueil",
+    breadcrumbLabel: "Fil d'Ariane",
+    moreTab: "Plus",
+    moreTabTitle: "Articles, Offre, FAQ…",
+    mobileNavLabel: "Navigation mobile",
+  },
+  en: {
+    tagline: "Planning AI",
+    ctaExample: "See an example",
+    ctaContact: "Get in touch",
+    ctaContactShort: "Contact",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
+    close: "Close",
+    mainNav: "Main navigation",
+    mobileNav: "Full mobile navigation",
+    menu: "Menu",
+    breadcrumbHome: "Home",
+    breadcrumbLabel: "Breadcrumb",
+    moreTab: "More",
+    moreTabTitle: "Resources, Pricing, FAQ…",
+    mobileNavLabel: "Mobile navigation",
+  },
+} as const;
+
+export const STICKY_CONTACT_COPY = {
+  fr: {
+    primaryShort: "Échanger",
+    primaryLong: "Échanger 20 min",
+    secondary: "Contact",
+  },
+  en: {
+    primaryShort: "Talk to us",
+    primaryLong: "Book a 20-min call",
+    secondary: "Contact",
+  },
+} as const;
+
+export const MOCKUP_COPY = {
+  fr: {
+    skynetShort: "SKYNET — 1m 23s",
+    skynetLong: "SKYNET — Proposition générée en 1m 23s",
+    compliant: "Conforme",
+    draft: "Brouillon",
+    agent: "Agent",
+    days: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+    equity: "Équité",
+    compliance: "Conformité",
+    alerts: "Alertes",
+    publish: "Publier →",
+  },
+  en: {
+    skynetShort: "SKYNET — 1m 23s",
+    skynetLong: "SKYNET — Proposal generated in 1m 23s",
+    compliant: "Compliant",
+    draft: "Draft",
+    agent: "Agent",
+    days: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    equity: "Fairness",
+    compliance: "Compliance",
+    alerts: "Alerts",
+    publish: "Publish →",
+  },
+} as const;
+
+type NavChild = { label: string; href: string; description: string };
+type NavItem =
+  | { label: string; href: string; children: readonly NavChild[] }
+  | { label: string; href: string };
+
+type DrawerItem = { label: string; href: string; description: string };
+type DrawerSection = { title: string; items: readonly DrawerItem[] };
+
+const NAV_BY_LOCALE: Record<Locale, readonly NavItem[]> = {
+  fr: [
+    {
+      label: "Produit",
+      href: "/produit",
+      children: [
+        { label: "Gestion RH", href: "/produit#rh", description: "Agents, droits, qualifications" },
+        { label: "Planning", href: "/produit#planning", description: "Cycles, quarts, roulements" },
+        { label: "Ressources", href: "/produit#ressources", description: "Postes, salles, équipements" },
+        { label: "SKYNET — IA", href: "/produit#skynet", description: "Moteur d'optimisation" },
+      ],
+    },
+    { label: "Secteurs", href: "/secteurs" },
+    { label: "Articles", href: "/ressources" },
+    { label: "Offre", href: "/offre" },
+    { label: "FAQ", href: "/faq" },
+  ],
+  en: [
+    {
+      label: "Product",
+      href: "/produit",
+      children: [
+        { label: "HR management", href: "/produit#rh", description: "Staff, rights, qualifications" },
+        { label: "Scheduling", href: "/produit#planning", description: "Cycles, shifts, rotations" },
+        { label: "Resources", href: "/produit#ressources", description: "Posts, rooms, equipment" },
+        { label: "SKYNET — AI", href: "/produit#skynet", description: "Optimisation engine" },
+      ],
+    },
+    { label: "Sectors", href: "/secteurs" },
+    { label: "Resources", href: "/ressources" },
+    { label: "Pricing", href: "/offre" },
+    { label: "FAQ", href: "/faq" },
+  ],
+};
+
+const MOBILE_TABS_BY_LOCALE: Record<Locale, readonly { href: string; label: string }[]> = {
+  fr: [
+    { href: "/", label: "Accueil" },
+    { href: "/produit", label: "Produit" },
+    { href: "/secteurs", label: "Secteurs" },
+  ],
+  en: [
+    { href: "/en", label: "Home" },
+    { href: "/produit", label: "Product" },
+    { href: "/secteurs", label: "Sectors" },
+  ],
+};
+
+const DRAWER_BY_LOCALE: Record<Locale, readonly DrawerSection[]> = {
+  fr: [
+    {
+      title: "Produit",
+      items: [
+        { label: "Vue d'ensemble", href: "/produit", description: "RH, Planning, SKYNET" },
+        { label: "Gestion RH", href: "/produit#rh", description: "Agents, qualifications" },
+        { label: "Planning", href: "/produit#planning", description: "Cycles, roulements" },
+        { label: "Ressources", href: "/produit#ressources", description: "Postes, salles" },
+        { label: "SKYNET — IA", href: "/produit#skynet", description: "Moteur d'optimisation" },
+      ],
+    },
+    {
+      title: "Explorer",
+      items: [
+        { label: "Secteurs", href: "/secteurs", description: "Hôpital, aéroport, industrie" },
+        {
+          label: "Planning hospitalier",
+          href: "/secteurs/hopital",
+          description: "Gardes et roulements hospitaliers",
+        },
+        { label: "Articles", href: "/ressources", description: "Guides planification" },
+      ],
+    },
+    {
+      title: "Offre & FAQ",
+      items: [
+        { label: "Offre", href: "/offre", description: "3 niveaux d'engagement" },
+        { label: "FAQ", href: "/faq", description: "Questions fréquentes" },
+      ],
+    },
+  ],
+  en: [
+    {
+      title: "Product",
+      items: [
+        { label: "Overview", href: "/produit", description: "HR, Scheduling, SKYNET" },
+        { label: "HR management", href: "/produit#rh", description: "Staff, qualifications" },
+        { label: "Scheduling", href: "/produit#planning", description: "Cycles, rotations" },
+        { label: "Resources", href: "/produit#ressources", description: "Posts, rooms" },
+        { label: "SKYNET — AI", href: "/produit#skynet", description: "Optimisation engine" },
+      ],
+    },
+    {
+      title: "Explore",
+      items: [
+        { label: "Sectors", href: "/secteurs", description: "Hospital, airport, industry" },
+        {
+          label: "Hospital scheduling",
+          href: "/secteurs/hopital",
+          description: "On-call and hospital rotations",
+        },
+        { label: "Resources", href: "/ressources", description: "Scheduling guides" },
+      ],
+    },
+    {
+      title: "Pricing & FAQ",
+      items: [
+        { label: "Pricing", href: "/offre", description: "3 engagement levels" },
+        { label: "FAQ", href: "/faq", description: "Frequently asked questions" },
+      ],
+    },
+  ],
+};
+
+export function getHeaderCopy(locale: Locale) {
+  return HEADER_COPY[locale];
+}
+
+export function getStickyContactCopy(locale: Locale) {
+  return STICKY_CONTACT_COPY[locale];
+}
+
+export function getMockupCopy(locale: Locale) {
+  return MOCKUP_COPY[locale];
+}
+
+export function getNavItems(locale: Locale) {
+  return NAV_BY_LOCALE[locale].map((item) =>
+    "children" in item
+      ? {
+          ...item,
+          href: localizePath(item.href, locale),
+          children: item.children.map((child) => ({
+            ...child,
+            href: localizePath(child.href, locale),
+          })),
+        }
+      : { ...item, href: localizePath(item.href, locale) },
+  );
+}
+
+export function getMobileTabItems(locale: Locale) {
+  return MOBILE_TABS_BY_LOCALE[locale].map((tab) => ({
+    ...tab,
+    href: localizePath(tab.href, locale),
+  }));
+}
+
+export function getDrawerNavSections(locale: Locale) {
+  return DRAWER_BY_LOCALE[locale].map((section) => ({
+    ...section,
+    items: section.items.map((item) => ({
+      ...item,
+      href: localizePath(item.href, locale),
+    })),
+  }));
+}
+
+export function homePath(locale: Locale): string {
+  return locale === "en" ? "/en" : "/";
+}
+
+import { getSitePage } from "@/lib/site";
+
+export function isLocaleHome(pathname: string): boolean {
+  return pathname === "/" || pathname === "/en";
+}
+
+const EN_PAGE_BREADCRUMB_LABELS: Record<string, string> = {
+  "/produit": "Product",
+  "/secteurs": "Sectors",
+  "/secteurs/hopital": "Hospital scheduling",
+  "/ressources": "Resources",
+  "/offre": "Pricing",
+  "/faq": "FAQ",
+  "/contact": "Contact",
+};
+
+/** Libellé fil d'Ariane pour une page SITE_PAGES, selon la locale */
+export function getSitePageBreadcrumbLabel(basePath: string, locale: Locale): string | undefined {
+  const page = getSitePage(basePath);
+  if (!page) return undefined;
+  if (locale === "en") {
+    const enFromHome = HOME_COPY.en.sitePlanLabels[basePath as keyof typeof HOME_COPY.en.sitePlanLabels];
+    return EN_PAGE_BREADCRUMB_LABELS[basePath] ?? enFromHome?.label ?? page.label;
+  }
+  return page.label;
 }

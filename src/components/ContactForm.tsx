@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import { useLocale } from "@/components/LanguageSwitcher";
 import type { ContactFormFieldErrors } from "@/lib/contact";
+import { getContactFormCopy } from "@/lib/get-content";
 
 const inputClassName =
   "w-full rounded-lg border border-white/10 bg-[#050a14] px-3 py-2.5 text-sm text-white placeholder:text-slate-500 focus:border-sky-500/50 focus:outline-none focus:ring-2 focus:ring-sky-500/20";
@@ -14,6 +16,8 @@ type ContactFormProps = {
 };
 
 export function ContactForm({ className = "" }: ContactFormProps) {
+  const locale = useLocale();
+  const copy = getContactFormCopy(locale);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -33,7 +37,7 @@ export function ContactForm({ className = "" }: ContactFormProps) {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ firstName, lastName, email, phone, gdprConsent }),
+        body: JSON.stringify({ firstName, lastName, email, phone, gdprConsent, locale }),
       });
 
       const payload = (await response.json()) as {
@@ -43,7 +47,7 @@ export function ContactForm({ className = "" }: ContactFormProps) {
 
       if (!response.ok) {
         if (payload.fields) setFieldErrors(payload.fields);
-        setFormError(payload.error ?? "Une erreur est survenue.");
+        setFormError(payload.error ?? copy.formErrorGeneric);
         setStatus("idle");
         return;
       }
@@ -55,7 +59,7 @@ export function ContactForm({ className = "" }: ContactFormProps) {
       setPhone("");
       setGdprConsent(false);
     } catch {
-      setFormError("Connexion impossible. Vérifiez votre réseau et réessayez.");
+      setFormError(copy.networkError);
       setStatus("idle");
     }
   }
@@ -67,16 +71,14 @@ export function ContactForm({ className = "" }: ContactFormProps) {
         role="status"
       >
         <CheckCircle2 className="mx-auto h-10 w-10 text-emerald-400" aria-hidden />
-        <p className="mt-4 text-lg font-semibold text-white">Message envoyé</p>
-        <p className="mt-2 text-sm text-slate-400">
-          Nous vous recontacterons rapidement à l&apos;adresse indiquée.
-        </p>
+        <p className="mt-4 text-lg font-semibold text-white">{copy.successTitle}</p>
+        <p className="mt-2 text-sm text-slate-400">{copy.successMessage}</p>
         <button
           type="button"
           onClick={() => setStatus("idle")}
           className="mt-6 text-sm font-medium text-sky-400 hover:text-sky-300"
         >
-          Envoyer un autre message
+          {copy.sendAnother}
         </button>
       </div>
     );
@@ -87,7 +89,7 @@ export function ContactForm({ className = "" }: ContactFormProps) {
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="contact-firstName" className={labelClassName}>
-            Prénom <span className="text-sky-400">*</span>
+            {copy.firstNameLabel} <span className="text-sky-400">*</span>
           </label>
           <input
             id="contact-firstName"
@@ -109,7 +111,7 @@ export function ContactForm({ className = "" }: ContactFormProps) {
         </div>
         <div>
           <label htmlFor="contact-lastName" className={labelClassName}>
-            Nom <span className="text-sky-400">*</span>
+            {copy.lastNameLabel} <span className="text-sky-400">*</span>
           </label>
           <input
             id="contact-lastName"
@@ -133,7 +135,7 @@ export function ContactForm({ className = "" }: ContactFormProps) {
 
       <div>
         <label htmlFor="contact-email" className={labelClassName}>
-          Email <span className="text-sky-400">*</span>
+          {copy.emailLabel} <span className="text-sky-400">*</span>
         </label>
         <input
           id="contact-email"
@@ -157,7 +159,7 @@ export function ContactForm({ className = "" }: ContactFormProps) {
 
       <div>
         <label htmlFor="contact-phone" className={labelClassName}>
-          Téléphone <span className="text-sky-400">*</span>
+          {copy.phoneLabel} <span className="text-sky-400">*</span>
         </label>
         <input
           id="contact-phone"
@@ -168,7 +170,7 @@ export function ContactForm({ className = "" }: ContactFormProps) {
           required
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          placeholder="06 12 34 56 78"
+          placeholder={copy.phonePlaceholder}
           className={inputClassName}
           aria-invalid={Boolean(fieldErrors.phone)}
           aria-describedby={fieldErrors.phone ? "contact-phone-error" : undefined}
@@ -193,9 +195,7 @@ export function ContactForm({ className = "" }: ContactFormProps) {
             aria-describedby={fieldErrors.gdprConsent ? "contact-gdpr-error" : undefined}
           />
           <span className="text-sm leading-relaxed text-slate-400">
-            J&apos;accepte que Planory traite mes données (nom, prénom, email, téléphone) afin
-            de répondre à ma demande de contact, conformément au RGPD.{" "}
-            <span className="text-sky-400">*</span>
+            {copy.gdprConsent} <span className="text-sky-400">*</span>
           </span>
         </label>
         {fieldErrors.gdprConsent && (
@@ -206,7 +206,10 @@ export function ContactForm({ className = "" }: ContactFormProps) {
       </div>
 
       {formError && (
-        <p className="rounded-lg border border-red-500/20 bg-red-500/5 px-4 py-3 text-sm text-red-300" role="alert">
+        <p
+          className="rounded-lg border border-red-500/20 bg-red-500/5 px-4 py-3 text-sm text-red-300"
+          role="alert"
+        >
           {formError}
         </p>
       )}
@@ -219,11 +222,11 @@ export function ContactForm({ className = "" }: ContactFormProps) {
         {status === "loading" ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-            Envoi en cours…
+            {copy.submitting}
           </>
         ) : (
           <>
-            Envoyer ma demande
+            {copy.submit}
             <ArrowRight className="h-4 w-4" aria-hidden />
           </>
         )}

@@ -1,77 +1,10 @@
 export const CONTACT_EMAIL = "contact@planory.net";
 
-export const NAV_ITEMS = [
-  {
-    label: "Produit",
-    href: "/produit",
-    children: [
-      {
-        label: "Gestion RH",
-        href: "/produit#rh",
-        description: "Agents, droits, qualifications",
-      },
-      {
-        label: "Planning",
-        href: "/produit#planning",
-        description: "Cycles, quarts, roulements",
-      },
-      {
-        label: "Ressources",
-        href: "/produit#ressources",
-        description: "Postes, salles, équipements",
-      },
-      {
-        label: "SKYNET — IA",
-        href: "/produit#skynet",
-        description: "Moteur d'optimisation",
-      },
-    ],
-  },
-  { label: "Secteurs", href: "/secteurs" },
-  { label: "Articles", href: "/ressources" },
-  { label: "Offre", href: "/offre" },
-  { label: "FAQ", href: "/faq" },
-] as const;
+import { getDrawerNavSections, getMobileTabItems, getNavItems } from "@/lib/i18n";
 
-/** Tab bar mobile — 4 onglets principaux */
-export const MOBILE_TAB_ITEMS = [
-  { href: "/", label: "Accueil" },
-  { href: "/produit", label: "Produit" },
-  { href: "/secteurs", label: "Secteurs" },
-] as const;
-
-/** Liens du menu drawer + onglet « Plus » */
-export const DRAWER_NAV_SECTIONS = [
-  {
-    title: "Produit",
-    items: [
-      { label: "Vue d'ensemble", href: "/produit", description: "RH, Planning, SKYNET" },
-      { label: "Gestion RH", href: "/produit#rh", description: "Agents, qualifications" },
-      { label: "Planning", href: "/produit#planning", description: "Cycles, roulements" },
-      { label: "Ressources", href: "/produit#ressources", description: "Postes, salles" },
-      { label: "SKYNET — IA", href: "/produit#skynet", description: "Moteur d'optimisation" },
-    ],
-  },
-  {
-    title: "Explorer",
-    items: [
-      { label: "Secteurs", href: "/secteurs", description: "Hôpital, aéroport, industrie" },
-      {
-        label: "Planning hospitalier",
-        href: "/secteurs/hopital",
-        description: "Gardes et roulements hospitaliers",
-      },
-      { label: "Articles", href: "/ressources", description: "Guides planification" },
-    ],
-  },
-  {
-    title: "Offre & FAQ",
-    items: [
-      { label: "Offre", href: "/offre", description: "3 niveaux d'engagement" },
-      { label: "FAQ", href: "/faq", description: "Questions fréquentes" },
-    ],
-  },
-] as const;
+export const NAV_ITEMS = getNavItems("fr");
+export const MOBILE_TAB_ITEMS = getMobileTabItems("fr");
+export const DRAWER_NAV_SECTIONS = getDrawerNavSections("fr");
 
 export const HERO_STATS = [
   { value: "< 2 min", label: "Génération", labelDesktop: "pour générer un planning" },

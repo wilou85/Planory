@@ -1,4 +1,6 @@
 import { ARTICLES } from "@/lib/articles";
+import { ARTICLES_EN } from "@/lib/articles-en";
+import type { Locale } from "@/lib/i18n";
 
 export type ArticleSection =
   | { type: "h2"; text: string }
@@ -40,18 +42,21 @@ export function getArticleUpdatedAt(article: ResourceArticle): string {
   return ARTICLE_UPDATED_AT[article.slug] ?? article.updatedAt ?? article.publishedAt;
 }
 
-const dateFormatter = new Intl.DateTimeFormat("fr-FR", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-});
+const dateFormatters: Record<Locale, Intl.DateTimeFormat> = {
+  fr: new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric" }),
+  en: new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }),
+};
 
-export function formatArticleDate(iso: string): string {
-  return dateFormatter.format(new Date(`${iso}T12:00:00`));
+export function formatArticleDate(iso: string, locale: Locale = "fr"): string {
+  return dateFormatters[locale].format(new Date(`${iso}T12:00:00`));
 }
 
-export const RESOURCE_ARTICLES: ResourceArticle[] = ARTICLES;
+export const RESOURCE_ARTICLES = ARTICLES;
 
-export function getResourceArticle(slug: string) {
-  return ARTICLES.find((a) => a.slug === slug);
+export function getResourceArticles(locale: Locale = "fr") {
+  return locale === "en" ? ARTICLES_EN : ARTICLES;
+}
+
+export function getResourceArticle(slug: string, locale: Locale = "fr") {
+  return getResourceArticles(locale).find((a) => a.slug === slug);
 }

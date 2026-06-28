@@ -3,10 +3,17 @@ import { Check } from "lucide-react";
 import { ContactButton } from "@/components/ContactButton";
 import { GeoDefinition } from "@/components/geo/GeoDefinition";
 import { sectionY } from "@/components/ui/section";
-import { HOSPITAL_SECTOR } from "@/lib/hospital-sector";
+import { getHospitalSector, getPageUi } from "@/lib/get-content";
+import { localizePath, type Locale } from "@/lib/i18n";
 
-export function HospitalSectorContent() {
-  const { hero, medicalPlanning, fph, challenges, features, useCases, faq } = HOSPITAL_SECTOR;
+type HospitalSectorContentProps = {
+  locale?: Locale;
+};
+
+export function HospitalSectorContent({ locale = "fr" }: HospitalSectorContentProps) {
+  const { hero, medicalPlanning, fph, challenges, features, useCases, faq } =
+    getHospitalSector(locale);
+  const ui = getPageUi(locale).hospital;
 
   return (
     <>
@@ -21,11 +28,11 @@ export function HospitalSectorContent() {
           <p className="mt-4 text-lg leading-relaxed text-slate-400">{hero.intro}</p>
           <div className="mt-6">
             <ContactButton variant="primary" showArrow>
-              Échanger sur votre planning hospitalier
+              {ui.cta}
             </ContactButton>
           </div>
           <div className="mt-10">
-            <GeoDefinition variant="hospital" />
+            <GeoDefinition variant="hospital" locale={locale} enVariant="healthcare" />
           </div>
         </div>
       </section>
@@ -96,37 +103,25 @@ export function HospitalSectorContent() {
             ))}
           </ul>
           <p className="mt-8 text-sm text-slate-500">
-            Guides associés :{" "}
-            <Link href="/ressources/planning-hospitalier" className="text-sky-400 hover:text-sky-300">
-              planning hospitalier
-            </Link>
-            {" · "}
-            <Link href="/ressources/planning-medical" className="text-sky-400 hover:text-sky-300">
-              planning médical
-            </Link>
-            {" · "}
-            <Link href="/ressources/planning-12h-hopital" className="text-sky-400 hover:text-sky-300">
-              planning en 12 heures
-            </Link>
-            {" · "}
-            <Link href="/ressources/gestion-astreintes" className="text-sky-400 hover:text-sky-300">
-              gestion des astreintes
-            </Link>
-            {" · "}
-            <Link href="/ressources/travail-nuit-planning-2x8" className="text-sky-400 hover:text-sky-300">
-              travail de nuit et 2×8
-            </Link>
-            {" · "}
-            <Link href="/produit" className="text-sky-400 hover:text-sky-300">
-              logiciel de gestion de planning
-            </Link>
+            {ui.relatedLabel}{" "}
+            {ui.relatedLinks.map((link, i) => (
+              <span key={link.href}>
+                {i > 0 && " · "}
+                <Link
+                  href={localizePath(link.href, locale)}
+                  className="text-sky-400 hover:text-sky-300"
+                >
+                  {link.label}
+                </Link>
+              </span>
+            ))}
           </p>
         </div>
       </section>
 
       <section id="faq" className={`${sectionY}`}>
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-white">Questions fréquentes</h2>
+          <h2 className="text-2xl font-bold text-white">{ui.faqHeading}</h2>
           <dl className="mt-8 space-y-6">
             {faq.map((item) => (
               <div key={item.question}>

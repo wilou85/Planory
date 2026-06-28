@@ -5,9 +5,11 @@ import { ArrowRight, CheckCircle2, Download, Loader2 } from "lucide-react";
 import type { LeadMagnetFormFieldErrors } from "@/lib/lead-magnets/types";
 import type { LeadMagnetSlug } from "@/lib/lead-magnets/types";
 import {
-  LEAD_MAGNET_ROLE_LABELS,
-  LEAD_MAGNET_SECTOR_LABELS,
+  getLeadMagnetFormCopy,
+  getLeadMagnetRoleLabels,
+  getLeadMagnetSectorLabels,
 } from "@/lib/lead-magnets";
+import type { Locale } from "@/lib/i18n";
 
 const inputClassName =
   "w-full rounded-lg border border-white/10 bg-[#050a14] px-3 py-2.5 text-sm text-white placeholder:text-slate-500 focus:border-sky-500/50 focus:outline-none focus:ring-2 focus:ring-sky-500/20";
@@ -20,15 +22,22 @@ type LeadMagnetFormProps = {
   downloadFileName: string;
   submitLabel?: string;
   className?: string;
+  locale?: Locale;
 };
 
 export function LeadMagnetForm({
   magnetSlug,
   downloadPath,
   downloadFileName,
-  submitLabel = "Recevoir le PDF",
+  submitLabel,
   className = "",
+  locale = "fr",
 }: LeadMagnetFormProps) {
+  const copy = getLeadMagnetFormCopy(locale);
+  const roleLabels = getLeadMagnetRoleLabels(locale);
+  const sectorLabels = getLeadMagnetSectorLabels(locale);
+  const resolvedSubmitLabel = submitLabel ?? copy.receivePdf;
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -59,6 +68,7 @@ export function LeadMagnetForm({
           sector,
           gdprConsent,
           magnetSlug,
+          locale,
         }),
       });
 
@@ -78,7 +88,7 @@ export function LeadMagnetForm({
           setStatus("success");
           return;
         }
-        setFormError(payload.error ?? "Une erreur est survenue.");
+        setFormError(payload.error ?? copy.formErrorGeneric);
         setStatus("idle");
         return;
       }
@@ -87,7 +97,7 @@ export function LeadMagnetForm({
       setEmailFailed(false);
       setStatus("success");
     } catch {
-      setFormError("Connexion impossible. Vérifiez votre réseau et réessayez.");
+      setFormError(copy.networkError);
       setStatus("idle");
     }
   }
@@ -99,18 +109,16 @@ export function LeadMagnetForm({
         role="status"
       >
         <CheckCircle2 className="mx-auto h-10 w-10 text-emerald-400" aria-hidden />
-        <p className="mt-4 text-lg font-semibold text-white">Ressource prête</p>
+        <p className="mt-4 text-lg font-semibold text-white">{copy.successTitle}</p>
         <p className="mt-2 text-sm text-slate-400">
           {devBypass
-            ? "Mode local : le PDF est disponible ci-dessous (email non envoyé — configurez RESEND_API_KEY pour la prod)."
+            ? copy.successDevBypass
             : emailFailed
-              ? "L'email n'a pas pu être envoyé (configuration Resend en cours). Téléchargez le PDF directement ci-dessous."
-              : "Un email avec le lien de téléchargement vient de vous être envoyé."}
+              ? copy.successEmailFailed
+              : copy.successEmailSent}
         </p>
         {!devBypass && !emailFailed && (
-          <p className="mt-1 text-xs text-slate-500">
-            Le téléchargement direct est aussi disponible ci-dessous.
-          </p>
+          <p className="mt-1 text-xs text-slate-500">{copy.successEmailHint}</p>
         )}
         <a
           href={downloadPath}
@@ -118,7 +126,7 @@ export function LeadMagnetForm({
           className="mt-6 inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-white px-8 text-sm font-medium text-[#050a14] transition-opacity hover:bg-slate-100"
         >
           <Download className="h-4 w-4" aria-hidden />
-          Télécharger maintenant
+          {copy.downloadNow}
         </a>
       </div>
     );
@@ -129,7 +137,7 @@ export function LeadMagnetForm({
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="lm-firstName" className={labelClassName}>
-            Prénom <span className="text-sky-400">*</span>
+            {copy.firstNameLabel} <span className="text-sky-400">*</span>
           </label>
           <input
             id="lm-firstName"
@@ -148,7 +156,7 @@ export function LeadMagnetForm({
         </div>
         <div>
           <label htmlFor="lm-lastName" className={labelClassName}>
-            Nom <span className="text-sky-400">*</span>
+            {copy.lastNameLabel} <span className="text-sky-400">*</span>
           </label>
           <input
             id="lm-lastName"
@@ -169,7 +177,7 @@ export function LeadMagnetForm({
 
       <div>
         <label htmlFor="lm-email" className={labelClassName}>
-          Email professionnel <span className="text-sky-400">*</span>
+          {copy.emailLabel} <span className="text-sky-400">*</span>
         </label>
         <input
           id="lm-email"
@@ -191,7 +199,7 @@ export function LeadMagnetForm({
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="lm-role" className={labelClassName}>
-            Fonction <span className="text-sky-400">*</span>
+            {copy.roleLabel} <span className="text-sky-400">*</span>
           </label>
           <select
             id="lm-role"
@@ -203,9 +211,9 @@ export function LeadMagnetForm({
             aria-invalid={Boolean(fieldErrors.role)}
           >
             <option value="" disabled>
-              Sélectionner…
+              {copy.selectPlaceholder}
             </option>
-            {Object.entries(LEAD_MAGNET_ROLE_LABELS).map(([value, label]) => (
+            {Object.entries(roleLabels).map(([value, label]) => (
               <option key={value} value={value}>
                 {label}
               </option>
@@ -217,7 +225,7 @@ export function LeadMagnetForm({
         </div>
         <div>
           <label htmlFor="lm-sector" className={labelClassName}>
-            Secteur <span className="text-sky-400">*</span>
+            {copy.sectorLabel} <span className="text-sky-400">*</span>
           </label>
           <select
             id="lm-sector"
@@ -229,9 +237,9 @@ export function LeadMagnetForm({
             aria-invalid={Boolean(fieldErrors.sector)}
           >
             <option value="" disabled>
-              Sélectionner…
+              {copy.selectPlaceholder}
             </option>
-            {Object.entries(LEAD_MAGNET_SECTOR_LABELS).map(([value, label]) => (
+            {Object.entries(sectorLabels).map(([value, label]) => (
               <option key={value} value={value}>
                 {label}
               </option>
@@ -254,9 +262,7 @@ export function LeadMagnetForm({
             className="mt-1 h-4 w-4 shrink-0 rounded border-white/20 bg-[#050a14] text-sky-500 focus:ring-sky-500/30"
           />
           <span className="text-sm leading-relaxed text-slate-400">
-            J&apos;accepte que Planory traite mes données pour m&apos;envoyer cette ressource
-            et, le cas échéant, un suivi commercial, conformément au RGPD.{" "}
-            <span className="text-sky-400">*</span>
+            {copy.gdprConsent} <span className="text-sky-400">*</span>
           </span>
         </label>
         {fieldErrors.gdprConsent && (
@@ -281,11 +287,11 @@ export function LeadMagnetForm({
         {status === "loading" ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-            Envoi en cours…
+            {copy.submitLoading}
           </>
         ) : (
           <>
-            {submitLabel}
+            {resolvedSubmitLabel}
             <ArrowRight className="h-4 w-4" aria-hidden />
           </>
         )}

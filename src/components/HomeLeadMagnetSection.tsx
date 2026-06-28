@@ -3,7 +3,7 @@ import { ArrowRight, ClipboardCheck } from "lucide-react";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Button } from "@/components/ui/Button";
 import { LEAD_MAGNETS } from "@/lib/lead-magnets";
-import { getHomeCopy, type Locale } from "@/lib/i18n";
+import { getHomeCopy, localizePath, type Locale } from "@/lib/i18n";
 
 type HomeLeadMagnetSectionProps = {
   locale?: Locale;
@@ -48,11 +48,11 @@ export function HomeLeadMagnetSection({ locale = "fr" }: HomeLeadMagnetSectionPr
           </div>
 
           <div className="flex w-full shrink-0 flex-col gap-2 sm:flex-row sm:items-center lg:w-auto lg:flex-col lg:items-end">
-            <Button href={magnet.path} variant="primary" size="sm" showArrow className="w-full sm:w-auto lg:min-w-[220px]">
+            <Button href={localizePath(magnet.path, locale)} variant="primary" size="sm" showArrow className="w-full sm:w-auto lg:min-w-[220px]">
               {copy.cta}
             </Button>
             <Link
-              href={copy.articleHref}
+              href={localizePath(copy.articleHref, locale)}
               className="text-center text-xs text-slate-500 hover:text-sky-400 sm:text-left lg:text-right"
             >
               {copy.articleLink}

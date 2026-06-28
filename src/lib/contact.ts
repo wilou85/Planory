@@ -1,3 +1,6 @@
+import { getContactFormCopy } from "@/lib/get-content";
+import type { Locale } from "@/lib/i18n";
+
 export const CONTACT_FORM_RECIPIENTS = [
   "clementdeobaldia@gmail.com",
   "william.tran@planory.net",
@@ -30,10 +33,13 @@ export function validateContactForm(
   input: unknown,
 ): { ok: true; data: ContactFormData } | { ok: false; errors: ContactFormFieldErrors } {
   if (!input || typeof input !== "object") {
-    return { ok: false, errors: { firstName: "Données invalides." } };
+    const locale: Locale = "fr";
+    return { ok: false, errors: { firstName: getContactFormCopy(locale).validation.invalidData } };
   }
 
   const body = input as Record<string, unknown>;
+  const locale: Locale = body.locale === "en" ? "en" : "fr";
+  const v = getContactFormCopy(locale).validation;
   const errors: ContactFormFieldErrors = {};
 
   const firstName = typeof body.firstName === "string" ? body.firstName.trim() : "";
@@ -42,20 +48,20 @@ export function validateContactForm(
   const phone = typeof body.phone === "string" ? body.phone.trim() : "";
   const gdprConsent = body.gdprConsent === true;
 
-  if (!firstName) errors.firstName = "Le prénom est requis.";
-  else if (firstName.length > 80) errors.firstName = "Prénom trop long.";
+  if (!firstName) errors.firstName = v.firstNameRequired;
+  else if (firstName.length > 80) errors.firstName = v.firstNameTooLong;
 
-  if (!lastName) errors.lastName = "Le nom est requis.";
-  else if (lastName.length > 80) errors.lastName = "Nom trop long.";
+  if (!lastName) errors.lastName = v.lastNameRequired;
+  else if (lastName.length > 80) errors.lastName = v.lastNameTooLong;
 
-  if (!email) errors.email = "L'email est requis.";
-  else if (!EMAIL_PATTERN.test(email)) errors.email = "Email invalide.";
+  if (!email) errors.email = v.emailRequired;
+  else if (!EMAIL_PATTERN.test(email)) errors.email = v.emailInvalid;
 
-  if (!phone) errors.phone = "Le téléphone est requis.";
-  else if (!isValidPhone(phone)) errors.phone = "Numéro de téléphone invalide.";
+  if (!phone) errors.phone = v.phoneRequired;
+  else if (!isValidPhone(phone)) errors.phone = v.phoneInvalid;
 
   if (!gdprConsent) {
-    errors.gdprConsent = "Vous devez accepter le traitement de vos données.";
+    errors.gdprConsent = v.gdprRequired;
   }
 
   if (Object.keys(errors).length > 0) {

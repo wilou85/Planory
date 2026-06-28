@@ -1,8 +1,11 @@
 "use client";
 
-import { OFFER_COMPARISON } from "@/lib/content";
+import { getOfferComparison, getPageUi } from "@/lib/get-content";
+import type { Locale } from "@/lib/i18n";
 
-type OfferTier = (typeof OFFER_COMPARISON.tiers)[number];
+type OfferComparisonTableProps = {
+  locale?: Locale;
+};
 
 function Cell({ included }: { included: boolean | string }) {
   if (typeof included === "string") {
@@ -15,21 +18,26 @@ function Cell({ included }: { included: boolean | string }) {
   );
 }
 
-function formatCellValue(included: boolean | string): string {
-  if (typeof included === "string") return included;
-  return included ? "Inclus" : "Non inclus";
-}
+export function OfferComparisonTable({ locale = "fr" }: OfferComparisonTableProps) {
+  const ui = getPageUi(locale).offerCompare;
+  const comparison = getOfferComparison(locale);
+  const tiers = comparison.tiers;
 
-export function OfferComparisonTable() {
-  const tiers = OFFER_COMPARISON.tiers;
+  function formatCellValue(included: boolean | string): string {
+    if (typeof included === "string") return included;
+    return included ? ui.includedValue : ui.notIncludedValue;
+  }
+
+  function cellValue(row: (typeof comparison.rows)[number], tier: (typeof tiers)[number]) {
+    return row.values[tier as keyof typeof row.values];
+  }
 
   return (
     <section aria-labelledby="offer-compare-heading" className="mt-8">
       <h3 id="offer-compare-heading" className="text-lg font-bold text-white sm:text-xl">
-        Comparer les offres
+        {ui.heading}
       </h3>
 
-      {/* Mobile / tablette étroite : cartes empilées */}
       <div className="mt-4 space-y-4 md:hidden">
         {tiers.map((tier) => (
           <article
@@ -38,17 +46,17 @@ export function OfferComparisonTable() {
           >
             <h4 className="text-base font-semibold text-white">{tier}</h4>
             <ul className="mt-3 space-y-2">
-              {OFFER_COMPARISON.rows.map((row) => (
+              {comparison.rows.map((row) => (
                 <li
                   key={row.feature}
                   className="flex items-start justify-between gap-3 rounded-lg bg-white/[0.02] px-2 py-2.5 text-sm"
                 >
                   <span className="min-w-0 flex-1 text-slate-300">{row.feature}</span>
                   <span className="shrink-0 text-right font-medium text-slate-200">
-                    {typeof row.values[tier as OfferTier] === "boolean" ? (
-                      <Cell included={row.values[tier as OfferTier]} />
+                    {typeof cellValue(row, tier) === "boolean" ? (
+                      <Cell included={cellValue(row, tier) as boolean} />
                     ) : (
-                      formatCellValue(row.values[tier as OfferTier])
+                      formatCellValue(cellValue(row, tier))
                     )}
                   </span>
                 </li>
@@ -58,37 +66,30 @@ export function OfferComparisonTable() {
         ))}
       </div>
 
-      {/* Desktop : tableau scrollable si besoin */}
       <div className="mt-4 hidden overflow-x-auto rounded-2xl border border-white/10 bg-[#0c1220]/40 md:block">
         <table className="w-full min-w-[520px] border-collapse text-left text-sm">
-          <caption className="sr-only">
-            Comparatif des offres Planory Autonome, Accompagné et Mission critique
-          </caption>
+          <caption className="sr-only">{ui.tableCaption}</caption>
           <thead>
             <tr>
               <th scope="col" className="px-4 py-3 font-medium text-slate-400">
-                Inclus
+                {ui.includedColumn}
               </th>
               {tiers.map((tier) => (
-                <th
-                  key={tier}
-                  scope="col"
-                  className="px-4 py-3 font-semibold text-slate-200"
-                >
+                <th key={tier} scope="col" className="px-4 py-3 font-semibold text-slate-200">
                   {tier}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {OFFER_COMPARISON.rows.map((row) => (
+            {comparison.rows.map((row) => (
               <tr key={row.feature} className="even:bg-white/[0.02]">
                 <th scope="row" className="px-4 py-3 font-normal text-slate-300">
                   {row.feature}
                 </th>
                 {tiers.map((tier) => (
                   <td key={tier} className="px-4 py-3">
-                    <Cell included={row.values[tier as OfferTier]} />
+                    <Cell included={cellValue(row, tier)} />
                   </td>
                 ))}
               </tr>

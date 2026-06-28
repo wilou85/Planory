@@ -7,7 +7,8 @@ import {
   loadLeadMagnetPdfAttachment,
   validateLeadMagnetForm,
 } from "@/lib/lead-magnet";
-import { getLeadMagnet } from "@/lib/lead-magnets";
+import { getLeadMagnet, getLeadMagnetFormCopy } from "@/lib/lead-magnets";
+import type { Locale } from "@/lib/i18n";
 import {
   emailNotConfiguredResponse,
   getContactEmailFrom,
@@ -16,25 +17,39 @@ import {
   resendErrorMessage,
 } from "@/lib/email";
 
+function resolveRequestLocale(body: unknown): Locale {
+  if (body && typeof body === "object" && (body as Record<string, unknown>).locale === "en") {
+    return "en";
+  }
+  return "fr";
+}
+
 export async function POST(request: Request) {
   let body: unknown;
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Corps de requête invalide." }, { status: 400 });
-  }
-
-  const result = validateLeadMagnetForm(body);
-  if (!result.ok) {
+    const locale = "fr";
     return NextResponse.json(
-      { error: "Champs invalides.", fields: result.errors },
+      { error: getLeadMagnetFormCopy(locale).api.invalidBody },
       { status: 400 },
     );
   }
 
-  const magnet = getLeadMagnet(result.data.magnetSlug);
+  const locale = resolveRequestLocale(body);
+  const apiCopy = getLeadMagnetFormCopy(locale).api;
+
+  const result = validateLeadMagnetForm(body);
+  if (!result.ok) {
+    return NextResponse.json(
+      { error: apiCopy.invalidFields, fields: result.errors },
+      { status: 400 },
+    );
+  }
+
+  const magnet = getLeadMagnet(result.data.magnetSlug, result.data.locale ?? "fr");
   if (!magnet) {
-    return NextResponse.json({ error: "Ressource introuvable." }, { status: 404 });
+    return NextResponse.json({ error: apiCopy.notFound }, { status: 404 });
   }
 
   if (isEmailDevBypass()) {
@@ -51,7 +66,7 @@ export async function POST(request: Request) {
 
   const apiKey = getResendApiKey();
   if (!apiKey) {
-    return emailNotConfiguredResponse();
+    return emailNotConfiguredResponse(locale);
   }
 
   const from = getContactEmailFrom();
@@ -75,10 +90,7 @@ export async function POST(request: Request) {
     console.error("[lead-magnet] user email", userResult.error);
     return NextResponse.json(
       {
-        error: resendErrorMessage(
-          userResult.error,
-          "Impossible d'envoyer l'email. Réessayez plus tard.",
-        ),
+        error: resendErrorMessage(userResult.error, apiCopy.emailSendFailed, locale),
         downloadPath: magnet.downloadPath,
         emailFailed: true,
       },
