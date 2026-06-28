@@ -1,7 +1,10 @@
 import { SiteShell } from "@/components/SiteShell";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { DiscoverPlanory } from "@/components/seo/DiscoverPlanory";
 import { Hero } from "@/components/Hero";
-import { CONTACT_EMAIL } from "@/lib/content";
+import { ValuePropositionSection } from "@/components/ValuePropositionSection";
+import { HomeLeadMagnetSection } from "@/components/HomeLeadMagnetSection";
+import { SetHtmlLang } from "@/components/SetHtmlLang";
 import { EN_SITE } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
 import { breadcrumbJsonLd, createPageMetadata, webPageJsonLd } from "@/lib/seo";
@@ -12,10 +15,12 @@ export const metadata = {
     title: EN_SITE.title,
     description: EN_SITE.description,
     keywords: [
+      "healthcare workforce scheduling software",
       "workforce scheduling software",
       "shift planning software",
-      "healthcare scheduling",
+      "hospital workforce scheduling",
       "AI scheduling",
+      "24/7 team scheduling",
     ],
   }),
   alternates: {
@@ -36,6 +41,7 @@ export default function EnglishHomePage() {
 
   return (
     <SiteShell currentPath="/en">
+      <SetHtmlLang lang="en" />
       <JsonLd
         data={[
           breadcrumbJsonLd([{ name: "Home", path: "/en" }]),
@@ -43,17 +49,9 @@ export default function EnglishHomePage() {
         ]}
       />
       <Hero locale="en" />
-      <section className="border-t border-white/10 py-8 sm:py-10">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-sm leading-relaxed text-slate-500">
-            Full English site coming soon —{" "}
-            <a href={`mailto:${CONTACT_EMAIL}`} className="text-sky-400 hover:text-sky-300">
-              contact us
-            </a>{" "}
-            for a demo.
-          </p>
-        </div>
-      </section>
+      <HomeLeadMagnetSection locale="en" />
+      <ValuePropositionSection locale="en" />
+      <DiscoverPlanory locale="en" />
     </SiteShell>
   );
 }

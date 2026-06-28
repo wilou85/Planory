@@ -6,9 +6,10 @@ import { usePathname } from "next/navigation";
 import { ChevronDown, Menu } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/Button";
+import { ContactButton } from "@/components/ContactButton";
 import { PlanoryLogo } from "@/components/PlanoryLogo";
 import { useNavDrawer } from "@/components/nav/NavDrawerContext";
-import { CONTACT_EMAIL, NAV_ITEMS } from "@/lib/content";
+import { NAV_ITEMS } from "@/lib/content";
 import { getNavItemIcon, TOP_NAV_ICONS } from "@/lib/icons";
 import { SITE_PAGES } from "@/lib/site";
 
@@ -117,7 +118,7 @@ export function Header() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-white/10 bg-[#050a14]/92 backdrop-blur-xl shadow-lg shadow-black/20"
+          ? "bg-[#050a14]/92 backdrop-blur-xl shadow-lg shadow-black/20"
           : "bg-[#050a14]/80 backdrop-blur-md lg:bg-transparent lg:backdrop-blur-none"
       }`}
       style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
@@ -171,15 +172,10 @@ export function Header() {
           >
             Voir un exemple
           </Button>
-          <Button
-            href={`mailto:${CONTACT_EMAIL}`}
-            variant="primary"
-            size="sm"
-            external
-          >
+          <ContactButton variant="primary" size="sm">
             <span className="hidden sm:inline">Prendre contact</span>
             <span className="sm:hidden">Contact</span>
-          </Button>
+          </ContactButton>
         </div>
       </div>
     </header>

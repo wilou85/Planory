@@ -57,14 +57,14 @@ export function SectorsSection() {
                 <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-400">
                   {sector.description}
                 </p>
-                {"href" in sector && sector.href && (
+                {"href" in sector && sector.href ? (
                   <Link
                     href={sector.href}
                     className="mt-4 inline-flex text-sm font-medium text-sky-400 hover:text-sky-300"
                   >
                     En savoir plus →
                   </Link>
-                )}
+                ) : null}
                 <div className="mt-5 flex flex-wrap gap-2">
                   {sector.tags.map((tag) => (
                     <span

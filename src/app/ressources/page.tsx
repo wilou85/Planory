@@ -1,9 +1,9 @@
 import { SiteShell } from "@/components/SiteShell";
 import { PageContent } from "@/components/PageContent";
+import { GeoDefinition } from "@/components/geo/GeoDefinition";
 import { ResourcesHub } from "@/components/ResourcesHub";
-import { ContactSection } from "@/components/ContactSection";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbJsonLd, createPageMetadata, webPageJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, createPageMetadata, resourceArticlesItemListJsonLd, webPageJsonLd } from "@/lib/seo";
 
 const PATH = "/ressources";
 
@@ -16,19 +16,28 @@ export default function RessourcesPage() {
   const webPage = webPageJsonLd(PATH);
 
   return (
-    <SiteShell currentPath={PATH} layout="content">
+    <SiteShell
+      currentPath={PATH}
+      layout="content"
+      breadcrumbs={[{ name: "Articles", path: PATH }]}
+    >
       <JsonLd
         data={[
           breadcrumbJsonLd([
             { name: "Accueil", path: "/" },
-            { name: "Ressources", path: PATH },
+            { name: "Articles", path: PATH },
           ]),
+          resourceArticlesItemListJsonLd(),
           ...(webPage ? [webPage] : []),
         ]}
       />
       <PageContent>
         <ResourcesHub />
-        <ContactSection />
+        <section className="pb-14 pt-10 sm:pb-20">
+          <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+            <GeoDefinition variant="faq" />
+          </div>
+        </section>
       </PageContent>
     </SiteShell>
   );

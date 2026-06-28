@@ -28,7 +28,7 @@ export const NAV_ITEMS = [
     ],
   },
   { label: "Secteurs", href: "/secteurs" },
-  { label: "Ressources", href: "/ressources" },
+  { label: "Articles", href: "/ressources" },
   { label: "Offre", href: "/offre" },
   { label: "FAQ", href: "/faq" },
 ] as const;
@@ -59,14 +59,9 @@ export const DRAWER_NAV_SECTIONS = [
       {
         label: "Planning hospitalier",
         href: "/secteurs/hopital",
-        description: "Gardes et astreintes",
+        description: "Gardes et roulements hospitaliers",
       },
-      { label: "Ressources", href: "/ressources", description: "Guides planification" },
-      {
-        label: "Excel vs logiciel",
-        href: "/ressources/planning-excel-vs-logiciel",
-        description: "Quand passer au logiciel",
-      },
+      { label: "Articles", href: "/ressources", description: "Guides planification" },
     ],
   },
   {
@@ -84,10 +79,33 @@ export const HERO_STATS = [
   { value: "3 niveaux", label: "Accompagnement", labelDesktop: "d'accompagnement" },
 ] as const;
 
+/** Valeur différenciante — landing */
+export const VALUE_PILLARS = [
+  {
+    title: "Interface ergonomique et intuitive",
+    description: null,
+  },
+  {
+    title: "Une solution évolutive",
+    description: "Conçue pour intégrer de nouvelles règles et cas d'usage.",
+  },
+  {
+    title: "Une solution pensée pour des environnements critiques",
+    description: "Fiabilité et robustesse au cœur du produit.",
+  },
+  {
+    title: "Outil SaaS ouvert",
+    description: "Possibilité de s'interfacer en API avec les outils du marché.",
+  },
+] as const;
+
 export const PRODUCT_BENEFITS = [
   "Moins d'incohérences entre disponibilités et règles",
   "Résultat plus fiable par application amont des contraintes",
   "Publication maîtrisée du brouillon à la validation",
+  "Gestion planning personnel : qualifications, repos, équité et couverture par poste.",
+  "Gestion des plannings sur horizons longs (semaines à trimestre).",
+  "Complément à votre SIRH ou GTA — Planory se concentre sur la planification, pas le pointage.",
   "Échanges, astreintes, renforts gérés en temps réel",
 ] as const;
 
@@ -187,12 +205,13 @@ export const SECTORS = [
     title: "Hôpital",
     href: "/secteurs/hopital",
     description:
-      "Planification des gardes, astreintes et roulements hospitaliers — équité des week-ends et nuits, continuité des services.",
+      "Planning hospitalier et planning roulement hospitalier : gardes, astreintes 12h, équité des week-ends et continuité de service.",
     tags: ["Astreintes", "Équité", "Continuité"],
   },
   {
     icon: "factory" as const,
     title: "Industrie",
+    href: "/ressources/planification-industrielle",
     description:
       "Roulements 3×8, 2×12, absorption des absences, suivi des compteurs d'heures.",
     tags: ["Cycles", "Compteurs", "Robuste"],
@@ -340,6 +359,11 @@ export const FAQ_ITEMS = [
       "Un SIRH gère les absences, la paie et les talents. Planory se concentre sur la génération de plannings complexes 24/7 : roulements, astreintes, équité et conformité réglementaire. Les deux peuvent coexister — Planory peut s'intégrer à votre SIRH existant.",
   },
   {
+    question: "Planory remplace-t-il un logiciel GTA ?",
+    answer:
+      "Non. Un logiciel GTA (gestion des temps et activités) gère le pointage, les absences et les éléments variables de paie. Planory se concentre sur la planification complexe 24/7 : roulements, astreintes, équité et génération conforme via SKYNET. Les deux se complètent — Planory peut coexister avec votre GTA ou SIRH existant sans remplacer le suivi des temps.",
+  },
+  {
     question: "Comment gérer les astreintes avec Planory ?",
     answer:
       "Les astreintes sont paramétrées comme contraintes dans SKYNET : rotation, repos minimum entre gardes, équité entre agents et couverture par qualification. Le moteur génère une proposition conforme ; vos cadres valident avant publication.",
@@ -367,7 +391,7 @@ export const FAQ_ITEMS = [
 ] as const;
 
 export const CONTACT_TOPICS = [
-  "Votre secteur et volumes",
+  "Votre secteur et vos problématiques",
   "Faisabilité et risques",
   "Niveau d'accompagnement",
   "Prochaines étapes",

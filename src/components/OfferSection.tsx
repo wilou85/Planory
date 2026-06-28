@@ -2,10 +2,10 @@
 
 import { Check } from "lucide-react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/Button";
+import { ContactButton } from "@/components/ContactButton";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { sectionHeadMb, sectionY } from "@/components/ui/section";
-import { CONTACT_EMAIL, OFFERS } from "@/lib/content";
+import { OFFERS } from "@/lib/content";
 import { OfferComparisonTable } from "@/components/OfferComparisonTable";
 import { IconBox } from "@/components/ui/IconBox";
 import { OFFER_TIER_ICONS } from "@/lib/icons";
@@ -80,15 +80,13 @@ export function OfferSection() {
                 ))}
               </ul>
               <div className="mt-8">
-                <Button
-                  href={`mailto:${CONTACT_EMAIL}?subject=Planory%20—%20${encodeURIComponent(offer.tier)}`}
+                <ContactButton
                   variant={offer.highlighted ? "primary" : "ghost"}
                   showArrow
-                  external
                   className="w-full"
                 >
                   {offer.cta}
-                </Button>
+                </ContactButton>
               </div>
             </motion.article>
           );

@@ -2,12 +2,6 @@ import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/SiteShell";
 import { PageContent } from "@/components/PageContent";
 import { ResourceArticleContent } from "@/components/ResourceArticleContent";
-import { GeoDefinition } from "@/components/geo/GeoDefinition";
-import {
-  CompetitorComparisonTable,
-  PlanningComparisonTable,
-} from "@/components/geo/PlanningComparisonTable";
-import { ContactSection } from "@/components/ContactSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   articleJsonLd,
@@ -15,22 +9,32 @@ import {
   createPageMetadata,
   webPageJsonLd,
 } from "@/lib/seo";
-import { getResourceArticle } from "@/lib/resources";
+import { getResourceArticle, getArticleUpdatedAt, RESOURCE_ARTICLES } from "@/lib/resources";
 
-const SLUG = "planning-excel-vs-logiciel";
+type ArticlePageProps = {
+  params: Promise<{ slug: string }>;
+};
 
-export function generateMetadata() {
-  const article = getResourceArticle(SLUG);
+export function generateStaticParams() {
+  return RESOURCE_ARTICLES.map((article) => ({ slug: article.slug }));
+}
+
+export async function generateMetadata({ params }: ArticlePageProps) {
+  const { slug } = await params;
+  const article = getResourceArticle(slug);
   if (!article) return {};
 
   return createPageMetadata({
     path: article.path,
+    title: `${article.title} | Planory`,
+    description: article.description,
     keywords: article.keywords,
   });
 }
 
-export default function PlanningExcelArticlePage() {
-  const article = getResourceArticle(SLUG);
+export default async function ResourceArticlePage({ params }: ArticlePageProps) {
+  const { slug } = await params;
+  const article = getResourceArticle(slug);
   if (!article) notFound();
 
   const webPage = webPageJsonLd(article.path);
@@ -40,36 +44,29 @@ export default function PlanningExcelArticlePage() {
       currentPath={article.path}
       layout="content"
       breadcrumbs={[
-        { name: "Ressources", path: "/ressources" },
-        { name: "Excel vs logiciel", path: article.path },
+        { name: "Articles", path: "/ressources" },
+        { name: article.title, path: article.path },
       ]}
     >
       <JsonLd
         data={[
           breadcrumbJsonLd([
             { name: "Accueil", path: "/" },
-            { name: "Ressources", path: "/ressources" },
-            { name: "Excel vs logiciel", path: article.path },
+            { name: "Articles", path: "/ressources" },
+            { name: article.title, path: article.path },
           ]),
           articleJsonLd({
             path: article.path,
             title: article.title,
             description: article.description,
             publishedAt: article.publishedAt,
+            updatedAt: getArticleUpdatedAt(article),
           }),
           ...(webPage ? [webPage] : []),
         ]}
       />
       <PageContent>
-        <section className="py-14 sm:py-16">
-          <div className="mx-auto max-w-3xl space-y-12 px-4 sm:px-6 lg:px-8">
-            <GeoDefinition variant="product" />
-            <CompetitorComparisonTable id="comparatif-excel-planory-holydis" />
-            <PlanningComparisonTable id="comparatif-excel-sirh-planory" />
-          </div>
-        </section>
         <ResourceArticleContent article={article} />
-        <ContactSection />
       </PageContent>
     </SiteShell>
   );

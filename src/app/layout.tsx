@@ -37,7 +37,7 @@ export default function RootLayout({
     <html lang="fr" className={inter.variable} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className="min-h-full bg-[#050a14] font-sans text-white antialiased"
+        className="min-h-full w-full min-w-0 overflow-x-clip bg-[#050a14] font-sans text-white antialiased"
       >
         <a
           href="#main-content"

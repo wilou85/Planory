@@ -2,7 +2,6 @@ import { SiteShell } from "@/components/SiteShell";
 import { PageContent } from "@/components/PageContent";
 import { FaqSection } from "@/components/FaqSection";
 import { GeoDefinition } from "@/components/geo/GeoDefinition";
-import { ContactSection } from "@/components/ContactSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   breadcrumbJsonLd,
@@ -35,7 +34,6 @@ export default function FaqPage() {
           </div>
         </section>
         <FaqSection />
-        <ContactSection />
       </PageContent>
     </SiteShell>
   );

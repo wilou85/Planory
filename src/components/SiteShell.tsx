@@ -12,6 +12,10 @@ type SiteShellProps = {
   breadcrumbs?: { name: string; path: string }[];
   /** landing = nav complète ; content = sans tab bar (articles, pages longues) */
   layout?: "landing" | "content";
+  /** Fil d'Ariane renforcé (articles, guides) */
+  breadcrumbVariant?: "default" | "content";
+  /** Masque la barre contact flottante (ex. formulaire lead magnet) */
+  suppressStickyContact?: boolean;
 };
 
 export function SiteShell({
@@ -19,26 +23,32 @@ export function SiteShell({
   currentPath = "/",
   breadcrumbs,
   layout = "landing",
+  breadcrumbVariant,
+  suppressStickyContact = false,
 }: SiteShellProps) {
   const isContent = layout === "content";
 
   return (
     <NavDrawerProvider>
       <Header />
-      <Breadcrumbs currentPath={currentPath} trail={breadcrumbs} />
+      <Breadcrumbs
+        currentPath={currentPath}
+        trail={breadcrumbs}
+        variant={breadcrumbVariant ?? (isContent ? "content" : "default")}
+      />
       <main
         id="main-content"
-        className={
+        className={`min-w-0 overflow-x-clip ${
           isContent
             ? "pb-[calc(1rem+env(safe-area-inset-bottom))] lg:pb-0"
-            : "pb-[calc(4.5rem+env(safe-area-inset-bottom))] lg:pb-0"
-        }
+            : "pb-[calc(6.5rem+env(safe-area-inset-bottom))] lg:pb-0"
+        }`}
       >
         {children}
       </main>
-      <Footer compactMobile={isContent} minimal={currentPath === "/"} />
+      <Footer compactMobile={isContent} />
       {!isContent && <MobileTabBar />}
-      <StickyContactBar hasTabBar={!isContent} />
+      {!suppressStickyContact && <StickyContactBar hasTabBar={!isContent} />}
       <MobileNavDrawer />
     </NavDrawerProvider>
   );

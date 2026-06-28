@@ -5,7 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Mail } from "lucide-react";
-import { CONTACT_EMAIL, DRAWER_NAV_SECTIONS } from "@/lib/content";
+import { DRAWER_NAV_SECTIONS } from "@/lib/content";
+import { CONTACT_PATH } from "@/lib/contact-nav";
 import { getNavItemIcon } from "@/lib/icons";
 import { useNavDrawer } from "@/components/nav/NavDrawerContext";
 
@@ -58,7 +59,7 @@ export function MobileNavDrawer() {
             className="fixed inset-y-0 right-0 z-[70] flex w-[min(100%,20rem)] flex-col border-l border-white/10 bg-[#0c1220] shadow-2xl lg:hidden"
             style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
           >
-            <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+            <div className="flex items-center justify-between px-4 py-3">
               <span className="text-sm font-semibold text-white">Menu</span>
               <button
                 type="button"
@@ -116,16 +117,17 @@ export function MobileNavDrawer() {
             </div>
 
             <div
-              className="border-t border-white/10 p-4"
+              className="p-4"
               style={{ paddingBottom: "calc(1rem + env(safe-area-inset-bottom, 0px))" }}
             >
-              <a
-                href={`mailto:${CONTACT_EMAIL}`}
+              <Link
+                href={CONTACT_PATH}
+                onClick={closeDrawer}
                 className="flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-white text-sm font-medium text-[#050a14]"
               >
                 <Mail className="h-4 w-4" aria-hidden />
                 Prendre contact
-              </a>
+              </Link>
             </div>
           </motion.nav>
         </>

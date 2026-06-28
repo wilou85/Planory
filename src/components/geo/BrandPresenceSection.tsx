@@ -9,7 +9,7 @@ export function BrandPresenceSection() {
     <section
       aria-labelledby="brand-presence-heading"
       data-geo="brand-authority"
-      className="border-t border-white/10 py-14 sm:py-16"
+      className="py-14 sm:py-16"
     >
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <h2 id="brand-presence-heading" className="text-xl font-bold text-white sm:text-2xl">

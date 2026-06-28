@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { FAQ_ITEMS } from "@/lib/content";
+import { getArticleUpdatedAt, RESOURCE_ARTICLES } from "@/lib/resources";
 import {
   ORGANIZATION,
   BRAND,
@@ -59,10 +60,16 @@ export function createPageMetadata({
       type: "website",
       images: [
         {
+          url: "/og-planory.png",
+          width: 1200,
+          height: 630,
+          alt: "Planory — logiciel de planning d'équipes 24/7 avec IA SKYNET",
+        },
+        {
           url: "/planory-logo.png",
           width: 512,
           height: 512,
-          alt: "Logo Planory — IA de planification",
+          alt: "Logo Planory",
         },
       ],
     },
@@ -70,7 +77,7 @@ export function createPageMetadata({
       card: "summary_large_image",
       title: pageTitle,
       description: pageDescription,
-      images: ["/planory-logo.png"],
+      images: ["/og-planory.png"],
     },
     robots: {
       index: true,
@@ -167,14 +174,14 @@ export function softwareApplicationJsonLd() {
     name: SITE_NAME,
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
-    description: SITE_DESCRIPTION,
+    description: ORGANIZATION.description,
     url: SITE_URL,
     inLanguage: SITE_LANGUAGE,
     offers: {
       "@type": "Offer",
-      price: "0",
-      priceCurrency: "EUR",
-      description: "Devis sur mesure — contactez Planory",
+      url: `${SITE_URL}/contact`,
+      availability: "https://schema.org/InStock",
+      description: "Devis sur mesure — contactez Planory pour une recommandation adaptée",
       areaServed: { "@type": "Country", name: "France" },
     },
     featureList: [
@@ -203,7 +210,9 @@ export function webPageJsonLd(path: string) {
     about: { "@id": `${SITE_URL}/#software` },
     primaryImageOfPage: {
       "@type": "ImageObject",
-      url: `${SITE_URL}/planory-logo.png`,
+      url: `${SITE_URL}/og-planory.png`,
+      width: 1200,
+      height: 630,
     },
   };
 }
@@ -240,6 +249,7 @@ export function articleJsonLd(article: {
   title: string;
   description: string;
   publishedAt: string;
+  updatedAt: string;
 }) {
   return {
     "@type": "Article",
@@ -247,11 +257,27 @@ export function articleJsonLd(article: {
     headline: article.title,
     description: article.description,
     datePublished: article.publishedAt,
-    dateModified: article.publishedAt,
+    dateModified: article.updatedAt,
     inLanguage: SITE_LANGUAGE,
     author: { "@id": `${SITE_URL}/#organization` },
     publisher: { "@id": `${SITE_URL}/#organization` },
     mainEntityOfPage: { "@id": `${SITE_URL}${article.path}#webpage` },
+  };
+}
+
+export function resourceArticlesItemListJsonLd() {
+  return {
+    "@type": "ItemList",
+    "@id": `${SITE_URL}/ressources#article-list`,
+    name: "Guides planification et planning équipes — Planory",
+    numberOfItems: RESOURCE_ARTICLES.length,
+    itemListElement: RESOURCE_ARTICLES.map((article, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: article.title,
+      description: article.description,
+      url: `${SITE_URL}${article.path}`,
+    })),
   };
 }
 

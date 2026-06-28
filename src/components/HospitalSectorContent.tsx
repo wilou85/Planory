@@ -1,55 +1,61 @@
-"use client";
-
 import Link from "next/link";
-import { Check, Plus } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
-import { SectionLabel } from "@/components/ui/SectionLabel";
-import { Button } from "@/components/ui/Button";
+import { Check } from "lucide-react";
+import { ContactButton } from "@/components/ContactButton";
 import { GeoDefinition } from "@/components/geo/GeoDefinition";
-import {
-  CompetitorComparisonTable,
-  PlanningComparisonTable,
-} from "@/components/geo/PlanningComparisonTable";
-import { CONTACT_EMAIL } from "@/lib/content";
-import { HOSPITAL_SECTOR } from "@/lib/resources";
+import { sectionY } from "@/components/ui/section";
+import { HOSPITAL_SECTOR } from "@/lib/hospital-sector";
 
 export function HospitalSectorContent() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const { hero, challenges, features, useCases, faq } = HOSPITAL_SECTOR;
+  const { hero, medicalPlanning, fph, challenges, features, useCases, faq } = HOSPITAL_SECTOR;
 
   return (
     <>
-      <section className="relative py-14 sm:py-20 lg:py-24">
+      <section className={`relative ${sectionY}`}>
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          <SectionLabel>{hero.label}</SectionLabel>
-          <h1 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-sky-400">
+            {hero.label}
+          </p>
+          <h1 className="mt-3 text-3xl font-bold leading-tight text-white sm:text-4xl">
             {hero.title}
           </h1>
-          <p className="mt-6 text-lg leading-relaxed text-slate-400">{hero.intro}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button href={`mailto:${CONTACT_EMAIL}`} variant="primary" showArrow external>
-              Demander une démo
-            </Button>
-            <Button href="/produit#planning" variant="secondary">
-              Voir le module Planning
-            </Button>
+          <p className="mt-4 text-lg leading-relaxed text-slate-400">{hero.intro}</p>
+          <div className="mt-6">
+            <ContactButton variant="primary" showArrow>
+              Échanger sur votre planning hospitalier
+            </ContactButton>
+          </div>
+          <div className="mt-10">
+            <GeoDefinition variant="hospital" />
           </div>
         </div>
       </section>
 
-      <section className="border-t border-white/10 py-10 sm:py-14">
-        <div className="mx-auto max-w-3xl space-y-12 px-4 sm:px-6 lg:px-8">
-          <GeoDefinition variant="hospital" />
-          <CompetitorComparisonTable id="comparatif-hopital" />
-          <PlanningComparisonTable id="comparatif-hopital-sirh" />
+      <section className={`${sectionY}`}>
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-white">{medicalPlanning.title}</h2>
+          <p className="mt-3 text-base leading-relaxed text-slate-400">{medicalPlanning.intro}</p>
+          <ul className="mt-8 space-y-6">
+            {medicalPlanning.items.map((item) => (
+              <li key={item.title}>
+                <h3 className="text-lg font-semibold text-white">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-400">{item.text}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      <section className="border-t border-white/10 py-14 sm:py-20">
+      <section className={`${sectionY}`}>
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-white sm:text-3xl">{challenges.title}</h2>
-          <p className="mt-4 text-base leading-relaxed text-slate-400">{challenges.intro}</p>
+          <h2 className="text-2xl font-bold text-white">{fph.title}</h2>
+          <p className="mt-4 text-base leading-relaxed text-slate-400">{fph.text}</p>
+        </div>
+      </section>
+
+      <section className={`${sectionY}`}>
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-white">{challenges.title}</h2>
+          <p className="mt-3 text-base leading-relaxed text-slate-400">{challenges.intro}</p>
           <ul className="mt-8 space-y-6">
             {challenges.items.map((item) => (
               <li key={item.title}>
@@ -61,79 +67,74 @@ export function HospitalSectorContent() {
         </div>
       </section>
 
-      <section className="border-t border-white/10 py-14 sm:py-20">
+      <section className={`${sectionY}`}>
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-white sm:text-3xl">{features.title}</h2>
-          <ul className="mt-8 space-y-3">
+          <h2 className="text-2xl font-bold text-white">{features.title}</h2>
+          <ul className="mt-6 space-y-3">
             {features.items.map((item) => (
-              <li key={item} className="flex items-start gap-3">
-                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 ring-1 ring-emerald-500/30">
-                  <Check className="h-3 w-3 text-emerald-400" aria-hidden />
-                </span>
-                <span className="text-sm leading-relaxed text-slate-300">{item}</span>
+              <li key={item} className="flex items-start gap-3 text-sm text-slate-300">
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" aria-hidden />
+                {item}
               </li>
             ))}
           </ul>
         </div>
       </section>
 
-      <section className="border-t border-white/10 py-14 sm:py-20">
+      <section className={`${sectionY}`}>
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-white sm:text-3xl">{useCases.title}</h2>
-          <div className="mt-8 grid gap-5 sm:grid-cols-2">
+          <h2 className="text-2xl font-bold text-white">{useCases.title}</h2>
+          <ul className="mt-8 grid gap-6 sm:grid-cols-2">
             {useCases.items.map((item) => (
-              <article
+              <li
                 key={item.title}
                 className="rounded-2xl border border-white/8 bg-[#0c1220]/60 p-5"
               >
-                <h3 className="text-base font-semibold text-white">{item.title}</h3>
+                <h3 className="font-semibold text-white">{item.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate-400">{item.text}</p>
-              </article>
+              </li>
             ))}
-          </div>
+          </ul>
+          <p className="mt-8 text-sm text-slate-500">
+            Guides associés :{" "}
+            <Link href="/ressources/planning-hospitalier" className="text-sky-400 hover:text-sky-300">
+              planning hospitalier
+            </Link>
+            {" · "}
+            <Link href="/ressources/planning-medical" className="text-sky-400 hover:text-sky-300">
+              planning médical
+            </Link>
+            {" · "}
+            <Link href="/ressources/planning-12h-hopital" className="text-sky-400 hover:text-sky-300">
+              planning en 12 heures
+            </Link>
+            {" · "}
+            <Link href="/ressources/gestion-astreintes" className="text-sky-400 hover:text-sky-300">
+              gestion des astreintes
+            </Link>
+            {" · "}
+            <Link href="/ressources/travail-nuit-planning-2x8" className="text-sky-400 hover:text-sky-300">
+              travail de nuit et 2×8
+            </Link>
+            {" · "}
+            <Link href="/produit" className="text-sky-400 hover:text-sky-300">
+              logiciel de gestion de planning
+            </Link>
+          </p>
         </div>
       </section>
 
-      <section className="border-t border-white/10 py-14 sm:py-20">
+      <section id="faq" className={`${sectionY}`}>
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-white sm:text-3xl">Questions fréquentes</h2>
-          <div className="mt-8 divide-y divide-white/10 border-y border-white/10">
-            {faq.map((item, index) => {
-              const isOpen = openFaq === index;
-              return (
-                <div key={item.question}>
-                  <button
-                    type="button"
-                    className="flex min-h-[52px] w-full items-center justify-between gap-4 py-4 text-left"
-                    aria-expanded={isOpen}
-                    onClick={() => setOpenFaq(isOpen ? null : index)}
-                  >
-                    <span className="text-base font-medium text-slate-200">{item.question}</span>
-                    <motion.span animate={{ rotate: isOpen ? 45 : 0 }}>
-                      <Plus className="h-4 w-4 text-slate-400" />
-                    </motion.span>
-                  </button>
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.p
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        className="overflow-hidden pb-5 text-sm leading-relaxed text-slate-400"
-                      >
-                        {item.answer}
-                      </motion.p>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            })}
-          </div>
-          <p className="mt-6 text-sm text-slate-500">
-            <Link href="/ressources/planning-excel-vs-logiciel" className="text-sky-400 hover:text-sky-300">
-              Lire aussi : Planning Excel vs logiciel
-            </Link>
-          </p>
+          <h2 className="text-2xl font-bold text-white">Questions fréquentes</h2>
+          <dl className="mt-8 space-y-6">
+            {faq.map((item) => (
+              <div key={item.question}>
+                <dt className="font-semibold text-white">{item.question}</dt>
+                <dd className="mt-2 text-sm leading-relaxed text-slate-400">{item.answer}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
     </>

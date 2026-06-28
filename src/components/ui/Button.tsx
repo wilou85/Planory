@@ -75,6 +75,12 @@ export function Button({
     );
   }
 
+  function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
+    if (!href.startsWith("#")) return;
+    e.preventDefault();
+    document.getElementById(href.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   return (
     <motion.div
       className={className.includes("w-full") ? "w-full sm:w-auto" : "inline-flex"}
@@ -82,7 +88,7 @@ export function Button({
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.15 }}
     >
-      <Link href={href} className={classes}>
+      <Link href={href} className={classes} onClick={handleClick}>
         {content}
       </Link>
     </motion.div>

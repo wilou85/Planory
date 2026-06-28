@@ -2,7 +2,6 @@ import { SiteShell } from "@/components/SiteShell";
 import { PageContent } from "@/components/PageContent";
 import { SectorsSection } from "@/components/SectorsSection";
 import { GeoDefinition } from "@/components/geo/GeoDefinition";
-import { ContactSection } from "@/components/ContactSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbJsonLd, createPageMetadata, webPageJsonLd } from "@/lib/seo";
 export const metadata = createPageMetadata({ path: "/secteurs" });
@@ -28,7 +27,6 @@ export default function SecteursPage() {
           </div>
         </section>
         <SectorsSection />
-        <ContactSection />
       </PageContent>
     </SiteShell>
   );

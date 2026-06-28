@@ -31,7 +31,7 @@ export function MobileTabBar() {
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#050a14]/95 backdrop-blur-xl lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-50 bg-[#050a14]/95 backdrop-blur-xl lg:hidden"
       aria-label="Navigation mobile"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
@@ -67,7 +67,7 @@ export function MobileTabBar() {
           <button
             type="button"
             onClick={openDrawer}
-            title="Ressources, Offre, FAQ…"
+            title="Articles, Offre, FAQ…"
             className="relative flex min-h-[56px] w-full flex-col items-center justify-center gap-0.5 px-1 py-2 text-[11px] font-medium"
             aria-controls="mobile-nav-drawer"
           >

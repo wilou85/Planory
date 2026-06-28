@@ -15,6 +15,7 @@ import {
   Languages,
   Layers,
   ListChecks,
+  Mail,
   MapPin,
   Plane,
   Rocket,
@@ -67,9 +68,9 @@ export const PAGE_ICONS: Record<string, LucideIcon> = {
   "/secteurs": MapPin,
   "/secteurs/hopital": Building2,
   "/ressources": BookOpen,
-  "/ressources/planning-excel-vs-logiciel": FileSpreadsheet,
   "/offre": BadgeCheck,
   "/faq": CircleHelp,
+  "/contact": Mail,
   "/en": Globe,
 };
 
@@ -93,7 +94,13 @@ export const TOP_NAV_ICONS: Record<string, LucideIcon> = {
 export const CONTACT_TOPIC_ICONS = [Building2, Target, Handshake, ListChecks] as const;
 
 export const RESOURCE_ARTICLE_ICONS: Record<string, LucideIcon> = {
-  "planning-excel-vs-logiciel": FileSpreadsheet,
+  "planning-social": Users,
+  "logiciel-planning-equipe": CalendarDays,
+  "planification-rh": Users,
+  "gestion-astreintes": ShieldCheck,
+  "planning-hospitalier": Building2,
+  "planning-12h-hopital": Building2,
+  "planning-excel-equipe": FileSpreadsheet,
 };
 
 export function getNavItemIcon(href: string): LucideIcon {

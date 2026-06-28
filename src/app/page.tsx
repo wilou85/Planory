@@ -2,6 +2,8 @@ import { SiteShell } from "@/components/SiteShell";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { DiscoverPlanory } from "@/components/seo/DiscoverPlanory";
 import { Hero } from "@/components/Hero";
+import { ValuePropositionSection } from "@/components/ValuePropositionSection";
+import { HomeLeadMagnetSection } from "@/components/HomeLeadMagnetSection";
 import { createPageMetadata, webPageJsonLd } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 
@@ -23,6 +25,8 @@ export default function Home() {
     <SiteShell currentPath="/">
       {webPage && <JsonLd data={webPage} />}
       <Hero />
+      <HomeLeadMagnetSection />
+      <ValuePropositionSection />
       <DiscoverPlanory />
     </SiteShell>
   );

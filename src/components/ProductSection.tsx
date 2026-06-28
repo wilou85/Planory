@@ -1,11 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { sectionStack, sectionY } from "@/components/ui/section";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { IconBox } from "@/components/ui/IconBox";
 import { ProductSidebar } from "@/components/ProductSidebar";
+import { ProductShowcase } from "@/components/ProductShowcase";
 import { PRODUCT_BENEFITS, PRODUCT_MODULES } from "@/lib/content";
 import { PRODUCT_MODULE_ICONS } from "@/lib/icons";
 
@@ -16,25 +18,37 @@ export function ProductSection() {
         <div className={`flex flex-col ${sectionStack} lg:flex-row`}>
           <ProductSidebar />
           <div className="min-w-0 flex-1">
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.5 }}
+        >
+          <SectionLabel>Produit</SectionLabel>
+          <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl">
+            Logiciel planning équipe,
+            <br />
+            planification RH &amp; planning social
+          </h2>
+          <p className="mt-6 max-w-3xl text-lg leading-relaxed text-slate-400">
+            Planory est un logiciel de gestion des plannings du
+            personnel en environnement 24/7. Que vous cherchiez un planning logiciel pour structurer
+            vos roulements ou un logiciel d&apos;optimisation de planning, SKYNET encode vos
+            contraintes métier et légales puis propose une solution conforme — vos planificateurs
+            gardent la main sur la validation et la publication.
+          </p>
+        </motion.div>
+
+        <ProductShowcase />
+
+        <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-12">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <SectionLabel>Produit</SectionLabel>
-            <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl">
-              Logiciel planning équipes —
-              <br />
-              une chaîne intégrée
-            </h2>
-            <p className="mt-6 text-lg leading-relaxed text-slate-400">
-              RH, planning et ressources forment un référentiel unique. SKYNET, le moteur
-              d&apos;optimisation IA, s&apos;appuie sur ce socle pour proposer des plannings
-              conformes à vos contraintes.
-            </p>
-            <ul className="mt-8 space-y-4">
+            <ul className="space-y-4">
               {PRODUCT_BENEFITS.map((benefit) => (
                 <li key={benefit} className="flex items-start gap-3">
                   <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 ring-1 ring-emerald-500/30">
@@ -44,6 +58,24 @@ export function ProductSection() {
                 </li>
               ))}
             </ul>
+            <p className="mt-8 text-sm text-slate-500">
+              Articles associés :{" "}
+              <Link href="/ressources/logiciel-planning-equipe" className="text-sky-400 hover:text-sky-300">
+                logiciel planning équipe
+              </Link>
+              {" · "}
+              <Link href="/ressources/planning-social" className="text-sky-400 hover:text-sky-300">
+                planning social
+              </Link>
+              {" · "}
+              <Link href="/ressources/travail-nuit-planning-2x8" className="text-sky-400 hover:text-sky-300">
+                travail de nuit et 2×8
+              </Link>
+              {" · "}
+              <Link href="/faq" className="text-sky-400 hover:text-sky-300">
+                FAQ Planory vs GTA
+              </Link>
+            </p>
           </motion.div>
 
           <motion.div

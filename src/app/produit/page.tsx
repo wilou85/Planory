@@ -6,12 +6,18 @@ import { breadcrumbJsonLd, createPageMetadata, webPageJsonLd } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   path: "/produit",
-  keywords: [
-    "logiciel planning équipe",
-    "planification RH",
-    "logiciel planification RH",
-    "planning IA",
-  ],
+    keywords: [
+      "planning social",
+      "logiciel planning équipe",
+      "planification RH",
+      "gestion planning",
+      "gestion des plannings",
+      "planning logiciel",
+      "logiciel de gestion de planning",
+      "logiciel optimisation planning",
+      "gestion planning personnel",
+      "planning IA",
+    ],
 });
 
 export default function ProduitPage() {

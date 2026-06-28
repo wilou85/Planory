@@ -1,13 +1,147 @@
 keyword,search_volume,cpc,competition,intent,rank,competitors,competitor_count,domain,url,planory_page,market
-planning leroy merlin,2900,0.38999998569488525,0.029999999329447746,navigational,9,Holy-Dis,1,holydis.com,/2024/05/30/timesquare-equipe-leroy-merlin/,/produit,France
-planning de formation,1900,2.8299999237060547,0.10000000149011612,informational,20,Lucca,1,lucca.fr,/magazine/talents/competences-carrieres/construire-plan-de-formation,/produit,France
-planning de formations,1900,2.8299999237060547,0.10000000149011612,informational,15,Lucca,1,lucca.fr,/magazine/talents/competences-carrieres/construire-plan-de-formation,/produit,France
-pointeuse horaire,1600,11.640000343322754,1,informational,7,Lucca,1,lucca.fr,/magazine/administration/suivi-temps/pointeuse-temps-travail,/,France
-planning social,1300,0,0,commercial,5,Holy-Dis,1,holydis.com,/2019/03/13/dossier-social-planning-de-quoi-parle-t-on-au-juste/,/produit,France
-quel sont les horaires,880,0,0,informational,21,Lucca,1,lucca.fr,/magazine/administration/suivi-temps/temps-de-travail,/,France
-times square planning,590,3.799999952316284,0.11999999731779099,informational,2,Holy-Dis,1,holydis.com,/nos-solutions/,/produit,France
-kelio planning,210,4.650000095367432,0.3100000023841858,informational,8,Holy-Dis,1,holydis.com,/marketplace/kelio/,/produit,France
-o2 planning,140,0.10999999940395355,0.07000000029802322,informational,8,Holy-Dis,1,holydis.com,/2021/06/03/wfm-le-service-client-optimise-plannings-journaliers/,/produit,France
-planning o2,140,0.10999999940395355,0.07000000029802322,informational,6,Holy-Dis,1,holydis.com,/2021/06/03/wfm-le-service-client-optimise-plannings-journaliers/,/produit,France
-wfm saas 2 times square fr,110,0,0.05000000074505806,navigational,4,Holy-Dis,1,holydis.com,/nos-solutions/,/,France
-planning of kfc,70,0,0,informational,6,Holy-Dis,1,holydis.com,/tag/kfc/,/produit,France
+pointeuse horaire,1600,11.640000343322754,1,informational,9,"Horoquartz, Kelio, Octime",3,horoquartz.com,/gestion-des-temps/pointeuse-horaire-solutions-horoquartz/,/produit,France
+les planning,9900,0.8999999761581421,0.019999999552965164,informational,10,"Asys, Kelio",2,asys.fr,/blog/gestion-plannings-definition,/produit,France
+badgeuse,2400,14.59000015258789,0.5,informational,30,"Kelio, Octime",2,kelio.com,/fr/espace-client.html,/produit,France
+amplitude horaire,1600,0.05999999865889549,0.009999999776482582,informational,9,"Horoquartz, Kelio",2,horoquartz.com,/ressources/amplitude-temps-travail/,/,France
+amplitude horaire max,720,0.25999999046325684,0.029999999329447746,informational,4,"Horoquartz, Kelio",2,horoquartz.com,/ressources/amplitude-temps-travail/,/,France
+logiciel gta,720,7.949999809265137,0.20999999344348907,transactional,5,"Horoquartz, Asys",2,horoquartz.com,/gestion-des-temps/,/produit,France
+logiciel gestion des temps,590,19.739999771118164,0.07999999821186066,commercial,12,"Asys, Octime",2,asys.fr,/blog/meilleurs-logiciels-suivi-temps-travail,/produit,France
+logiciel gestion du temps,590,19.739999771118164,0.07999999821186066,commercial,11,"Asys, Octime",2,asys.fr,/blog/meilleurs-logiciels-suivi-temps-travail,/produit,France
+gestion des temps et activité,480,26.280000686645508,0.05999999865889549,informational,11,"Horoquartz, Asys",2,horoquartz.com,/gestion-des-temps/,/,France
+gta rh,480,7.050000190734863,0.33000001311302185,informational,5,"Horoquartz, Octime",2,horoquartz.com,/gestion-des-temps/,/produit,France
+gestion planning,390,21.760000228881836,0.49000000953674316,informational,6,"Horoquartz, Asys",2,horoquartz.com,/gestion-de-planning/,/produit,France
+logiciel pointeuse,390,29.8799991607666,0.14000000059604645,transactional,18,"Horoquartz, Octime",2,horoquartz.com,/gestion-des-temps/pointeuse-horaire-solutions-horoquartz/,/produit,France
+pointeuse logiciel,390,29.8799991607666,0.14000000059604645,informational,11,"Horoquartz, Octime",2,horoquartz.com,/gestion-des-temps/pointeuse-horaire-solutions-horoquartz/,/produit,France
+les plannings,320,0,0,informational,8,"Asys, Octime",2,asys.fr,/blog/gestion-plannings-definition,/produit,France
+planning hopital,320,21.34000015258789,0.019999999552965164,informational,2,"Asys, Octime",2,asys.fr,/blog/gestion-temps-travail-hopital,/produit,France
+gestion des plannings,260,15.510000228881836,0.15000000596046448,informational,16,"Horoquartz, Asys",2,horoquartz.com,/gestion-de-planning/,/produit,France
+gestion planning personnel,210,42.349998474121094,0.09000000357627869,informational,8,"Horoquartz, Octime",2,horoquartz.com,/gestion-de-planning/,/produit,France
+planning gestion du personnel,210,42.349998474121094,0.09000000357627869,commercial,13,"Horoquartz, Octime",2,horoquartz.com,/gestion-de-planning/,/produit,France
+gestion des plannings du personnel,210,42.349998474121094,0.09000000357627869,commercial,15,"Asys, Octime",2,asys.fr,/blog/gestion-plannings-definition,/produit,France
+logiciels de gestion des temps,170,12.09000015258789,0.20000000298023224,commercial,22,"Horoquartz, Asys",2,horoquartz.com,/gestion-des-temps/logiciel-gestion-des-temps/,/produit,France
+outil gta,90,7.940000057220459,0.5899999737739563,transactional,5,"Horoquartz, Asys",2,horoquartz.com,/gestion-des-temps/,/produit,France
+badgeuse professionnel,70,13.680000305175781,0.9900000095367432,commercial,12,"Horoquartz, Asys",2,horoquartz.com,/gestion-des-temps/badgeuse/,/produit,France
+logiciel de gta,70,4.110000133514404,0.20999999344348907,transactional,8,"Horoquartz, Asys",2,horoquartz.com,/gestion-des-temps/,/produit,France
+outil de gestion de planning,70,13.949999809265137,0.6700000166893005,commercial,6,"Horoquartz, Asys",2,horoquartz.com,/gestion-de-planning/logiciel-gestion-planning/,/produit,France
+weldom horaire,5400,0.30000001192092896,0.09000000357627869,informational,19,Kelio,1,kelio.com,/fr/espace-client.html,/,France
+planning médical,3600,1.9100000858306885,0.009999999776482582,informational,7,Asys,1,asys.fr,/blog/gestion-planning-medical,/produit,France
+taux horaire,3600,0.10999999940395355,0.009999999776482582,informational,8,Kelio,1,kelio.com,/fr/ressources/blog/calculer-taux-horaire-dun-salarie-methode-cas-particuliers-exemples.html,/,France
+taux horaires,3600,0.10999999940395355,0.009999999776482582,informational,16,Kelio,1,kelio.com,/fr/ressources/glossaire/taux-horaire.html,/,France
+planning médical identification,2900,1.9200000762939453,0.019999999552965164,informational,7,Asys,1,asys.fr,/blog/gestion-planning-medical,/produit,France
+pointeuse,2900,15.729999542236328,0.949999988079071,informational,7,Octime,1,octime.com,/badgeuse-pointeuse/,/produit,France
+horaire travail de nuit,2400,0.30000001192092896,0.019999999552965164,informational,12,Kelio,1,kelio.com,/fr/ressources/blog/1480-travail-nuit-conditions-remuneration.html,/,France
+horaires de travail de nuit,2400,0.30000001192092896,0.019999999552965164,informational,14,Kelio,1,kelio.com,/fr/ressources/blog/1480-travail-nuit-conditions-remuneration.html,/,France
+travail horaire de nuit,2400,0.30000001192092896,0.019999999552965164,informational,13,Kelio,1,kelio.com,/fr/ressources/blog/1480-travail-nuit-conditions-remuneration.html,/,France
+calcul taux horaire,1900,0.5699999928474426,0.009999999776482582,informational,4,Kelio,1,kelio.com,/fr/ressources/blog/calculer-taux-horaire-dun-salarie-methode-cas-particuliers-exemples.html,/,France
+horaire de nuit,1900,0,0.009999999776482582,informational,12,Kelio,1,kelio.com,/fr/ressources/blog/1480-travail-nuit-conditions-remuneration.html,/,France
+amplitudes horaires,1600,0.05999999865889549,0.009999999776482582,informational,9,Horoquartz,1,horoquartz.com,/ressources/amplitude-temps-travail/,/,France
+horaire en 2x8,1600,0.2199999988079071,0.009999999776482582,informational,29,Octime,1,octime.com,/tout-savoir-sur-le-travail-poste-organisation-horaires-et-gestion-des-equipes/,/,France
+horaire de travail,1300,1.3799999952316284,0.019999999552965164,informational,17,Kelio,1,kelio.com,/fr/ressources/blog/1096-calcul-heures-travaillees-comment-proceder.html,/,France
+planning logiciel,1000,17.979999542236328,0.4399999976158142,commercial,11,Asys,1,asys.fr,/blog/logiciel-gestion-planning-entreprise,/produit,France
+astreinte code du travail,1000,0.18000000715255737,0.12999999523162842,informational,9,Kelio,1,kelio.com,/fr/ressources/blog/1494-astreintes-que-dit-legislation.html,/secteurs,France
+taux horaire brut,1000,0.019999999552965164,0.009999999776482582,informational,9,Kelio,1,kelio.com,/fr/ressources/blog/calculer-taux-horaire-dun-salarie-methode-cas-particuliers-exemples.html,/,France
+mon planning medical,880,0,0.029999999329447746,informational,7,Asys,1,asys.fr,/gestion-plannings/logiciel-planning-medical,/produit,France
+horaires de nuit,880,0.029999999329447746,0.009999999776482582,informational,17,Kelio,1,kelio.com,/fr/ressources/blog/1480-travail-nuit-conditions-remuneration.html,/,France
+amplitude horaire maximale,720,0.25999999046325684,0.029999999329447746,informational,3,Horoquartz,1,horoquartz.com,/ressources/amplitude-temps-travail/,/,France
+amplitude horaire maximum,720,0.25999999046325684,0.029999999329447746,informational,5,Horoquartz,1,horoquartz.com,/ressources/amplitude-temps-travail/,/,France
+réglementation planning fonction publique hospitalière,720,0,0,informational,5,Octime,1,octime.com,/gestion-temps-fonction-publique-hospitaliere/,/secteurs,France
+gestion de planning,590,13.609999656677246,0.20000000298023224,informational,14,Asys,1,asys.fr,/blog/logiciel-gestion-planning-entreprise,/produit,France
+pointeuse badgeuse,480,24.270000457763672,0.9599999785423279,transactional,10,Horoquartz,1,horoquartz.com,/gestion-des-temps/badgeuse/,/produit,France
+planning limoges,480,0,0,informational,29,Octime,1,octime.com,/,/produit,France
+astreintes travail,390,0.38999998569488525,0.029999999329447746,informational,17,Horoquartz,1,horoquartz.com,/ressources/astreintes/,/secteurs,France
+effiplan planning,390,0,0,commercial,2,Horoquartz,1,horoquartz.com,/societe/club-utilisateur/club-utilisateur-2-2/,/produit,France
+planning de garde,390,4.159999847412109,0.10999999940395355,informational,7,Asys,1,asys.fr,/blog/planning-medical-garde,/secteurs,France
+planning temporel,320,1.3300000429153442,0.009999999776482582,informational,24,Horoquartz,1,horoquartz.com,/gestion-de-planning/logiciel-gestion-planning/,/produit,France
+icl planning,320,0,0,informational,14,Asys,1,asys.fr,/clients/temoignage-icl-chronos,/produit,France
+feuille de pointage,320,4.670000076293945,0.38999998569488525,transactional,14,Octime,1,octime.com,/utilisation-des-feuilles-de-pointage-est-elle-toujours-pertinente-en-entreprise/,/,France
+feuille de temps,320,7.269999980926514,0.25,informational,9,Octime,1,octime.com,/les-feuilles-heures-definition-utilisation-modernisation/,/,France
+pointeuse entreprise,260,22.459999084472656,0.9900000095367432,informational,11,Horoquartz,1,horoquartz.com,/gestion-des-temps/pointeuse-horaire-solutions-horoquartz/,/produit,France
+application chronos planning,260,5.230000019073486,0.4399999976158142,commercial,2,Asys,1,asys.fr,/chronos,/produit,France
+logiciel de gestion des temps de travail,260,23.899999618530273,0.1599999964237213,commercial,17,Asys,1,asys.fr,/blog/meilleurs-logiciels-suivi-temps-travail,/produit,France
+aaq planning,260,5.130000114440918,0.1899999976158142,informational,2,Octime,1,octime.com,/wp-content/uploads/2022/09/Te%CC%81moignage-ADAPEI-77.pdf,/produit,France
+horaire de travail en france,260,11.6899995803833,0.009999999776482582,informational,12,Octime,1,octime.com,/travail-quotidien-combien-dheures-peut-on-legalement-travailler/,/,France
+horaire de travail france,260,11.6899995803833,0.009999999776482582,informational,26,Octime,1,octime.com,/travail-quotidien-combien-dheures-peut-on-legalement-travailler/,/,France
+horaires de travail en france,260,11.6899995803833,0.009999999776482582,informational,12,Octime,1,octime.com,/travail-quotidien-combien-dheures-peut-on-legalement-travailler/,/,France
+horaires de travail france,260,11.6899995803833,0.009999999776482582,informational,12,Octime,1,octime.com,/travail-quotidien-combien-dheures-peut-on-legalement-travailler/,/,France
+logiciel de pointage,260,32.369998931884766,0.4300000071525574,commercial,28,Octime,1,octime.com,/,/produit,France
+pointeuse en entreprise,260,22.459999084472656,0.9900000095367432,informational,10,Octime,1,octime.com,/pointeuse-au-travail-ce-que-dit-la-legislation-francaise-en-2025/,/produit,France
+amplitude horaire code du travail,210,0,0.029999999329447746,informational,13,Horoquartz,1,horoquartz.com,/ressources/amplitude-temps-travail/,/,France
+amplitude horaire de travail,210,0.17000000178813934,0.05999999865889549,informational,16,Horoquartz,1,horoquartz.com,/ressources/amplitude-temps-travail/,/,France
+amplitude horaire entre soir et matin,210,0.07000000029802322,0.009999999776482582,informational,14,Horoquartz,1,horoquartz.com,/ressources/amplitude-temps-travail/,/,France
+amplitude horaire travail,210,0.07999999821186066,0.05000000074505806,informational,16,Horoquartz,1,horoquartz.com,/ressources/amplitude-temps-travail/,/,France
+code du travail amplitude horaire,210,0,0.029999999329447746,informational,12,Horoquartz,1,horoquartz.com,/blog/amplitude-journaliere-de-travail-et-temps-de-repos-quotidien-quelles-sont-les-regles/,/,France
+gestion du personnel planning,210,42.349998474121094,0.09000000357627869,informational,3,Horoquartz,1,horoquartz.com,/gestion-de-planning/,/produit,France
+des planning,210,0,0.009999999776482582,informational,5,Asys,1,asys.fr,/blog/gestion-plannings-definition,/produit,France
+des plannings,210,0,0,informational,8,Asys,1,asys.fr,/blog/gestion-plannings-definition,/produit,France
+télécharger chronos planning,210,4.889999866485596,0.4099999964237213,transactional,1,Asys,1,asys.fr,/chronos,/produit,France
+code du travail horaires de nuit,210,0,0.019999999552965164,informational,29,Octime,1,octime.com,/la-reglementation-du-travail-de-nuit-ce-quil-faut-savoir-en-2025/,/,France
+planning exe,210,0,0.029999999329447746,informational,17,Octime,1,octime.com,/,/produit,France
+pointage du personnel code du travail,210,3.3499999046325684,0.3100000023841858,informational,4,Octime,1,octime.com,/pointage-du-personnel-et-code-du-travail-comment-etre-en-conformite/,/,France
+pointage travail,210,18.899999618530273,0.3100000023841858,informational,18,Octime,1,octime.com,/jurisprudence-sur-les-pointeuses-ce-que-les-entreprises-doivent-retenir/,/,France
+pointeuse au travail,210,11.960000038146973,0.7599999904632568,informational,10,Octime,1,octime.com,/pointeuse-au-travail-ce-que-dit-la-legislation-francaise-en-2025/,/produit,France
+amplitude horaire entre 2 jours de travail,170,0,0.029999999329447746,informational,14,Horoquartz,1,horoquartz.com,/ressources/amplitude-temps-travail/,/,France
+amplitude horaire legale,170,0,0.019999999552965164,informational,11,Horoquartz,1,horoquartz.com,/blog/amplitude-journaliere-de-travail-et-temps-de-repos-quotidien-quelles-sont-les-regles/,/,France
+amplitude horaire légale,170,0,0.019999999552965164,informational,11,Horoquartz,1,horoquartz.com,/ressources/amplitude-temps-travail/,/,France
+badgeuse pointeuse,170,9.300000190734863,0.9399999976158142,transactional,9,Horoquartz,1,horoquartz.com,/gestion-des-temps/badgeuse/,/produit,France
+horaire atypique,170,0,0,informational,8,Asys,1,asys.fr,/blog/horaires-atypiques-gestion,/,France
+horaires atypique,170,0,0,informational,9,Asys,1,asys.fr,/blog/horaires-atypiques-gestion,/,France
+logiciel de gestion des temps,170,12.09000015258789,0.20000000298023224,commercial,11,Asys,1,asys.fr,/blog/meilleurs-logiciels-suivi-temps-travail,/produit,France
+logiciel de gestion planning,170,35.959999084472656,0.18000000715255737,commercial,10,Asys,1,asys.fr,/blog/logiciel-gestion-planning-entreprise,/produit,France
+logiciel gestion des planning,170,14.75,0.41999998688697815,commercial,9,Asys,1,asys.fr,/blog/logiciel-gestion-planning-entreprise,/produit,France
+planification industrielle,170,6.309999942779541,0.14000000059604645,informational,19,Asys,1,asys.fr,/blog/gestion-planning-industriel,/secteurs,France
+badgeuse virtuelle,140,48.08000183105469,0.09000000357627869,navigational,5,Horoquartz,1,horoquartz.com,/gestion-des-temps/pointeuse-horaire-solutions-horoquartz/pointeuse-web/,/produit,France
+horaire ceva,140,0.4399999976158142,0.029999999329447746,informational,30,Horoquartz,1,horoquartz.com,/,/,France
+pointeuse temps de travail,140,7.190000057220459,0.27000001072883606,informational,14,Horoquartz,1,horoquartz.com,/blog/comment-choisir-une-pointeuse-horaire-professionnelle/,/produit,France
+systeme de pointage,140,30.020000457763672,0.6200000047683716,informational,20,Horoquartz,1,horoquartz.com,/gestion-des-temps/pointeuse-horaire-solutions-horoquartz/,/,France
+système de pointage,140,30.020000457763672,0.6200000047683716,informational,10,Horoquartz,1,horoquartz.com,/gestion-des-temps/pointeuse-horaire-solutions-horoquartz/,/,France
+horaires atypiques,140,0,0,informational,9,Asys,1,asys.fr,/blog/horaires-atypiques-gestion,/,France
+badge pointeuse,110,9.989999771118164,0.5600000023841858,informational,3,Horoquartz,1,horoquartz.com,/gestion-des-temps/badgeuse/,/produit,France
+costco cloud horoquartz,110,0,0,commercial,1,Horoquartz,1,horoquartz.com,/espace-client-horoquartz-2/,/,France
+gta paie,110,11.039999961853027,0.41999998688697815,informational,2,Horoquartz,1,horoquartz.com,/gestion-des-temps/,/produit,France
+https costco cloud horoquartz fr,110,0,0.009999999776482582,informational,2,Horoquartz,1,horoquartz.com,/espace-client-horoquartz-2/,/,France
+planning rh,110,8.579999923706055,0.5,informational,7,Horoquartz,1,horoquartz.com,/gestion-de-planning/,/produit,France
+pointeuse badge,110,9.989999771118164,0.5600000023841858,transactional,8,Horoquartz,1,horoquartz.com,/gestion-des-temps/badgeuse/,/produit,France
+telecharger horoquartz,110,4.300000190734863,0.49000000953674316,transactional,1,Horoquartz,1,horoquartz.com,/espace-client-horoquartz-2/,/,France
+télécharger horoquartz,110,4.300000190734863,0.49000000953674316,transactional,2,Horoquartz,1,horoquartz.com,/,/,France
+contraintes horaires,110,0,0,informational,8,Asys,1,asys.fr,/blog/horaires-atypiques-gestion,/,France
+logiciel optimisation planning,110,0,0,commercial,6,Asys,1,asys.fr,/blog/logiciel-gestion-planning-entreprise,/produit,France
+logiciel planning entreprise,110,20.31999969482422,0.4099999964237213,commercial,13,Asys,1,asys.fr,/blog/logiciel-gestion-planning-entreprise,/produit,France
+planning garde,110,0,0.029999999329447746,informational,6,Asys,1,asys.fr,/blog/planning-medical-garde,/secteurs,France
+planning medical.fr,110,0,0.009999999776482582,navigational,6,Asys,1,asys.fr,/blog/gestion-planning-medical,/produit,France
+effiplan horoquartz,90,1.6399999856948853,0.20999999344348907,transactional,1,Horoquartz,1,horoquartz.com,/,/,France
+gta entreprise,90,0,0.09000000357627869,informational,2,Horoquartz,1,horoquartz.com,/gestion-des-temps/,/produit,France
+logiciel gestion des temps et activités,90,0,0.029999999329447746,commercial,14,Horoquartz,1,horoquartz.com,/gestion-des-temps/,/produit,France
+logiciel horoquartz,90,9.949999809265137,0.3799999952316284,transactional,1,Horoquartz,1,horoquartz.com,/gestion-des-temps/logiciel-gestion-des-temps/,/produit,France
+logo horoquartz,90,0,0,informational,1,Horoquartz,1,horoquartz.com,/,/,France
+outils gta,90,7.940000057220459,0.5899999737739563,informational,5,Horoquartz,1,horoquartz.com,/gestion-des-temps/,/produit,France
+pointeuse virtuelle,90,58.90999984741211,0.10999999940395355,informational,19,Horoquartz,1,horoquartz.com,/gestion-des-temps/badgeuse/,/produit,France
+ux horoquartz,90,4.699999809265137,0.1599999964237213,navigational,1,Horoquartz,1,horoquartz.com,/,/,France
+travail par roulement,90,0,0,informational,8,Asys,1,asys.fr,/blog/gestion-roulements-equipes,/,France
+travailler en roulement,90,0,0,informational,4,Asys,1,asys.fr,/blog/gestion-roulements-equipes,/,France
+amplitude horaire : définition,70,0,0.009999999776482582,informational,6,Horoquartz,1,horoquartz.com,/ressources/amplitude-temps-travail/,/,France
+amplitude horaire def,70,0,0.009999999776482582,informational,5,Horoquartz,1,horoquartz.com,/ressources/amplitude-temps-travail/,/,France
+amplitude horaire définition,70,0,0.009999999776482582,informational,6,Horoquartz,1,horoquartz.com,/ressources/amplitude-temps-travail/,/,France
+amplitude horaire maximum par jour,70,0.3199999928474426,0.03999999910593033,informational,7,Horoquartz,1,horoquartz.com,/ressources/amplitude-temps-travail/,/,France
+gestion de la planification,70,0,0.009999999776482582,informational,8,Horoquartz,1,horoquartz.com,/gestion-de-planning/,/ressources,France
+outil de gestion planning,70,13.949999809265137,0.6700000166893005,commercial,7,Horoquartz,1,horoquartz.com,/gestion-de-planning/logiciel-gestion-planning/,/produit,France
+outil gestion de planning,70,13.949999809265137,0.6700000166893005,commercial,8,Horoquartz,1,horoquartz.com,/gestion-de-planning/logiciel-gestion-planning/,/produit,France
+planification du personnel,70,23.389999389648438,0.36000001430511475,informational,11,Horoquartz,1,horoquartz.com,/gestion-de-planning/logiciel-gestion-planning/planification-du-personnel/,/ressources,France
+planning collaboratif,70,14.029999732971191,0.44999998807907104,informational,15,Horoquartz,1,horoquartz.com,/blog/le-planning-collaboratif-reve-ou-realite/,/produit,France
+pointeuse en ligne,70,23.170000076293945,0.5299999713897705,informational,25,Horoquartz,1,horoquartz.com,/gestion-des-temps/pointeuse-horaire-solutions-horoquartz/pointeuse-web/,/produit,France
+pointeuse sur ordinateur,70,13.539999961853027,0.3499999940395355,informational,10,Horoquartz,1,horoquartz.com,/gestion-des-temps/pointeuse-horaire-solutions-horoquartz/,/produit,France
+e planning hopital,70,0,0.05000000074505806,navigational,8,Asys,1,asys.fr,/blog/gestion-temps-travail-hopital,/produit,France
+e planning hôpital,70,0,0.05000000074505806,informational,19,Asys,1,asys.fr,/gestion-plannings/logiciel-planning-medical,/secteurs,France
+e-planning hopital,70,0,0.05000000074505806,navigational,10,Asys,1,asys.fr,/blog/gestion-temps-travail-hopital,/produit,France
+e-planning hôpital,70,0,0.05000000074505806,navigational,8,Asys,1,asys.fr,/blog/gestion-temps-travail-hopital,/secteurs,France
+logiciel de gestion de planning,70,46.939998626708984,0.5,commercial,12,Asys,1,asys.fr,/blog/logiciel-gestion-planning-entreprise,/produit,France
+logiciel de gestion des planning,70,46.939998626708984,0.5,commercial,8,Asys,1,asys.fr,/blog/logiciel-gestion-planning-entreprise,/produit,France
+planning medical application,70,3.2699999809265137,0.05000000074505806,informational,20,Asys,1,asys.fr,/gestion-plannings/logiciel-planning-medical,/produit,France
+revalorisation astreinte praticien hospitalier 2025,70,0,0,commercial,13,Asys,1,asys.fr,/blog/forfaitisation-astreintes-hospitalieres-reforme-2025,/secteurs,France
+badgeuse horaire,50,6.170000076293945,0.800000011920929,informational,7,Horoquartz,1,horoquartz.com,/gestion-des-temps/badgeuse/,/produit,France
+badgeuse temps de travail,50,5.559999942779541,0.8799999952316284,informational,2,Horoquartz,1,horoquartz.com,/gestion-des-temps/badgeuse/,/produit,France
+gestion des temps d'activité,50,0,0.03999999910593033,informational,15,Horoquartz,1,horoquartz.com,/blog/gestion-des-temps-outil-de-management/,/,France
+systeme de pointeuse,50,71.4800033569336,1,informational,6,Horoquartz,1,horoquartz.com,/gestion-des-temps/pointeuse-horaire-solutions-horoquartz/,/produit,France
+système de badgeuse,50,28.979999542236328,0.9200000166893005,transactional,5,Horoquartz,1,horoquartz.com,/gestion-des-temps/badgeuse/,/produit,France
+webex horoquartz,50,0,0,informational,2,Horoquartz,1,horoquartz.com,/espace-client-horoquartz-2/,/,France
+solution planning,30,19.639999389648438,0.6499999761581421,informational,4,Asys,1,asys.fr,/blog/logiciel-gestion-planning-entreprise,/produit,France
+travail de nuit horaire,20,0,0,informational,15,Kelio,1,kelio.com,/fr/ressources/blog/1480-travail-nuit-conditions-remuneration.html,/,United States

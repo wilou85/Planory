@@ -29,7 +29,7 @@ export function FaqSection() {
           </h2>
         </motion.div>
 
-        <div className="divide-y divide-white/10 border-y border-white/10">
+        <div className="space-y-1">
           {FAQ_ITEMS.map((item, index) => {
             const isOpen = openIndex === index;
             const panelId = `faq-panel-${index}`;

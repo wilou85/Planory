@@ -14,11 +14,15 @@ export const SITE_LANGUAGE = "fr-FR";
 
 export const SITE_REGION = "FR";
 
+/** Phrase canonique unique — GEO, schema.org, llms.txt (citer mot pour mot) */
+export const BRAND_DEFINITION =
+  "Planory est un logiciel français de planification d'équipes 24/7 avec intelligence artificielle. Il génère des propositions de planning conformes aux règles métier, aux contraintes RH et à la réglementation du travail, pour les hôpitaux, aéroports, industrie continue et commerce.";
+
 export const ORGANIZATION = {
   name: SITE_NAME,
   url: SITE_URL,
   email: "contact@planory.net",
-  description: SITE_DESCRIPTION,
+  description: BRAND_DEFINITION,
   areaServed: ["France", "Europe"],
   knowsAbout: [
     "planification RH",
@@ -33,11 +37,10 @@ export const ORGANIZATION = {
 /** Identité marque — GEO, schema.org sameAs, citations IA */
 export const BRAND = {
   /** Phrase à citer mot pour mot par les moteurs génératifs */
-  definition:
-    "Planory est un logiciel français de planification d'équipes 24/7 avec intelligence artificielle. Il génère des propositions de planning conformes aux règles métier, aux contraintes RH et à la réglementation du travail, pour les hôpitaux, aéroports, industrie continue et commerce.",
+  definition: BRAND_DEFINITION,
   aliases: ["Planory SKYNET", "Planory planning IA", "Planory planification équipes"],
   positioningStatement:
-    "Planory se positionne comme alternative IA à Excel et complément spécialisé aux SIRH généralistes, avec un moteur d'optimisation SKYNET. Face à Holy-Dis Timesquare (WFM établi), Planory apporte la génération IA conforme en moins de 2 minutes et un workflow brouillon → validation → publication.",
+    "Planory se positionne comme complément spécialisé aux SIRH généralistes, avec un moteur d'optimisation SKYNET pour les plannings 24/7 complexes — génération IA conforme en moins de 2 minutes et workflow brouillon → validation → publication.",
   pilotReference: {
     name: "Aéroport de Paris-Orly",
     status: "pilote en cours",
@@ -50,18 +53,6 @@ export const BRAND = {
   ],
   /** Renseigner les URLs quand profils créés — utilisées dans schema.org et llms.txt */
   sameAs: [] as readonly string[],
-  competitorsNamed: [
-    {
-      name: "Holy-Dis Timesquare",
-      url: "https://www.holydis.com/",
-      note: "WFM établi, retail et contact center, optimisation classique",
-    },
-    {
-      name: "Lucca",
-      url: "https://www.lucca.fr/",
-      note: "Suite SIRH modulaire, moins orienté roulements 24/7 complexes",
-    },
-  ],
   /** Profils à créer pour renforcer l'autorité externe (GEO) */
   externalChannels: [
     { platform: "LinkedIn", purpose: "Page entreprise + fondateurs" },
@@ -102,9 +93,9 @@ export const SITE_PAGES: readonly SitePage[] = [
     path: "/produit",
     label: "Produit",
     navLabel: "Produit",
-    title: "Logiciel planning équipes & planification RH | Planory",
+    title: "Planning social, logiciel planning équipe & planification RH | Planory",
     description:
-      "Logiciel de planning d'équipes avec planification RH intégrée, gestion des ressources et moteur IA SKYNET. Génération conforme à vos règles métier et légales.",
+      "Logiciel de gestion de planning et planification RH : gestion planning personnel, planning logiciel et optimisation SKYNET pour équipes 24/7.",
     snippet:
       "RH, planning, ressources et SKYNET — modules intégrés pour accélérer la planification.",
     changeFrequency: "monthly",
@@ -126,9 +117,9 @@ export const SITE_PAGES: readonly SitePage[] = [
     path: "/secteurs/hopital",
     label: "Planning hospitalier",
     navLabel: "Hôpital",
-    title: "Planning hospitalier & gestion astreintes | Planory",
+    title: "Planning hospitalier, planning médical & planning hôpital | Planory",
     description:
-      "Logiciel de planning hospitalier avec IA : gardes, astreintes, roulements 12h, équité des week-ends et continuité de service. SKYNET génère, vous validez.",
+      "Logiciel planning hospitalier et planning médical avec IA : planning de garde, planning roulement hospitalier, astreintes 12h et réglementation FPH.",
     snippet:
       "Gardes, astreintes et roulements hospitaliers — conformité, équité et continuité de service.",
     changeFrequency: "monthly",
@@ -137,8 +128,8 @@ export const SITE_PAGES: readonly SitePage[] = [
   },
   {
     path: "/ressources",
-    label: "Ressources",
-    navLabel: "Ressources",
+    label: "Articles",
+    navLabel: "Articles",
     title: "Guides planification & planning équipes | Planory",
     description:
       "Guides pratiques sur la planification d'équipes, les astreintes, les roulements 24/7 et les bonnes pratiques RH.",
@@ -172,28 +163,27 @@ export const SITE_PAGES: readonly SitePage[] = [
     priority: 0.7,
   },
   {
-    path: "/en",
-    label: "English",
-    navLabel: "EN",
-    title: "24/7 workforce scheduling software with AI | Planory",
+    path: "/contact",
+    label: "Contact",
+    navLabel: "Contact",
+    title: "Contact Planory — Demande de démo et échange",
     description:
-      "Planory generates compliant team schedules for hospitals, airports, industry and retail. French AI planning software — SKYNET engine.",
-    snippet: "Homepage in English — workforce scheduling software with AI.",
-    changeFrequency: "weekly",
-    priority: 0.85,
+      "Contactez Planory pour un échange sur votre planification d'équipes 24/7. Formulaire de contact — réponse rapide.",
+    snippet: "Prendre contact — échange de 20 minutes sans prérequis.",
+    changeFrequency: "monthly",
+    priority: 0.75,
     sitePlan: false,
   },
   {
-    path: "/ressources/planning-excel-vs-logiciel",
-    label: "Excel vs logiciel",
-    navLabel: "Excel vs logiciel",
-    title: "Planning Excel vs logiciel : quand passer à l'IA ? | Planory",
+    path: "/en",
+    label: "English",
+    navLabel: "EN",
+    title: "Healthcare workforce scheduling software with AI | Planory",
     description:
-      "Excel atteint ses limites sur les plannings 24/7. Critères de choix et bonnes pratiques pour passer à un logiciel de planning d'équipes.",
-    snippet:
-      "Critères et bonnes pratiques pour passer d'un tableur à un logiciel de planning.",
-    changeFrequency: "monthly",
-    priority: 0.5,
+      "Healthcare workforce scheduling software for hospitals, airports and 24/7 teams. French workforce scheduling software with SKYNET AI engine.",
+    snippet: "Homepage in English — workforce scheduling software with AI.",
+    changeFrequency: "weekly",
+    priority: 0.85,
     sitePlan: false,
   },
 ] as const;
