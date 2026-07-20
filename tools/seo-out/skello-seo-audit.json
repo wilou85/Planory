@@ -1,0 +1,1240 @@
+{
+  "generated_at": "2026-07-20T11:34:34.818Z",
+  "source": "DataForSEO Labs",
+  "domain": "skello.io",
+  "url": "https://www.skello.io/",
+  "market": "France",
+  "total_cost_usd_approx": 0.1254,
+  "overview": {
+    "pos_1": 311,
+    "pos_2_3": 489,
+    "pos_4_10": 1233,
+    "pos_11_20": 506,
+    "pos_21_30": 140,
+    "etv": 99142.79086745717,
+    "count": 2939
+  },
+  "ranked_sample_size": 500,
+  "ranked_total_count": 2822,
+  "branded_count": 7,
+  "non_branded_count": 493,
+  "intent_counts": {
+    "informational": 364,
+    "navigational": 34,
+    "transactional": 34,
+    "commercial": 68
+  },
+  "url_type_mix_top150": {
+    "content": 140,
+    "homepage": 7,
+    "other": 3
+  },
+  "top_landing_pages": [
+    {
+      "url": "/blog/logiciels-planning-gratuits",
+      "keywords": 16,
+      "totalVolume": 176740,
+      "bestRank": 1
+    },
+    {
+      "url": "/",
+      "keywords": 13,
+      "totalVolume": 125640,
+      "bestRank": 1
+    },
+    {
+      "url": "/lu/ressources/calcul-heure-de-travail-calculette-en-ligne",
+      "keywords": 7,
+      "totalVolume": 52370,
+      "bestRank": 10
+    },
+    {
+      "url": "/blog/guide-planning-medical",
+      "keywords": 5,
+      "totalVolume": 48600,
+      "bestRank": 2
+    },
+    {
+      "url": "/blog/simulateur-calcul-heures-supplementaires",
+      "keywords": 12,
+      "totalVolume": 43400,
+      "bestRank": 6
+    },
+    {
+      "url": "/blog/comment-calculer-les-heures-de-travail-par-mois",
+      "keywords": 43,
+      "totalVolume": 37100,
+      "bestRank": 1
+    },
+    {
+      "url": "/blog/convention-collective-boulangerie-artisanale-idcc-0843",
+      "keywords": 9,
+      "totalVolume": 23540,
+      "bestRank": 3
+    },
+    {
+      "url": "/blog/les-horaires-4x8-tout-ce-quil-faut-savoir",
+      "keywords": 3,
+      "totalVolume": 20190,
+      "bestRank": 1
+    },
+    {
+      "url": "/blog/arret-maladie-pendant-le-preavis-de-demission-que-dit-la-loi",
+      "keywords": 16,
+      "totalVolume": 16960,
+      "bestRank": 4
+    },
+    {
+      "url": "/blog/planning-annuel-excel",
+      "keywords": 16,
+      "totalVolume": 16900,
+      "bestRank": 2
+    },
+    {
+      "url": "/blog/generateur-planning-automatique",
+      "keywords": 3,
+      "totalVolume": 13060,
+      "bestRank": 4
+    },
+    {
+      "url": "/blog/calcul-salaire-temps-partiel",
+      "keywords": 22,
+      "totalVolume": 12760,
+      "bestRank": 2
+    },
+    {
+      "url": "/blog/tout-savoir-sur-la-remuneration-des-jours-feries",
+      "keywords": 13,
+      "totalVolume": 12260,
+      "bestRank": 5
+    },
+    {
+      "url": "/blog/temps-de-pause-pour-7h-de-travail-que-dit-la-loi",
+      "keywords": 12,
+      "totalVolume": 11680,
+      "bestRank": 2
+    },
+    {
+      "url": "/blog/quels-sont-les-delais-pour-une-rupture-conventionnelle",
+      "keywords": 6,
+      "totalVolume": 11060,
+      "bestRank": 5
+    }
+  ],
+  "top_by_volume": [
+    {
+      "keyword": "planning",
+      "search_volume": 165000,
+      "cpc": 3.549999952316284,
+      "competition": 0.05999999865889549,
+      "intent": "informational",
+      "rank": 7,
+      "url": "/blog/logiciels-planning-gratuits",
+      "etv": 4224
+    },
+    {
+      "keyword": "skello",
+      "search_volume": 110000,
+      "cpc": 0.4699999988079071,
+      "competition": 0.33000001311302185,
+      "intent": "informational",
+      "rank": 1,
+      "url": "/",
+      "etv": 33440
+    },
+    {
+      "keyword": "planning medical",
+      "search_volume": 40500,
+      "cpc": 1.7400000095367432,
+      "competition": 0.009999999776482582,
+      "intent": "informational",
+      "rank": 5,
+      "url": "/blog/guide-planning-medical",
+      "etv": 1899.449951171875
+    },
+    {
+      "keyword": "calcul heure de travail",
+      "search_volume": 22200,
+      "cpc": 0.6399999856948853,
+      "competition": 0.10000000149011612,
+      "intent": "informational",
+      "rank": 19,
+      "url": "/lu/ressources/calcul-heure-de-travail-calculette-en-ligne",
+      "etv": 59.939998626708984
+    },
+    {
+      "keyword": "calculer heure de travail",
+      "search_volume": 22200,
+      "cpc": 0.6399999856948853,
+      "competition": 0.10000000149011612,
+      "intent": "informational",
+      "rank": 10,
+      "url": "/lu/ressources/calcul-heure-de-travail-calculette-en-ligne",
+      "etv": 250.86000061035156
+    },
+    {
+      "keyword": "planificateur",
+      "search_volume": 12100,
+      "cpc": 3.109999895095825,
+      "competition": 0.20000000298023224,
+      "intent": "informational",
+      "rank": 13,
+      "url": "/blog/generateur-planning-automatique",
+      "etv": 71.38999938964844
+    },
+    {
+      "keyword": "4'8",
+      "search_volume": 9900,
+      "cpc": 0.36000001430511475,
+      "competition": 0.009999999776482582,
+      "intent": "informational",
+      "rank": 1,
+      "url": "/blog/les-horaires-4x8-tout-ce-quil-faut-savoir",
+      "etv": 3009.60009765625
+    },
+    {
+      "keyword": "4/8",
+      "search_volume": 9900,
+      "cpc": 0.36000001430511475,
+      "competition": 0.009999999776482582,
+      "intent": "informational",
+      "rank": 1,
+      "url": "/blog/les-horaires-4x8-tout-ce-quil-faut-savoir",
+      "etv": 3009.60009765625
+    },
+    {
+      "keyword": "boulangerie artisanale",
+      "search_volume": 9900,
+      "cpc": 0.1899999976158142,
+      "competition": 0.009999999776482582,
+      "intent": "navigational",
+      "rank": 12,
+      "url": "/blog/convention-collective-boulangerie-artisanale-idcc-0843",
+      "etv": 74.25
+    },
+    {
+      "keyword": "extras",
+      "search_volume": 9900,
+      "cpc": 0.36000001430511475,
+      "competition": 0.019999999552965164,
+      "intent": "informational",
+      "rank": 15,
+      "url": "/blog/les-regles-des-contrats-extras",
+      "etv": 50.4900016784668
+    },
+    {
+      "keyword": "boulangerie patisserie artisanale",
+      "search_volume": 6600,
+      "cpc": 0.5400000214576721,
+      "competition": 0.009999999776482582,
+      "intent": "navigational",
+      "rank": 4,
+      "url": "/blog/convention-collective-boulangerie-artisanale-idcc-0843",
+      "etv": 434.94000244140625
+    },
+    {
+      "keyword": "boulangerie pâtisserie artisanale",
+      "search_volume": 6600,
+      "cpc": 0.5400000214576721,
+      "competition": 0.009999999776482582,
+      "intent": "navigational",
+      "rank": 21,
+      "url": "/blog/convention-collective-boulangerie-artisanale-idcc-0843",
+      "etv": 15.180000305175781
+    },
+    {
+      "keyword": "calcul heure sup",
+      "search_volume": 6600,
+      "cpc": 0.7099999785423279,
+      "competition": 0.029999999329447746,
+      "intent": "informational",
+      "rank": 13,
+      "url": "/blog/simulateur-calcul-heures-supplementaires",
+      "etv": 38.939998626708984
+    },
+    {
+      "keyword": "calcul heure supp",
+      "search_volume": 6600,
+      "cpc": 0.7099999785423279,
+      "competition": 0.029999999329447746,
+      "intent": "informational",
+      "rank": 14,
+      "url": "/blog/simulateur-calcul-heures-supplementaires",
+      "etv": 36.959999084472656
+    },
+    {
+      "keyword": "calcul heure supplémentaire",
+      "search_volume": 6600,
+      "cpc": 0.7099999785423279,
+      "competition": 0.029999999329447746,
+      "intent": "informational",
+      "rank": 6,
+      "url": "/blog/simulateur-calcul-heures-supplementaires",
+      "etv": 223.0800018310547
+    },
+    {
+      "keyword": "calcul heures supplémentaires",
+      "search_volume": 6600,
+      "cpc": 0.7099999785423279,
+      "competition": 0.029999999329447746,
+      "intent": "informational",
+      "rank": 17,
+      "url": "/blog/simulateur-calcul-heures-supplementaires",
+      "etv": 28.3799991607666
+    },
+    {
+      "keyword": "calculer heure sup",
+      "search_volume": 6600,
+      "cpc": 0.7099999785423279,
+      "competition": 0.029999999329447746,
+      "intent": "informational",
+      "rank": 9,
+      "url": "/blog/simulateur-calcul-heures-supplementaires",
+      "etv": 99
+    },
+    {
+      "keyword": "calculer heures supplementaires",
+      "search_volume": 6600,
+      "cpc": 0.7099999785423279,
+      "competition": 0.029999999329447746,
+      "intent": "informational",
+      "rank": 15,
+      "url": "/blog/simulateur-calcul-heures-supplementaires",
+      "etv": 33.65999984741211
+    },
+    {
+      "keyword": "délai rupture conventionnelle",
+      "search_volume": 6600,
+      "cpc": 0.10999999940395355,
+      "competition": 0.17000000178813934,
+      "intent": "informational",
+      "rank": 5,
+      "url": "/blog/quels-sont-les-delais-pour-une-rupture-conventionnelle",
+      "etv": 309.5400085449219
+    },
+    {
+      "keyword": "convention collective commerce de gros",
+      "search_volume": 5400,
+      "cpc": 1.7400000095367432,
+      "competition": 0.17000000178813934,
+      "intent": "informational",
+      "rank": 7,
+      "url": "/blog/le-guide-pratique-la-convention-collective-pour-le-commerce-de-gros",
+      "etv": 138.24000549316406
+    },
+    {
+      "keyword": "graneet",
+      "search_volume": 5400,
+      "cpc": 0.1899999976158142,
+      "competition": 0.3100000023841858,
+      "intent": "informational",
+      "rank": 5,
+      "url": "/blog/avis-graneet-alternatives",
+      "etv": 253.25999450683594
+    },
+    {
+      "keyword": "convention 66",
+      "search_volume": 4400,
+      "cpc": 0.8399999737739563,
+      "competition": 0.029999999329447746,
+      "intent": "informational",
+      "rank": 6,
+      "url": "/blog/la-convention-collective-66",
+      "etv": 148.72000122070312
+    },
+    {
+      "keyword": "calculateur d'heure de travail",
+      "search_volume": 3600,
+      "cpc": 0.9399999976158142,
+      "competition": 0.1899999976158142,
+      "intent": "informational",
+      "rank": 5,
+      "url": "/blog/calcul-heure-de-travail-calculatrice-en-ligne-gratuit",
+      "etv": 168.83999633789062
+    },
+    {
+      "keyword": "calendrier 2026 à imprimer gratuit en pdf et excel",
+      "search_volume": 3600,
+      "cpc": 0.1599999964237213,
+      "competition": 0,
+      "intent": "informational",
+      "rank": 11,
+      "url": "/blog/planning-annuel-excel",
+      "etv": 32.7599983215332
+    },
+    {
+      "keyword": "calendrier excel 2026",
+      "search_volume": 3600,
+      "cpc": 0.25,
+      "competition": 0.009999999776482582,
+      "intent": "informational",
+      "rank": 7,
+      "url": "/blog/planning-annuel-excel",
+      "etv": 92.16000366210938
+    },
+    {
+      "keyword": "planning médical",
+      "search_volume": 3600,
+      "cpc": 1.9100000858306885,
+      "competition": 0.009999999776482582,
+      "intent": "informational",
+      "rank": 6,
+      "url": "/blog/guide-planning-medical",
+      "etv": 121.68000030517578
+    },
+    {
+      "keyword": "skello connexion",
+      "search_volume": 3600,
+      "cpc": 0.1599999964237213,
+      "competition": 0.28999999165534973,
+      "intent": "navigational",
+      "rank": 1,
+      "url": "/",
+      "etv": 1094.4000244140625
+    },
+    {
+      "keyword": "annualisation du temps de travail",
+      "search_volume": 2900,
+      "cpc": 0.5400000214576721,
+      "competition": 0.18000000715255737,
+      "intent": "informational",
+      "rank": 22,
+      "url": "/fr/articles/8498916-qu-est-ce-que-l-annualisation-du-temps-de-travail",
+      "etv": 6.380000114440918
+    },
+    {
+      "keyword": "calcul heure travail",
+      "search_volume": 2900,
+      "cpc": 0.7699999809265137,
+      "competition": 0.17000000178813934,
+      "intent": "informational",
+      "rank": 12,
+      "url": "/lu/ressources/calcul-heure-de-travail-calculette-en-ligne",
+      "etv": 21.75
+    },
+    {
+      "keyword": "masse salarial",
+      "search_volume": 2900,
+      "cpc": 1.1299999952316284,
+      "competition": 0.05000000074505806,
+      "intent": "informational",
+      "rank": 16,
+      "url": "/ressources/calculer-masse-salariale",
+      "etv": 12.470000267028809
+    }
+  ],
+  "planory_relevant_opportunities": [
+    {
+      "keyword": "planning",
+      "search_volume": 165000,
+      "cpc": 3.549999952316284,
+      "competition": 0.05999999865889549,
+      "intent": "informational",
+      "rank": 7,
+      "url": "/blog/logiciels-planning-gratuits",
+      "etv": 4224,
+      "page_hint": "/produit",
+      "score": 6.912126222711311
+    },
+    {
+      "keyword": "planning medical",
+      "search_volume": 40500,
+      "cpc": 1.7400000095367432,
+      "competition": 0.009999999776482582,
+      "intent": "informational",
+      "rank": 5,
+      "url": "/blog/guide-planning-medical",
+      "etv": 1899.449951171875,
+      "page_hint": "/produit",
+      "score": 6.315914046116454
+    },
+    {
+      "keyword": "annualisation du temps de travail",
+      "search_volume": 2900,
+      "cpc": 0.5400000214576721,
+      "competition": 0.18000000715255737,
+      "intent": "informational",
+      "rank": 22,
+      "url": "/fr/articles/8498916-qu-est-ce-que-l-annualisation-du-temps-de-travail",
+      "etv": 6.380000114440918,
+      "page_hint": "/",
+      "score": 6.307376908609755
+    },
+    {
+      "keyword": "logiciel rh",
+      "search_volume": 1900,
+      "cpc": 26.540000915527344,
+      "competition": 0.27000001072883606,
+      "intent": "commercial",
+      "rank": 13,
+      "url": "/",
+      "etv": 11.210000038146973,
+      "page_hint": "/produit",
+      "score": 5.56574419661947
+    },
+    {
+      "keyword": "planning a imprimer",
+      "search_volume": 590,
+      "cpc": 1.0299999713897705,
+      "competition": 0.07000000029802322,
+      "intent": "commercial",
+      "rank": 22,
+      "url": "/blog/planning-hebdomadaire",
+      "etv": 1.2979999780654907,
+      "page_hint": "/produit",
+      "score": 5.469450733631192
+    },
+    {
+      "keyword": "gestion du temps logiciel",
+      "search_volume": 590,
+      "cpc": 19.739999771118164,
+      "competition": 0.07999999821186066,
+      "intent": "commercial",
+      "rank": 12,
+      "url": "/blog/logiciel-suivi-temps-travail-gratuit-",
+      "etv": 4.425000190734863,
+      "page_hint": "/produit",
+      "score": 5.431202834374166
+    },
+    {
+      "keyword": "planning source",
+      "search_volume": 1000,
+      "cpc": 0,
+      "competition": 0.009999999776482582,
+      "intent": "informational",
+      "rank": 18,
+      "url": "/blog/logiciels-planning-gratuits",
+      "etv": 3.299999952316284,
+      "page_hint": "/produit",
+      "score": 5.364776131337801
+    },
+    {
+      "keyword": "logiciel sirh",
+      "search_volume": 1300,
+      "cpc": 19.959999084472656,
+      "competition": 0.2800000011920929,
+      "intent": "informational",
+      "rank": 17,
+      "url": "/blog/logiciels-sirh",
+      "etv": 5.590000152587891,
+      "page_hint": "/faq",
+      "score": 5.2431972513678256
+    },
+    {
+      "keyword": "gestion de paie logiciel",
+      "search_volume": 480,
+      "cpc": 25.65999984741211,
+      "competition": 0.11999999731779099,
+      "intent": "commercial",
+      "rank": 18,
+      "url": "/blog/logiciels-fiche-paie-gratuits",
+      "etv": 1.5839999914169312,
+      "page_hint": "/produit",
+      "score": 5.107877093374146
+    },
+    {
+      "keyword": "calculatrice horaire de travail",
+      "search_volume": 480,
+      "cpc": 0.7699999809265137,
+      "competition": 0.14000000059604645,
+      "intent": "informational",
+      "rank": 12,
+      "url": "/lu/ressources/calcul-heure-de-travail-calculette-en-ligne",
+      "etv": 3.5999999046325684,
+      "page_hint": "/",
+      "score": 5.033849877132225
+    },
+    {
+      "keyword": "planning médical",
+      "search_volume": 3600,
+      "cpc": 1.9100000858306885,
+      "competition": 0.009999999776482582,
+      "intent": "informational",
+      "rank": 6,
+      "url": "/blog/guide-planning-medical",
+      "etv": 121.68000030517578,
+      "page_hint": "/produit",
+      "score": 4.875144815507086
+    },
+    {
+      "keyword": "outils rh",
+      "search_volume": 720,
+      "cpc": 17.459999084472656,
+      "competition": 0.27000001072883606,
+      "intent": "informational",
+      "rank": 16,
+      "url": "/blog/outils-rh",
+      "etv": 3.0959999561309814,
+      "page_hint": "/produit",
+      "score": 4.851059276020758
+    },
+    {
+      "keyword": "planning medical identification",
+      "search_volume": 2900,
+      "cpc": 1.9200000762939453,
+      "competition": 0.019999999552965164,
+      "intent": "informational",
+      "rank": 6,
+      "url": "/blog/guide-planning-medical",
+      "etv": 98.0199966430664,
+      "page_hint": "/produit",
+      "score": 4.7146049889617565
+    },
+    {
+      "keyword": "logiciel pour planning",
+      "search_volume": 1000,
+      "cpc": 17.979999542236328,
+      "competition": 0.4399999976158142,
+      "intent": "commercial",
+      "rank": 16,
+      "url": "/blog/logiciels-planning",
+      "etv": 4.300000190734863,
+      "page_hint": "/produit",
+      "score": 4.389034978408705
+    },
+    {
+      "keyword": "pauses légales au travail",
+      "search_volume": 390,
+      "cpc": 0.14000000059604645,
+      "competition": 0.10000000149011612,
+      "intent": "informational",
+      "rank": 13,
+      "url": "/blog/temps-de-pause-pour-7h-de-travail-que-dit-la-loi",
+      "etv": 2.3010001182556152,
+      "page_hint": "/",
+      "score": 4.354856947789883
+    },
+    {
+      "keyword": "logiciel de paie",
+      "search_volume": 1600,
+      "cpc": 31.290000915527344,
+      "competition": 0.5600000023841858,
+      "intent": "commercial",
+      "rank": 19,
+      "url": "/blog/logiciels-paie",
+      "etv": 4.320000171661377,
+      "page_hint": "/produit",
+      "score": 4.156736425222703
+    },
+    {
+      "keyword": "faire un planning sur excel",
+      "search_volume": 390,
+      "cpc": 3.4600000381469727,
+      "competition": 0.36000001430511475,
+      "intent": "informational",
+      "rank": 11,
+      "url": "/blog/planning-annuel-excel",
+      "etv": 3.5490000247955322,
+      "page_hint": "/ressources",
+      "score": 4.078012423562865
+    },
+    {
+      "keyword": "planning excel",
+      "search_volume": 1600,
+      "cpc": 2.6500000953674316,
+      "competition": 0.18000000715255737,
+      "intent": "informational",
+      "rank": 4,
+      "url": "/blog/planning-annuel-excel",
+      "etv": 105.44000244140625,
+      "page_hint": "/ressources",
+      "score": 3.8914128123967724
+    },
+    {
+      "keyword": "temps de travail et pause",
+      "search_volume": 880,
+      "cpc": 0.6399999856948853,
+      "competition": 0.10000000149011612,
+      "intent": "informational",
+      "rank": 9,
+      "url": "/blog/temps-de-pause-pour-7h-de-travail-que-dit-la-loi",
+      "etv": 13.199999809265137,
+      "page_hint": "/",
+      "score": 3.7931289659974303
+    },
+    {
+      "keyword": "coffre fort numérique bulletin de paie",
+      "search_volume": 1300,
+      "cpc": 6.929999828338623,
+      "competition": 0.20000000298023224,
+      "intent": "navigational",
+      "rank": 8,
+      "url": "/blog/coffre-fort-electronique-et-bulletin-de-paie-dematerialise-un-pas-vers-la-modernisation-des-ressources-humaines",
+      "etv": 25.610000610351562,
+      "page_hint": "/offre",
+      "score": 3.724675638148889
+    },
+    {
+      "keyword": "coffre-fort numérique bulletin de paie",
+      "search_volume": 1300,
+      "cpc": 6.929999828338623,
+      "competition": 0.20000000298023224,
+      "intent": "navigational",
+      "rank": 7,
+      "url": "/blog/coffre-fort-electronique-et-bulletin-de-paie-dematerialise-un-pas-vers-la-modernisation-des-ressources-humaines",
+      "etv": 33.279998779296875,
+      "page_hint": "/offre",
+      "score": 3.724675638148889
+    },
+    {
+      "keyword": "traç planning",
+      "search_volume": 480,
+      "cpc": 24.59000015258789,
+      "competition": 0,
+      "intent": "informational",
+      "rank": 5,
+      "url": "/blog/avis-tracplanning-alternatives",
+      "etv": 22.511999130249023,
+      "page_hint": "/produit",
+      "score": 3.7013602053958876
+    },
+    {
+      "keyword": "traç'planning",
+      "search_volume": 480,
+      "cpc": 24.59000015258789,
+      "competition": 0,
+      "intent": "informational",
+      "rank": 5,
+      "url": "/blog/avis-tracplanning-alternatives",
+      "etv": 22.511999130249023,
+      "page_hint": "/produit",
+      "score": 3.7013602053958876
+    },
+    {
+      "keyword": "logiciel gestion des temps",
+      "search_volume": 590,
+      "cpc": 19.739999771118164,
+      "competition": 0.07999999821186066,
+      "intent": "commercial",
+      "rank": 9,
+      "url": "/blog/logiciels-gestion-temps",
+      "etv": 8.850000381469727,
+      "page_hint": "/produit",
+      "score": 3.6208018895827783
+    },
+    {
+      "keyword": "logiciel gestion du temps",
+      "search_volume": 590,
+      "cpc": 19.739999771118164,
+      "competition": 0.07999999821186066,
+      "intent": "commercial",
+      "rank": 9,
+      "url": "/blog/logiciel-suivi-temps-travail-gratuit-",
+      "etv": 8.850000381469727,
+      "page_hint": "/produit",
+      "score": 3.6208018895827783
+    },
+    {
+      "keyword": "paiement des jours fériés",
+      "search_volume": 1300,
+      "cpc": 0.15000000596046448,
+      "competition": 0.07000000029802322,
+      "intent": "informational",
+      "rank": 9,
+      "url": "/blog/tout-savoir-sur-la-remuneration-des-jours-feries",
+      "etv": 19.5,
+      "page_hint": "/",
+      "score": 3.562733226523953
+    },
+    {
+      "keyword": "trace planning",
+      "search_volume": 880,
+      "cpc": 0,
+      "competition": 0,
+      "intent": "informational",
+      "rank": 5,
+      "url": "/blog/avis-tracplanning-alternatives",
+      "etv": 41.27199935913086,
+      "page_hint": "/produit",
+      "score": 3.5339710900944583
+    },
+    {
+      "keyword": "logiciel paie rh",
+      "search_volume": 480,
+      "cpc": 27.700000762939453,
+      "competition": 0.07999999821186066,
+      "intent": "commercial",
+      "rank": 6,
+      "url": "/blog/logiciels-paie",
+      "etv": 16.224000930786133,
+      "page_hint": "/produit",
+      "score": 3.5039543321871394
+    },
+    {
+      "keyword": "logiciel rh paie",
+      "search_volume": 480,
+      "cpc": 27.700000762939453,
+      "competition": 0.07999999821186066,
+      "intent": "commercial",
+      "rank": 6,
+      "url": "/blog/logiciels-paie",
+      "etv": 16.224000930786133,
+      "page_hint": "/produit",
+      "score": 3.5039543321871394
+    },
+    {
+      "keyword": "planning semaine imprimable",
+      "search_volume": 2900,
+      "cpc": 0.27000001072883606,
+      "competition": 0.25999999046325684,
+      "intent": "transactional",
+      "rank": 4,
+      "url": "/blog/planning-hebdomadaire",
+      "etv": 191.11000061035156,
+      "page_hint": "/produit",
+      "score": 3.4348473733893856
+    },
+    {
+      "keyword": "logiciel de gestion de paie",
+      "search_volume": 480,
+      "cpc": 25.65999984741211,
+      "competition": 0.11999999731779099,
+      "intent": "commercial",
+      "rank": 7,
+      "url": "/blog/logiciels-paie",
+      "etv": 12.288000106811523,
+      "page_hint": "/produit",
+      "score": 3.4052513955827646
+    },
+    {
+      "keyword": "logiciel gestion de la paie",
+      "search_volume": 480,
+      "cpc": 25.65999984741211,
+      "competition": 0.11999999731779099,
+      "intent": "commercial",
+      "rank": 6,
+      "url": "/blog/logiciels-paie",
+      "etv": 16.224000930786133,
+      "page_hint": "/produit",
+      "score": 3.4052513955827646
+    },
+    {
+      "keyword": "planning de garde",
+      "search_volume": 390,
+      "cpc": 4.159999847412109,
+      "competition": 0.10999999940395355,
+      "intent": "informational",
+      "rank": 5,
+      "url": "/blog/logiciels-planning-garde",
+      "etv": 18.291000366210938,
+      "page_hint": "/secteurs",
+      "score": 3.314875638779288
+    },
+    {
+      "keyword": "gestion de planning",
+      "search_volume": 590,
+      "cpc": 13.609999656677246,
+      "competition": 0.20000000298023224,
+      "intent": "informational",
+      "rank": 8,
+      "url": "/blog/logiciels-planning-gratuits",
+      "etv": 11.623000144958496,
+      "page_hint": "/produit",
+      "score": 3.314818619534805
+    },
+    {
+      "keyword": "coffre-fort électronique bulletin de paie",
+      "search_volume": 1600,
+      "cpc": 5.980000019073486,
+      "competition": 0.3799999952316284,
+      "intent": "navigational",
+      "rank": 6,
+      "url": "/blog/coffre-fort-electronique-et-bulletin-de-paie-dematerialise-un-pas-vers-la-modernisation-des-ressources-humaines",
+      "etv": 54.08000183105469,
+      "page_hint": "/offre",
+      "score": 3.301804842466997
+    },
+    {
+      "keyword": "logiciel pointage",
+      "search_volume": 390,
+      "cpc": 29.8799991607666,
+      "competition": 0.14000000059604645,
+      "intent": "commercial",
+      "rank": 7,
+      "url": "/blog/logiciels-pointage",
+      "etv": 9.984000205993652,
+      "page_hint": "/produit",
+      "score": 3.243331557432255
+    },
+    {
+      "keyword": "pointeuse logiciel",
+      "search_volume": 390,
+      "cpc": 29.8799991607666,
+      "competition": 0.14000000059604645,
+      "intent": "informational",
+      "rank": 6,
+      "url": "/blog/logiciels-pointage",
+      "etv": 13.182000160217285,
+      "page_hint": "/produit",
+      "score": 3.243331557432255
+    },
+    {
+      "keyword": "logiciel de planification",
+      "search_volume": 480,
+      "cpc": 19.489999771118164,
+      "competition": 0.1899999976158142,
+      "intent": "commercial",
+      "rank": 4,
+      "url": "/blog/logiciels-planning-gratuits",
+      "etv": 31.631999969482422,
+      "page_hint": "/ressources",
+      "score": 3.2325212519288957
+    },
+    {
+      "keyword": "horaires restauration",
+      "search_volume": 480,
+      "cpc": 0,
+      "competition": 0,
+      "intent": "informational",
+      "rank": 5,
+      "url": "/blog/heures-de-travail-legales-en-hotellerie-restauration",
+      "etv": 22.511999130249023,
+      "page_hint": "/",
+      "score": 3.2185740916485983
+    },
+    {
+      "keyword": "temps de travail annuel pour 35h",
+      "search_volume": 480,
+      "cpc": 0.10999999940395355,
+      "competition": 0.009999999776482582,
+      "intent": "informational",
+      "rank": 6,
+      "url": "/fr/articles/8498916-qu-est-ce-que-l-annualisation-du-temps-de-travail",
+      "etv": 16.224000930786133,
+      "page_hint": "/",
+      "score": 3.197116931517213
+    }
+  ],
+  "whitespace_vs_skello": [
+    {
+      "keyword": "planning social",
+      "search_volume": 1300,
+      "cpc": 0,
+      "competition": 0,
+      "seed": "planning social",
+      "page_hint": "/ressources"
+    },
+    {
+      "keyword": "planification des rh",
+      "search_volume": 140,
+      "cpc": 2.73,
+      "competition": 0.15,
+      "seed": "planification RH",
+      "page_hint": "/ressources"
+    },
+    {
+      "keyword": "planification rh",
+      "search_volume": 140,
+      "cpc": 2.73,
+      "competition": 0.15,
+      "seed": "planification RH",
+      "page_hint": "/ressources"
+    },
+    {
+      "keyword": "planning for social media",
+      "search_volume": 140,
+      "cpc": 6.48,
+      "competition": 0.63,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "social media planning",
+      "search_volume": 140,
+      "cpc": 6.48,
+      "competition": 0.63,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "planning social media",
+      "search_volume": 140,
+      "cpc": 6.48,
+      "competition": 0.63,
+      "seed": "planning social",
+      "page_hint": "/ressources"
+    },
+    {
+      "keyword": "logiciel planning équipe",
+      "search_volume": 40,
+      "cpc": 16.51,
+      "competition": 0.47,
+      "seed": "logiciel planning équipe",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "logiciel planning médico social",
+      "search_volume": 40,
+      "cpc": 0,
+      "competition": 0.57,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "logiciel planning médico-social",
+      "search_volume": 40,
+      "cpc": 0,
+      "competition": 0.57,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "logiciel planning équipe gratuit",
+      "search_volume": 30,
+      "cpc": 10.71,
+      "competition": 0.83,
+      "seed": "logiciel planning équipe",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "logiciel planning d équipe",
+      "search_volume": 20,
+      "cpc": 33.25,
+      "competition": 0.86,
+      "seed": "logiciel planning équipe",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "logiciel de planning d équipe",
+      "search_volume": 20,
+      "cpc": 25.2,
+      "competition": 0.55,
+      "seed": "logiciel planning équipe",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "planning de publication social media gratuit",
+      "search_volume": 20,
+      "cpc": 0,
+      "competition": 0,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "social media marketing planning",
+      "search_volume": 20,
+      "cpc": 0,
+      "competition": 0,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "planning de publication social media gratuit pdf",
+      "search_volume": 20,
+      "cpc": 0,
+      "competition": 0,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "logiciel planning d équipe gratuit",
+      "search_volume": 10,
+      "cpc": 11.72,
+      "competition": 0.82,
+      "seed": "logiciel planning équipe",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "logiciel gestion planning d équipe",
+      "search_volume": 10,
+      "cpc": 24.81,
+      "competition": 0.66,
+      "seed": "logiciel planning équipe",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "outils de planification rh",
+      "search_volume": 10,
+      "cpc": 77.38,
+      "competition": 0.43,
+      "seed": "planification RH",
+      "page_hint": "/ressources"
+    },
+    {
+      "keyword": "outil planification rh",
+      "search_volume": 10,
+      "cpc": 10.9,
+      "competition": 0.75,
+      "seed": "planification RH",
+      "page_hint": "/ressources"
+    },
+    {
+      "keyword": "logiciel planification rh",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0.71,
+      "seed": "planification RH",
+      "page_hint": "/ressources"
+    },
+    {
+      "keyword": "planification stratégique rh",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0.29,
+      "seed": "planification RH",
+      "page_hint": "/ressources"
+    },
+    {
+      "keyword": "logiciel de planification rh",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0.07,
+      "seed": "planification RH",
+      "page_hint": "/ressources"
+    },
+    {
+      "keyword": "canva social media planning",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "social media planning template",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0.57,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "social media planning example",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0.07,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "best social media planning app",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0.5,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "social planning",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "social media planning trello",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "social planning and research council of hamilton",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "social media planning excel template",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0.86,
+      "seed": "planning social",
+      "page_hint": "/ressources"
+    },
+    {
+      "keyword": "social media planning platforms",
+      "search_volume": 10,
+      "cpc": 2.26,
+      "competition": 0.86,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "social planning wikipedia",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "social marketing planning process",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "social planning model",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "social media planning strategy",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0.57,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "hubspot social media planning",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "social media planning notion",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0.14,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "planning a social media strategy",
+      "search_volume": 10,
+      "cpc": 0,
+      "competition": 0.57,
+      "seed": "planning social",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "logiciel de planning équipe",
+      "search_volume": 0,
+      "cpc": 0,
+      "competition": 0,
+      "seed": "logiciel planning équipe",
+      "page_hint": "/produit"
+    },
+    {
+      "keyword": "logiciel de planning équipe gratuit",
+      "search_volume": 0,
+      "cpc": 0,
+      "competition": 0,
+      "seed": "logiciel planning équipe",
+      "page_hint": "/produit"
+    }
+  ],
+  "editorial_notes": {
+    "positioning": "Skello = SIRH / GTA terrain (CHR, retail, pharma…) — planning + pointage + paie + admin RH + IA",
+    "vs_planory": "Planory = planification réglementée 24/7 (hôpital, aéroport, industrie) avec IA SKYNET — pas un SIRH complet ni badgeuse",
+    "steal_patterns": [
+      "Silos fonctionnalités granulaires (planning, contraintes légales, temps, absences)",
+      "Pages secteur CHR/retail/pharma — Planory doit mirroir hôpital/aéroport/industrie",
+      "Lead magnets + simulateur + blog + témoignages volume",
+      "CTA démo + essai gratuit 14j — Planory a échange 20 min, pas d'essai self-serve"
+    ]
+  }
+}
