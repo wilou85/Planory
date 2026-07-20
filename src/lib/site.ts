@@ -51,15 +51,63 @@ export const BRAND = {
     "Secteurs : hôpital, aéroport, industrie 24/7, commerce, services publics.",
     "Modèle : l'IA propose, le planificateur valide — contact@planory.net",
   ],
-  /** Renseigner les URLs quand profils créés — utilisées dans schema.org et llms.txt */
-  sameAs: [] as readonly string[],
-  /** Profils à créer pour renforcer l'autorité externe (GEO) */
-  externalChannels: [
-    { platform: "LinkedIn", purpose: "Page entreprise + fondateurs" },
-    { platform: "G2 / Capterra", purpose: "Fiche logiciel planning équipes" },
-    { platform: "Presse sectorielle", purpose: "Santé, aéroport, industrie" },
-  ],
 } as const;
+
+export type BrandExternalProfile = {
+  id: "linkedin" | "g2" | "capterra";
+  platform: string;
+  purpose: string;
+  /** URL publique du profil — vide = profil à créer. Surcharge via NEXT_PUBLIC_BRAND_*_URL */
+  url: string;
+};
+
+/**
+ * Profils externes pour schéma Organization.sameAs + llms.txt.
+ * Remplir `url` (ou les env NEXT_PUBLIC_BRAND_*) dès que la page existe —
+ * ne jamais inventer d'URL : risque d'entité collision GEO.
+ */
+function resolveProfileUrl(
+  hardcoded: string,
+  envValue: string | undefined,
+): string {
+  const fromEnv = envValue?.trim() ?? "";
+  if (fromEnv) return fromEnv;
+  return hardcoded.trim();
+}
+
+export const BRAND_EXTERNAL_PROFILES: readonly BrandExternalProfile[] = [
+  {
+    id: "linkedin",
+    platform: "LinkedIn",
+    purpose: "Page entreprise Planory",
+    url: resolveProfileUrl("", process.env.NEXT_PUBLIC_BRAND_LINKEDIN_URL),
+  },
+  {
+    id: "g2",
+    platform: "G2",
+    purpose: "Fiche logiciel planning équipes",
+    url: resolveProfileUrl("", process.env.NEXT_PUBLIC_BRAND_G2_URL),
+  },
+  {
+    id: "capterra",
+    platform: "Capterra",
+    purpose: "Fiche logiciel planning équipes",
+    url: resolveProfileUrl("", process.env.NEXT_PUBLIC_BRAND_CAPTERRA_URL),
+  },
+];
+
+/** URLs sameAs (schema.org / llms.txt) — uniquement les profils live */
+export function getBrandSameAs(): readonly string[] {
+  return BRAND_EXTERNAL_PROFILES.map((p) => p.url).filter(Boolean);
+}
+
+export function getLiveBrandProfiles(): readonly BrandExternalProfile[] {
+  return BRAND_EXTERNAL_PROFILES.filter((p) => Boolean(p.url));
+}
+
+export function getPendingBrandProfiles(): readonly BrandExternalProfile[] {
+  return BRAND_EXTERNAL_PROFILES.filter((p) => !p.url);
+}
 
 /** Pages principales — structure claire pour sitelinks Google (cf. Search Central) */
 export type SitePage = {
@@ -127,6 +175,32 @@ export const SITE_PAGES: readonly SitePage[] = [
     sitePlan: false,
   },
   {
+    path: "/secteurs/aeroport",
+    label: "Planning aéroport",
+    navLabel: "Aéroport",
+    title: "Planning aéroport & ATC 24/7 avec IA | Planory",
+    description:
+      "Logiciel de planning aéroportuaire : quarts 24/7, repos réglementaires, postes critiques, relèves et incidents. Pilote Orly — SKYNET.",
+    snippet:
+      "Quarts aéroportuaires 24/7 — repos, postes critiques et continuité de service.",
+    changeFrequency: "monthly",
+    priority: 0.82,
+    sitePlan: false,
+  },
+  {
+    path: "/secteurs/industrie",
+    label: "Planification industrielle",
+    navLabel: "Industrie",
+    title: "Planification industrielle 3×8 & 2×12 avec IA | Planory",
+    description:
+      "Logiciel de planification industrielle : roulements 3×8, 2×12, absences, compteurs d'heures et conformité. SKYNET pour l'industrie continue.",
+    snippet:
+      "Roulements industriels 3×8 / 2×12 — compétences, absences et compteurs.",
+    changeFrequency: "monthly",
+    priority: 0.82,
+    sitePlan: false,
+  },
+  {
     path: "/ressources",
     label: "Articles",
     navLabel: "Articles",
@@ -172,6 +246,30 @@ export const SITE_PAGES: readonly SitePage[] = [
     snippet: "Prendre contact — échange de 20 minutes sans prérequis.",
     changeFrequency: "monthly",
     priority: 0.75,
+    sitePlan: false,
+  },
+  {
+    path: "/mentions-legales",
+    label: "Mentions légales",
+    navLabel: "Mentions légales",
+    title: "Mentions légales | Planory",
+    description:
+      "Mentions légales du site Planory : éditeur, hébergeur, contact et propriété intellectuelle.",
+    snippet: "Éditeur, hébergeur et informations légales.",
+    changeFrequency: "yearly",
+    priority: 0.3,
+    sitePlan: false,
+  },
+  {
+    path: "/confidentialite",
+    label: "Confidentialité",
+    navLabel: "Confidentialité",
+    title: "Politique de confidentialité | Planory",
+    description:
+      "Politique de confidentialité Planory : données collectées, finalités, conservation et droits RGPD.",
+    snippet: "Traitement des données personnelles et droits RGPD.",
+    changeFrequency: "yearly",
+    priority: 0.3,
     sitePlan: false,
   },
   {

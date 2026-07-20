@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { sectionStack, sectionY } from "@/components/ui/section";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { ProductSidebar } from "@/components/ProductSidebar";
+import { ProductModuleChips } from "@/components/ProductModuleChips";
 import { ProductModulePanel } from "@/components/ProductModulePanel";
 import { ProductShowcase } from "@/components/ProductShowcase";
 import { getPageUi, getProductBenefits, getProductModules } from "@/lib/get-content";
@@ -69,6 +70,12 @@ export function ProductSection({ locale = "fr" }: ProductSectionProps) {
                 {ui.product.intro}
               </p>
             </motion.div>
+
+            <ProductModuleChips
+              locale={locale}
+              activeModuleId={activeModuleId}
+              onSelectModule={selectModule}
+            />
 
             <ProductModulePanel moduleId={activeModuleId} locale={locale} />
 

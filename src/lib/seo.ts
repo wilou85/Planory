@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { FAQ_ITEMS } from "@/lib/content";
+import { getFaqItems } from "@/lib/get-content";
 import { EN_SITE, getLocaleFromPath, localizePath, stripLocalePrefix, type Locale } from "@/lib/i18n";
 import { getLeadMagnet, LEAD_MAGNETS, TOOLS_HUB_PATH } from "@/lib/lead-magnets";
 import { getArticleUpdatedAt, getResourceArticle, RESOURCE_ARTICLES } from "@/lib/resources";
 import {
   ORGANIZATION,
-  BRAND,
   SITE_DESCRIPTION,
   SITE_LANGUAGE,
   SITE_LOCALE,
@@ -15,6 +14,7 @@ import {
   SITE_TAGLINE,
   SITE_URL,
   getSitePage,
+  getBrandSameAs,
 } from "@/lib/site";
 
 type PageMetaInput = {
@@ -42,6 +42,16 @@ const EN_WEB_PAGE_META: Record<string, { title: string; description: string }> =
     description:
       "Hospital and medical scheduling software with AI: on-call duties, hospital rotation planning, 12-hour shifts and public healthcare compliance.",
   },
+  "/secteurs/aeroport": {
+    title: "Airport & ATC scheduling software with AI | Planory",
+    description:
+      "Airport workforce scheduling: 24/7 shifts, statutory rest, critical posts, handovers and incident cover. Orly pilot — SKYNET AI.",
+  },
+  "/secteurs/industrie": {
+    title: "Industrial scheduling: 3×8 & 2×12 rotations with AI | Planory",
+    description:
+      "Industrial workforce scheduling software: 3×8 and 2×12 rotations, absence cover, hour balances and compliance. SKYNET for continuous industry.",
+  },
   "/ressources": {
     title: "Scheduling guides & team planning | Planory",
     description: "Practical guides on team scheduling, on-call duties and 24/7 shift patterns.",
@@ -66,26 +76,47 @@ const EN_WEB_PAGE_META: Record<string, { title: string; description: string }> =
     description:
       "Contact Planory for a 20-minute call about your 24/7 team scheduling context. Contact form — quick response.",
   },
+  "/mentions-legales": {
+    title: "Legal notice | Planory",
+    description:
+      "Planory legal notice: publisher, hosting provider, contact and intellectual property.",
+  },
+  "/confidentialite": {
+    title: "Privacy policy | Planory",
+    description:
+      "Planory privacy policy: data collected via forms, purposes, retention and GDPR rights.",
+  },
 };
 
 const EN_NAV_LABELS: Record<string, string> = {
   "/produit": "Product",
   "/secteurs": "Sectors",
   "/secteurs/hopital": "Hospital scheduling",
-  "/ressources": "Resources",
+  "/secteurs/aeroport": "Airport scheduling",
+  "/secteurs/industrie": "Industrial scheduling",
+  "/ressources": "Blogs",
   "/offre": "Pricing",
   "/faq": "FAQ",
   "/contact": "Contact",
+  "/mentions-legales": "Legal notice",
+  "/confidentialite": "Privacy",
 };
 
 function buildHreflangAlternates(path: string) {
   const basePath = stripLocalePrefix(path);
   const frPath = basePath === "/" ? "/" : basePath;
   const enPath = localizePath(basePath, "en");
+  const frUrl = frPath === "/" ? SITE_URL : `${SITE_URL}${frPath}`;
   return {
-    "fr-FR": frPath === "/" ? SITE_URL : `${SITE_URL}${frPath}`,
+    "fr-FR": frUrl,
     "en-GB": `${SITE_URL}${enPath}`,
+    "x-default": frUrl,
   };
+}
+
+/** Public helper for pages that override metadata.alternates */
+export function getHreflangLanguages(path: string) {
+  return buildHreflangAlternates(path);
 }
 
 function resolvePageLanguage(path: string): Locale {
@@ -209,7 +240,7 @@ export function organizationJsonLd() {
       name: area,
     })),
     knowsAbout: ORGANIZATION.knowsAbout,
-    ...(BRAND.sameAs.length > 0 ? { sameAs: [...BRAND.sameAs] } : {}),
+    ...(getBrandSameAs().length > 0 ? { sameAs: [...getBrandSameAs()] } : {}),
   };
 }
 
@@ -374,19 +405,9 @@ export function webPageJsonLd(path: string) {
   };
 }
 
-export function faqPageJsonLd() {
-  return {
-    "@type": "FAQPage",
-    "@id": `${SITE_URL}/faq#faqpage`,
-    mainEntity: FAQ_ITEMS.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
-    })),
-  };
+export function faqPageJsonLd(locale: Locale = "fr") {
+  const path = locale === "en" ? "/en/faq" : "/faq";
+  return customFaqJsonLd(getFaqItems(locale), `${SITE_URL}${path}#faqpage`);
 }
 
 export function breadcrumbJsonLd(items: { name: string; path: string }[]) {

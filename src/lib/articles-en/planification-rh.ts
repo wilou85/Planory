@@ -17,6 +17,7 @@ export const planificationRh: ResourceArticle = {
   relatedLinks: [
     { href: "/en/produit", label: "Planory HR planning" },
     { href: "/en/ressources/planning-social", label: "Workforce scheduling" },
+    { href: "/en/ressources/annualisation-temps-travail", label: "Annualised working hours" },
     { href: "/en/ressources/logiciel-planning-equipe", label: "Team scheduling software" },
   ],
   sections: [

@@ -14,8 +14,8 @@ type GeoDefinitionProps = {
   articleSlug?: string;
   /** Citation EN (page /en) */
   locale?: "fr" | "en";
-  /** Sous-variante EN : home ou healthcare */
-  enVariant?: keyof typeof CANONICAL_CITATIONS_EN;
+  /** Sous-variante EN : home, healthcare, airport, industry… */
+  enVariant?: "home" | "healthcare" | "airport" | "industry" | "sectors" | "faq";
   className?: string;
   /** Afficher le texte de support sous la citation (ex. référence pilote) */
   showSupport?: boolean;

@@ -17,7 +17,7 @@ export const planificationIndustrielle: ResourceArticle = {
     "manufacturing scheduling",
   ],
   relatedLinks: [
-    { href: "/en/secteurs", label: "Planory sectors" },
+    { href: "/en/secteurs/industrie", label: "Industrial scheduling" },
     { href: "/en/ressources/travail-nuit-planning-2x8", label: "Night work and 2×8 shifts" },
     { href: "/en/ressources/gestion-astreintes", label: "On-call management" },
     { href: "/en/produit", label: "Workforce scheduling software" },

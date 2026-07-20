@@ -76,13 +76,13 @@ export function Hero({ locale = "fr" }: HeroProps) {
             className="mt-5 flex flex-col gap-3"
           >
             <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:gap-3">
-              <ContactButton variant="primary" size="sm" showArrow className="w-full sm:w-auto">
+              <ContactButton variant="primary" size="default" showArrow className="w-full sm:w-auto">
                 {copy.ctaPrimary}
               </ContactButton>
               <Button
                 href={localizePath(copy.ctaSecondaryHref, locale)}
                 variant="secondary"
-                size="sm"
+                size="default"
                 className="w-full sm:w-auto"
               >
                 {copy.ctaSecondary}

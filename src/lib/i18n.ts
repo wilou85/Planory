@@ -1,3 +1,7 @@
+/**
+ * Locale plumbing + copy chrome (header, hero, sticky bar, nav labels).
+ * Contenu marketing pages → `@/lib/get-content`.
+ */
 export type Locale = "fr" | "en";
 
 export const LOCALES: {
@@ -195,7 +199,7 @@ export const HOME_COPY = {
     sitePlanLabels: {
       "/produit": { label: "Product", snippet: "HR, scheduling, resources and SKYNET — integrated modules to speed up planning." },
       "/secteurs": { label: "Sectors", snippet: "Airport, hospital, industry, retail, schools and public services — use cases by sector." },
-      "/ressources": { label: "Resources", snippet: "Guides on team scheduling, on-call rotation and 24/7 shift patterns." },
+      "/ressources": { label: "Blogs", snippet: "Guides on team scheduling, on-call rotation and 24/7 shift patterns." },
       "/offre": { label: "Pricing", snippet: "Self-serve, supported or mission-critical — the right level for your context." },
       "/faq": { label: "FAQ", snippet: "Frequently asked questions about SKYNET, deployment and regulated scheduling." },
     },
@@ -240,7 +244,7 @@ export const HEADER_COPY = {
     breadcrumbHome: "Home",
     breadcrumbLabel: "Breadcrumb",
     moreTab: "More",
-    moreTabTitle: "Resources, Pricing, FAQ…",
+    moreTabTitle: "Blogs, Pricing, FAQ…",
     mobileNavLabel: "Mobile navigation",
   },
 } as const;
@@ -248,13 +252,9 @@ export const HEADER_COPY = {
 export const STICKY_CONTACT_COPY = {
   fr: {
     primaryShort: "Échanger",
-    primaryLong: "Échanger 20 min",
-    secondary: "Contact",
   },
   en: {
     primaryShort: "Talk to us",
-    primaryLong: "Book a 20-min call",
-    secondary: "Contact",
   },
 } as const;
 
@@ -322,7 +322,7 @@ const NAV_BY_LOCALE: Record<Locale, readonly NavItem[]> = {
       ],
     },
     { label: "Sectors", href: "/secteurs" },
-    { label: "Resources", href: "/ressources" },
+    { label: "Blogs", href: "/ressources" },
     { label: "Pricing", href: "/offre" },
     { label: "FAQ", href: "/faq" },
   ],
@@ -362,6 +362,16 @@ const DRAWER_BY_LOCALE: Record<Locale, readonly DrawerSection[]> = {
           href: "/secteurs/hopital",
           description: "Gardes et roulements hospitaliers",
         },
+        {
+          label: "Planning aéroport",
+          href: "/secteurs/aeroport",
+          description: "Quarts 24/7 et postes critiques",
+        },
+        {
+          label: "Planification industrielle",
+          href: "/secteurs/industrie",
+          description: "Roulements 3×8 et 2×12",
+        },
         { label: "Articles", href: "/ressources", description: "Guides planification" },
       ],
     },
@@ -393,7 +403,17 @@ const DRAWER_BY_LOCALE: Record<Locale, readonly DrawerSection[]> = {
           href: "/secteurs/hopital",
           description: "On-call and hospital rotations",
         },
-        { label: "Resources", href: "/ressources", description: "Scheduling guides" },
+        {
+          label: "Airport scheduling",
+          href: "/secteurs/aeroport",
+          description: "24/7 shifts and critical posts",
+        },
+        {
+          label: "Industrial scheduling",
+          href: "/secteurs/industrie",
+          description: "3×8 and 2×12 rotations",
+        },
+        { label: "Blogs", href: "/ressources", description: "Scheduling guides" },
       ],
     },
     {
@@ -464,10 +484,14 @@ const EN_PAGE_BREADCRUMB_LABELS: Record<string, string> = {
   "/produit": "Product",
   "/secteurs": "Sectors",
   "/secteurs/hopital": "Hospital scheduling",
-  "/ressources": "Resources",
+  "/secteurs/aeroport": "Airport scheduling",
+  "/secteurs/industrie": "Industrial scheduling",
+  "/ressources": "Blogs",
   "/offre": "Pricing",
   "/faq": "FAQ",
   "/contact": "Contact",
+  "/mentions-legales": "Legal notice",
+  "/confidentialite": "Privacy",
 };
 
 /** Libellé fil d'Ariane pour une page SITE_PAGES, selon la locale */

@@ -146,10 +146,11 @@ export function Header() {
           <button
             type="button"
             onClick={openDrawer}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-300 hover:bg-white/5 hover:text-white lg:hidden"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-slate-300 hover:bg-white/5 hover:text-white lg:hidden"
             aria-label={copy.openMenu}
             aria-controls="mobile-nav-drawer"
             aria-expanded={open}
+            aria-haspopup="dialog"
           >
             <Menu className="h-5 w-5" />
           </button>

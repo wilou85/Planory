@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -10,12 +10,17 @@ import { getContactPath } from "@/lib/contact-nav";
 import { getNavItemIcon } from "@/lib/icons";
 import { useNavDrawer } from "@/components/nav/NavDrawerContext";
 
+const FOCUSABLE =
+  'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+
 export function MobileNavDrawer() {
   const { open, closeDrawer } = useNavDrawer();
   const pathname = usePathname();
   const locale = getLocaleFromPath(pathname);
   const copy = getHeaderCopy(locale);
   const drawerSections = getDrawerNavSections(locale);
+  const panelRef = useRef<HTMLElement>(null);
+  const previouslyFocused = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     closeDrawer();
@@ -32,11 +37,66 @@ export function MobileNavDrawer() {
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeDrawer();
+
+    previouslyFocused.current = document.activeElement as HTMLElement | null;
+
+    const panel = panelRef.current;
+    const focusables = () =>
+      panel
+        ? Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE)).filter((el) => {
+            if (el.hasAttribute("disabled") || el.getAttribute("aria-hidden") === "true") {
+              return false;
+            }
+            // offsetParent est null pour les fixed — utiliser getClientRects
+            return el.getClientRects().length > 0;
+          })
+        : [];
+
+    const focusFirst = () => {
+      const items = focusables();
+      (items[0] ?? panel)?.focus();
     };
+
+    // Wait for motion mount / layout
+    const t = window.setTimeout(focusFirst, 0);
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeDrawer();
+        return;
+      }
+      if (e.key !== "Tab" || !panel) return;
+
+      const items = focusables();
+      if (items.length === 0) {
+        e.preventDefault();
+        panel.focus();
+        return;
+      }
+
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+
+      if (e.shiftKey) {
+        if (active === first || !panel.contains(active)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (active === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      window.clearTimeout(t);
+      window.removeEventListener("keydown", onKey);
+      previouslyFocused.current?.focus?.();
+      previouslyFocused.current = null;
+    };
   }, [open, closeDrawer]);
 
   return (
@@ -51,15 +111,20 @@ export function MobileNavDrawer() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm lg:hidden"
             onClick={closeDrawer}
+            tabIndex={-1}
           />
           <motion.nav
+            ref={panelRef}
             id="mobile-nav-drawer"
+            role="dialog"
+            aria-modal="true"
             aria-label={copy.mobileNav}
+            tabIndex={-1}
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", stiffness: 380, damping: 36 }}
-            className="fixed inset-y-0 right-0 z-[70] flex w-[min(100%,20rem)] flex-col border-l border-white/10 bg-[#0c1220] shadow-2xl lg:hidden"
+            className="fixed inset-y-0 right-0 z-[70] flex w-[min(100%,20rem)] flex-col border-l border-white/10 bg-[#0c1220] shadow-2xl outline-none lg:hidden"
             style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
           >
             <div className="flex items-center justify-between px-4 py-3">
@@ -67,7 +132,7 @@ export function MobileNavDrawer() {
               <button
                 type="button"
                 onClick={closeDrawer}
-                className="flex h-10 w-10 items-center justify-center rounded-lg text-slate-400 hover:bg-white/5 hover:text-white"
+                className="flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 hover:bg-white/5 hover:text-white"
                 aria-label={copy.close}
               >
                 <X className="h-5 w-5" />
@@ -103,12 +168,12 @@ export function MobileNavDrawer() {
                               <ItemIcon className="h-4 w-4" aria-hidden />
                             </span>
                             <span className="min-w-0">
-                            <span className="block text-sm font-medium">{item.label}</span>
-                            {"description" in item && !!item.description && (
-                              <span className="mt-0.5 block text-xs text-slate-500">
-                                {item.description}
-                              </span>
-                            )}
+                              <span className="block text-sm font-medium">{item.label}</span>
+                              {"description" in item && !!item.description && (
+                                <span className="mt-0.5 block text-xs text-slate-500">
+                                  {item.description}
+                                </span>
+                              )}
                             </span>
                           </Link>
                         </li>

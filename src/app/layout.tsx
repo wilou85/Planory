@@ -1,15 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
-import { JsonLd } from "@/components/seo/JsonLd";
-import { SkipToContent } from "@/components/SkipToContent";
-import { createPageMetadata, globalGraphJsonLd } from "@/lib/seo";
-import "./globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
+import { createPageMetadata } from "@/lib/seo";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -29,21 +19,11 @@ export const metadata: Metadata = {
   },
 };
 
+/** Pass-through — html/body live in `src/app/[locale]/layout.tsx`. */
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="fr" className={inter.variable} data-scroll-behavior="smooth" suppressHydrationWarning>
-      <body
-        suppressHydrationWarning
-        className="min-h-full w-full min-w-0 overflow-x-clip bg-[#050a14] font-sans text-white antialiased"
-      >
-        <SkipToContent />
-        <JsonLd data={globalGraphJsonLd()} />
-        {children}
-      </body>
-    </html>
-  );
+  return children;
 }

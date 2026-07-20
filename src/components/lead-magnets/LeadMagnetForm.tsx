@@ -252,14 +252,14 @@ export function LeadMagnetForm({
       </div>
 
       <div className="rounded-lg border border-white/8 bg-[#050a14]/60 p-4">
-        <label className="flex items-start gap-3 text-left">
+        <label className="flex min-h-[44px] items-start gap-3 text-left">
           <input
             type="checkbox"
             name="gdprConsent"
             required
             checked={gdprConsent}
             onChange={(e) => setGdprConsent(e.target.checked)}
-            className="mt-1 h-4 w-4 shrink-0 rounded border-white/20 bg-[#050a14] text-sky-500 focus:ring-sky-500/30"
+            className="mt-2.5 h-5 w-5 shrink-0 rounded border-white/20 bg-[#050a14] text-sky-500 focus:ring-sky-500/30"
           />
           <span className="text-sm leading-relaxed text-slate-400">
             {copy.gdprConsent} <span className="text-sky-400">*</span>

@@ -27,6 +27,7 @@ export type ResourceArticle = {
 /** Révisions éditoriales centralisées pour dateModified (schema + affichage) */
 export const ARTICLE_UPDATED_AT: Partial<Record<string, string>> = {
   "planning-social": "2026-06-28",
+  "annualisation-temps-travail": "2026-07-20",
   "logiciel-planning-equipe": "2026-06-28",
   "planification-rh": "2026-06-28",
   "gestion-astreintes": "2026-06-28",

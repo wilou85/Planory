@@ -29,7 +29,7 @@ const variantClasses: Record<ButtonVariant, string> = {
 
 const sizeClasses: Record<ButtonSize, string> = {
   default: "min-h-[44px] gap-2 px-6 py-3 text-sm",
-  sm: "min-h-9 gap-1.5 px-3.5 py-1.5 text-xs shadow-none hover:shadow-none",
+  sm: "min-h-[44px] gap-1.5 px-4 py-2 text-sm shadow-none hover:shadow-none",
 };
 
 export function Button({

@@ -13,6 +13,7 @@ export const planningSocial: ResourceArticle = {
     { href: "/en/produit", label: "Workforce scheduling software" },
     { href: "/en/ressources/planification-rh", label: "HR planning" },
     { href: "/en/ressources/logiciel-planning-equipe", label: "Team scheduling software" },
+    { href: "/en/ressources/annualisation-temps-travail", label: "Annualised working hours" },
   ],
   sections: [
     {

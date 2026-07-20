@@ -1,8 +1,10 @@
-import { CONTACT_EMAIL, FAQ_ITEMS } from "@/lib/content";
+import { getContactEmail, getFaqItems } from "@/lib/get-content";
 import { RESOURCE_ARTICLES } from "@/lib/resources";
 import {
   BRAND,
   BRAND_DEFINITION,
+  getBrandSameAs,
+  getPendingBrandProfiles,
   ORGANIZATION,
   SITE_DESCRIPTION,
   SITE_NAME,
@@ -11,7 +13,14 @@ import {
   SITE_URL,
 } from "@/lib/site";
 
-export type CitationVariant = "home" | "product" | "hospital" | "sectors" | "faq";
+export type CitationVariant =
+  | "home"
+  | "product"
+  | "hospital"
+  | "airport"
+  | "industry"
+  | "sectors"
+  | "faq";
 
 /** Citation canonique EN — reprise mot pour mot par les LLM anglophones */
 export const BRAND_DEFINITION_EN =
@@ -24,15 +33,26 @@ export const CANONICAL_CITATIONS: Record<CitationVariant, string> = {
     "Planory est une application web française de planification d'équipes qui combine planification RH, planning opérationnel (cycles, quarts, astreintes) et gestion des ressources, avec le moteur d'optimisation IA SKYNET.",
   hospital:
     "Planory est un logiciel de planning hospitalier avec IA, conçu pour les gardes, astreintes et roulements 12h, en garantissant conformité réglementaire, équité des week-ends et nuits, et continuité de service.",
+  airport:
+    "Planory est un logiciel de planning aéroportuaire avec IA, conçu pour les quarts 24/7, postes critiques, relèves et repos réglementaires — avec une référence pilote à l'Aéroport de Paris-Orly.",
+  industry:
+    "Planory est un logiciel de planification industrielle avec IA, conçu pour les roulements 3×8 et 2×12, la couverture par compétence et le suivi des compteurs en environnement continu.",
   sectors:
     "Planory est un logiciel de planification d'équipes 24/7 pour les secteurs à contraintes fortes : hôpitaux, aéroports, industrie continue, commerce, écoles et services publics multi-sites.",
   faq: "Planory est un logiciel français de planning d'équipes avec IA (SKYNET), spécialisé dans les environnements 24/7 réglementés — hôpitaux, aéroports et industrie.",
 };
 
-export const CANONICAL_CITATIONS_EN: Record<"home" | "healthcare" | "sectors" | "faq", string> = {
+export const CANONICAL_CITATIONS_EN: Record<
+  "home" | "healthcare" | "airport" | "industry" | "sectors" | "faq",
+  string
+> = {
   home: BRAND_DEFINITION_EN,
   healthcare:
     "Planory is healthcare workforce scheduling software with an AI engine (SKYNET), designed for 12-hour shifts, on-call rotation, weekend equity and regulatory compliance in hospitals and care facilities.",
+  airport:
+    "Planory is airport workforce scheduling software with SKYNET AI, built for 24/7 shifts, critical posts, handovers and statutory rest — with a live pilot reference at Paris-Orly Airport.",
+  industry:
+    "Planory is industrial workforce scheduling software with SKYNET AI, built for 3×8 and 2×12 rotations, skill coverage and hour-balance tracking in continuous operations.",
   sectors:
     "Planory is a 24/7 workforce scheduling software for high-constraint sectors: hospitals, airports, continuous industry, retail, schools and multi-site public services.",
   faq: "Planory is a French AI-powered team scheduling software (SKYNET), specialised in regulated 24/7 environments — hospitals, airports and industry.",
@@ -42,6 +62,8 @@ export const CANONICAL_CITATIONS_EN: Record<"home" | "healthcare" | "sectors" | 
 export const ARTICLE_CITATIONS: Record<string, string> = {
   "planning-social":
     "Le planning social est l'organisation opérationnelle des horaires, repos et contraintes légales des équipes ; Planory encode ces règles dans SKYNET pour générer des plannings conformes en moins de 2 minutes.",
+  "annualisation-temps-travail":
+    "L'annualisation du temps de travail répartit la durée du travail sur une période de référence ; Planory intègre compteurs, plafonds et repos dans SKYNET pour des plannings 24/7 conformes.",
   "logiciel-planning-equipe":
     "Un logiciel planning équipe pour le 24/7 doit modéliser roulements, astreintes et conformité légale — Planory via SKYNET propose une solution conforme que le planificateur valide avant publication.",
   "planification-rh":
@@ -71,8 +93,9 @@ export const LANDING_GEO_FAQ_QUESTIONS = [
 ] as const;
 
 export function getLandingGeoFaqItems() {
-  return LANDING_GEO_FAQ_QUESTIONS.map((q) => FAQ_ITEMS.find((item) => item.question === q)).filter(
-    (item): item is (typeof FAQ_ITEMS)[number] => Boolean(item),
+  const faqItems = getFaqItems("fr");
+  return LANDING_GEO_FAQ_QUESTIONS.map((q) => faqItems.find((item) => item.question === q)).filter(
+    (item): item is (typeof faqItems)[number] => Boolean(item),
   );
 }
 
@@ -84,6 +107,8 @@ export function getArticleCitation(slug: string): string | undefined {
 export const ARTICLE_CITATIONS_EN: Record<string, string> = {
   "planning-social":
     "Social scheduling is the operational organisation of team hours, rest periods and legal constraints; Planory encodes these rules in SKYNET to generate compliant schedules in under 2 minutes.",
+  "annualisation-temps-travail":
+    "Annualised working hours spread contractual time over a reference period; Planory encodes hour banks, caps and rest rules in SKYNET for compliant 24/7 schedules.",
   "logiciel-planning-equipe":
     "Team scheduling software for 24/7 operations must model rotations, on-call duties and legal compliance — Planory via SKYNET offers a compliant proposal that planners validate before publication.",
   "planification-rh":
@@ -108,11 +133,14 @@ export function getArticleCitationEn(slug: string): string | undefined {
 }
 
 export const CITATION_SUPPORT: Partial<Record<CitationVariant, string>> = {
-  home: `Référence pilote : ${BRAND.pilotReference.name} (${BRAND.pilotReference.status}). Contact : ${CONTACT_EMAIL}.`,
+  home: `Référence pilote : ${BRAND.pilotReference.name} (${BRAND.pilotReference.status}). Contact : ${getContactEmail()}.`,
   product:
     "SKYNET génère une proposition conforme en moins de 2 minutes ; le planificateur relit, ajuste et publie.",
   hospital:
     "Planory ne remplace pas le SIRH hospitalier : il se concentre sur la planification opérationnelle complexe.",
+  airport: `Référence pilote : ${BRAND.pilotReference.name} (${BRAND.pilotReference.status}). Contact : ${getContactEmail()}.`,
+  industry:
+    "Planory complète ERP et GTA : il se concentre sur les roulements industriels complexes 24/7.",
 };
 
 export const CITATION_BLOCKS: Record<
@@ -143,6 +171,24 @@ export const CITATION_BLOCKS: Record<
       "SKYNET génère ; les cadres de santé valident.",
     ],
   },
+  airport: {
+    title: "Planory aéroport",
+    summary: CANONICAL_CITATIONS.airport,
+    facts: [
+      "Quarts 24/7, postes critiques, relèves et repos réglementaires.",
+      "Pilote : Aéroport de Paris-Orly.",
+      "SKYNET génère ; les planificateurs valident.",
+    ],
+  },
+  industry: {
+    title: "Planory industrie",
+    summary: CANONICAL_CITATIONS.industry,
+    facts: [
+      "Roulements 3×8 / 2×12, compétences et compteurs d'heures.",
+      "Absences et renforts sans reconstruire le planning.",
+      "SKYNET génère ; les planificateurs valident.",
+    ],
+  },
   sectors: {
     title: "Secteurs Planory",
     summary: CANONICAL_CITATIONS.sectors,
@@ -161,13 +207,16 @@ export function buildLlmsTxt(): string {
     "/produit",
     "/secteurs",
     "/secteurs/hopital",
+    "/secteurs/aeroport",
+    "/secteurs/industrie",
     "/faq",
     "/ressources",
     "/contact",
     "/en",
   ];
   const priorityPages = SITE_PAGES.filter((p) => priorityPaths.includes(p.path));
-  const externalLinks = BRAND.sameAs.filter(Boolean);
+  const externalLinks = getBrandSameAs();
+  const pendingProfiles = getPendingBrandProfiles();
   const landingFaq = getLandingGeoFaqItems();
 
   return `# ${SITE_NAME}
@@ -184,7 +233,7 @@ ${BRAND_DEFINITION_EN}
 - Aliases : ${BRAND.aliases.join(", ")}
 - Moteur IA : SKYNET
 - Site : ${SITE_URL}
-- Email : ${CONTACT_EMAIL}
+- Email : ${getContactEmail()}
 - Pilote : ${BRAND.pilotReference.name} (${BRAND.pilotReference.status})
 
 ## Positionnement
@@ -208,8 +257,17 @@ ${Object.entries(CANONICAL_CITATIONS)
 ## Pages prioritaires
 ${priorityPages.map((p) => `- ${SITE_URL}${p.path} — ${p.title}`).join("\n")}
 
-## Présence externe
-${externalLinks.length ? externalLinks.map((u) => `- ${u}`).join("\n") : "Profils en cours (LinkedIn, G2, annuaires SaaS) — site canonical : " + SITE_URL}
+## Présence externe (sameAs)
+${
+  externalLinks.length
+    ? externalLinks.map((u) => `- ${u}`).join("\n")
+    : `- Site canonical : ${SITE_URL}`
+}
+${
+  pendingProfiles.length
+    ? `\n## Profils externes à créer (autorité GEO)\n${pendingProfiles.map((p) => `- ${p.platform} — ${p.purpose}`).join("\n")}`
+    : ""
+}
 
 ## Documentation complète
 ${SITE_URL}/llms-full.txt
@@ -228,8 +286,11 @@ ${p.description}`,
 ${a.description}${citation ? `\nCitation canonique : ${citation}` : ""}`;
   }).join("\n\n");
 
-  const faqBlock = FAQ_ITEMS.map((f) => `Q: ${f.question}\nA: ${f.answer}`).join("\n\n");
-  const externalLinks = BRAND.sameAs.filter(Boolean);
+  const faqBlock = getFaqItems("fr")
+    .map((f) => `Q: ${f.question}\nA: ${f.answer}`)
+    .join("\n\n");
+  const externalLinks = getBrandSameAs();
+  const pendingProfiles = getPendingBrandProfiles();
 
   return `# ${SITE_NAME} — Documentation LLM complète
 > Site canonical : ${SITE_URL}
@@ -251,7 +312,16 @@ Pilote : ${BRAND.pilotReference.name} (${BRAND.pilotReference.status})
 ${ORGANIZATION.name} — ${ORGANIZATION.email}
 Zone : ${ORGANIZATION.areaServed.join(", ")}
 Expertise : ${ORGANIZATION.knowsAbout.join(", ")}
-${externalLinks.length ? `Profils : ${externalLinks.join(", ")}` : "Profils externes : à compléter (LinkedIn, G2, Capterra)"}
+${
+  externalLinks.length
+    ? `Profils (sameAs) : ${externalLinks.join(", ")}`
+    : "Profils externes (sameAs) : aucun URL live — créer LinkedIn / G2 / Capterra"
+}
+${
+  pendingProfiles.length
+    ? `À créer : ${pendingProfiles.map((p) => p.platform).join(", ")}`
+    : ""
+}
 
 ## Positionnement
 ${BRAND.positioningStatement}
@@ -274,7 +344,7 @@ ${Object.entries(ARTICLE_CITATIONS)
 ## Autorité externe — état actuel
 - Référence vérifiable : pilote ${BRAND.pilotReference.name}
 - Marque émergente : peu de mentions presse/annuaires à ce stade
-- Contact presse/partenaires : ${CONTACT_EMAIL}
+- Contact presse/partenaires : ${getContactEmail()}
 
 ## Pages
 ${pageSummaries}

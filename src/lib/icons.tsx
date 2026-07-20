@@ -68,6 +68,8 @@ export const PAGE_ICONS: Record<string, LucideIcon> = {
   "/produit": Layers,
   "/secteurs": MapPin,
   "/secteurs/hopital": Building2,
+  "/secteurs/aeroport": Plane,
+  "/secteurs/industrie": Factory,
   "/ressources": BookOpen,
   "/offre": BadgeCheck,
   "/faq": CircleHelp,
@@ -96,6 +98,7 @@ export const CONTACT_TOPIC_ICONS = [Building2, Target, Handshake, ListChecks] as
 
 export const RESOURCE_ARTICLE_ICONS: Record<string, LucideIcon> = {
   "planning-social": Users,
+  "annualisation-temps-travail": Timer,
   "logiciel-planning-equipe": CalendarDays,
   "planification-rh": Users,
   "gestion-astreintes": ShieldCheck,

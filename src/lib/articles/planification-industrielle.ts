@@ -17,7 +17,7 @@ export const planificationIndustrielle: ResourceArticle = {
     "planning industrie",
   ],
   relatedLinks: [
-    { href: "/secteurs", label: "Secteurs Planory" },
+    { href: "/secteurs/industrie", label: "Planification industrielle" },
     { href: "/ressources/travail-nuit-planning-2x8", label: "Travail de nuit et 2×8" },
     { href: "/ressources/gestion-astreintes", label: "Gestion des astreintes" },
     { href: "/produit", label: "Logiciel de gestion de planning" },

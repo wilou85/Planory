@@ -26,7 +26,7 @@ export function MobileTabBar() {
     title: SITE_PAGES.find((p) => p.path === stripLocalePrefix(tab.href))?.snippet ?? tab.label,
     icon: tabIcon(tab.href),
   }));
-  const { openDrawer } = useNavDrawer();
+  const { openDrawer, open } = useNavDrawer();
 
   const moreActive =
     !tabs.some(
@@ -75,6 +75,8 @@ export function MobileTabBar() {
             title={copy.moreTabTitle}
             className="relative flex min-h-[56px] w-full flex-col items-center justify-center gap-0.5 px-1 py-2 text-[11px] font-medium"
             aria-controls="mobile-nav-drawer"
+            aria-expanded={open}
+            aria-haspopup="dialog"
           >
             {moreActive && (
               <motion.span
