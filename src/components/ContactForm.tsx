@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { useLocale } from "@/components/LanguageSwitcher";
 import type { ContactFormFieldErrors } from "@/lib/contact";
 import { getContactFormCopy } from "@/lib/get-content";
+import { localizePath } from "@/lib/i18n";
 
 const inputClassName =
   "w-full rounded-lg border border-white/10 bg-[#050a14] px-3 py-2.5 text-sm text-white placeholder:text-slate-500 focus:border-sky-500/50 focus:outline-none focus:ring-2 focus:ring-sky-500/20";
@@ -23,6 +25,7 @@ export function ContactForm({ className = "" }: ContactFormProps) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [gdprConsent, setGdprConsent] = useState(false);
+  const [companyWebsite, setCompanyWebsite] = useState("");
   const [fieldErrors, setFieldErrors] = useState<ContactFormFieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
@@ -37,7 +40,15 @@ export function ContactForm({ className = "" }: ContactFormProps) {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ firstName, lastName, email, phone, gdprConsent, locale }),
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          phone,
+          gdprConsent,
+          locale,
+          companyWebsite,
+        }),
       });
 
       const payload = (await response.json()) as {
@@ -85,7 +96,24 @@ export function ContactForm({ className = "" }: ContactFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={`space-y-4 text-left ${className}`} noValidate>
+    <form
+      onSubmit={handleSubmit}
+      className={`relative space-y-4 text-left ${className}`}
+      noValidate
+    >
+      <div className="absolute -left-[9999px] top-auto h-0 w-0 overflow-hidden" aria-hidden="true">
+        <label htmlFor="contact-companyWebsite">Company website</label>
+        <input
+          id="contact-companyWebsite"
+          name="companyWebsite"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={companyWebsite}
+          onChange={(e) => setCompanyWebsite(e.target.value)}
+        />
+      </div>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="contact-firstName" className={labelClassName}>
@@ -159,7 +187,8 @@ export function ContactForm({ className = "" }: ContactFormProps) {
 
       <div>
         <label htmlFor="contact-phone" className={labelClassName}>
-          {copy.phoneLabel} <span className="text-sky-400">*</span>
+          {copy.phoneLabel}{" "}
+          <span className="font-normal text-slate-500">{copy.phoneOptional}</span>
         </label>
         <input
           id="contact-phone"
@@ -167,7 +196,6 @@ export function ContactForm({ className = "" }: ContactFormProps) {
           type="tel"
           autoComplete="tel"
           inputMode="tel"
-          required
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder={copy.phonePlaceholder}
@@ -183,19 +211,26 @@ export function ContactForm({ className = "" }: ContactFormProps) {
       </div>
 
       <div className="rounded-lg border border-white/8 bg-[#050a14]/60 p-4">
-        <label className="flex items-start gap-3 text-left">
+        <label className="flex min-h-[44px] items-start gap-3 text-left">
           <input
             type="checkbox"
             name="gdprConsent"
             required
             checked={gdprConsent}
             onChange={(e) => setGdprConsent(e.target.checked)}
-            className="mt-1 h-4 w-4 shrink-0 rounded border-white/20 bg-[#050a14] text-sky-500 focus:ring-sky-500/30"
+            className="mt-2.5 h-5 w-5 shrink-0 rounded border-white/20 bg-[#050a14] text-sky-500 focus:ring-sky-500/30"
             aria-invalid={Boolean(fieldErrors.gdprConsent)}
             aria-describedby={fieldErrors.gdprConsent ? "contact-gdpr-error" : undefined}
           />
           <span className="text-sm leading-relaxed text-slate-400">
-            {copy.gdprConsent} <span className="text-sky-400">*</span>
+            {copy.gdprConsent}{" "}
+            <Link
+              href={localizePath("/confidentialite", locale)}
+              className="text-sky-400 underline-offset-2 hover:text-sky-300 hover:underline"
+            >
+              {copy.privacyLinkLabel}
+            </Link>
+            . <span className="text-sky-400">*</span>
           </span>
         </label>
         {fieldErrors.gdprConsent && (

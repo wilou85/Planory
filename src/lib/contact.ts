@@ -1,11 +1,6 @@
 import { getContactFormCopy } from "@/lib/get-content";
 import type { Locale } from "@/lib/i18n";
 
-export const CONTACT_FORM_RECIPIENTS = [
-  "clementdeobaldia@gmail.com",
-  "william.tran@planory.net",
-] as const;
-
 export type ContactFormData = {
   firstName: string;
   lastName: string;
@@ -13,6 +8,13 @@ export type ContactFormData = {
   phone: string;
   gdprConsent: boolean;
 };
+
+/** Honeypot rempli → bot ; succès silencieux sans envoi. */
+export function isContactHoneypotTripped(input: unknown): boolean {
+  if (!input || typeof input !== "object") return false;
+  const honey = (input as Record<string, unknown>).companyWebsite;
+  return typeof honey === "string" && honey.trim().length > 0;
+}
 
 export type ContactFormFieldErrors = Partial<
   Record<keyof ContactFormData, string>
@@ -57,8 +59,7 @@ export function validateContactForm(
   if (!email) errors.email = v.emailRequired;
   else if (!EMAIL_PATTERN.test(email)) errors.email = v.emailInvalid;
 
-  if (!phone) errors.phone = v.phoneRequired;
-  else if (!isValidPhone(phone)) errors.phone = v.phoneInvalid;
+  if (phone && !isValidPhone(phone)) errors.phone = v.phoneInvalid;
 
   if (!gdprConsent) {
     errors.gdprConsent = v.gdprRequired;
@@ -79,6 +80,7 @@ export function formatContactEmail(data: ContactFormData): {
   text: string;
   html: string;
 } {
+  const phoneDisplay = data.phone || "—";
   const subject = `Nouveau contact Planory — ${data.firstName} ${data.lastName}`;
   const text = [
     "Nouvelle demande de contact Planory",
@@ -86,7 +88,7 @@ export function formatContactEmail(data: ContactFormData): {
     `Prénom : ${data.firstName}`,
     `Nom : ${data.lastName}`,
     `Email : ${data.email}`,
-    `Téléphone : ${data.phone}`,
+    `Téléphone : ${phoneDisplay}`,
     "",
     "Consentement RGPD : oui",
   ].join("\n");
@@ -96,7 +98,7 @@ export function formatContactEmail(data: ContactFormData): {
     <p><strong>Prénom :</strong> ${escapeHtml(data.firstName)}</p>
     <p><strong>Nom :</strong> ${escapeHtml(data.lastName)}</p>
     <p><strong>Email :</strong> <a href="mailto:${escapeHtml(data.email)}">${escapeHtml(data.email)}</a></p>
-    <p><strong>Téléphone :</strong> ${escapeHtml(data.phone)}</p>
+    <p><strong>Téléphone :</strong> ${escapeHtml(phoneDisplay)}</p>
     <p><strong>Consentement RGPD :</strong> oui</p>
   `.trim();
 

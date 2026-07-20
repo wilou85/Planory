@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import {
-  CONTACT_FORM_RECIPIENTS,
   formatContactEmail,
+  isContactHoneypotTripped,
   validateContactForm,
 } from "@/lib/contact";
 import { getContactFormCopy } from "@/lib/get-content";
 import type { Locale } from "@/lib/i18n";
+import { getContactFormRecipients } from "@/lib/mail-recipients";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import {
   emailNotConfiguredResponse,
   getContactEmailFrom,
@@ -28,6 +30,27 @@ export async function POST(request: Request) {
       : "fr";
   const apiCopy = getContactFormCopy(locale);
 
+  const ip = getClientIp(request);
+  const rate = checkRateLimit(`contact:${ip}`, { limit: 5, windowMs: 15 * 60 * 1000 });
+  if (!rate.ok) {
+    return NextResponse.json(
+      {
+        error:
+          locale === "en"
+            ? "Too many requests. Please try again later."
+            : "Trop de demandes. Réessayez plus tard.",
+      },
+      {
+        status: 429,
+        headers: { "Retry-After": String(rate.retryAfterSec) },
+      },
+    );
+  }
+
+  if (isContactHoneypotTripped(body)) {
+    return NextResponse.json({ ok: true });
+  }
+
   const result = validateContactForm(body);
   if (!result.ok) {
     return NextResponse.json(
@@ -46,13 +69,19 @@ export async function POST(request: Request) {
     return emailNotConfiguredResponse(locale);
   }
 
+  const recipients = getContactFormRecipients();
+  if (recipients.length === 0) {
+    console.error("[contact] aucun destinataire configuré");
+    return emailNotConfiguredResponse(locale);
+  }
+
   const from = getContactEmailFrom();
   const { subject, text, html } = formatContactEmail(result.data);
 
   const resend = new Resend(apiKey);
   const { error } = await resend.emails.send({
     from,
-    to: [...CONTACT_FORM_RECIPIENTS],
+    to: recipients,
     replyTo: result.data.email,
     subject,
     text,

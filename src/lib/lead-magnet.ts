@@ -18,12 +18,6 @@ import type {
   LeadMagnetSlug,
 } from "@/lib/lead-magnets/types";
 
-/** Notification interne à chaque téléchargement lead magnet */
-export const LEAD_MAGNET_NOTIFICATION_RECIPIENTS = [
-  "william.tran@planory.net",
-  "clementdeobaldia@gmail.com",
-] as const;
-
 export function loadLeadMagnetPdfAttachment(magnet: LeadMagnetDefinition): {
   filename: string;
   content: Buffer;

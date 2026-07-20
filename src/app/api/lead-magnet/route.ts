@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import {
-  LEAD_MAGNET_NOTIFICATION_RECIPIENTS,
   formatLeadMagnetTeamEmail,
   formatLeadMagnetUserEmail,
   loadLeadMagnetPdfAttachment,
@@ -9,6 +8,8 @@ import {
 } from "@/lib/lead-magnet";
 import { getLeadMagnet, getLeadMagnetFormCopy } from "@/lib/lead-magnets";
 import type { Locale } from "@/lib/i18n";
+import { getLeadMagnetNotificationRecipients } from "@/lib/mail-recipients";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import {
   emailNotConfiguredResponse,
   getContactEmailFrom,
@@ -38,6 +39,23 @@ export async function POST(request: Request) {
 
   const locale = resolveRequestLocale(body);
   const apiCopy = getLeadMagnetFormCopy(locale).api;
+
+  const ip = getClientIp(request);
+  const rate = checkRateLimit(`lead-magnet:${ip}`, { limit: 8, windowMs: 15 * 60 * 1000 });
+  if (!rate.ok) {
+    return NextResponse.json(
+      {
+        error:
+          locale === "en"
+            ? "Too many requests. Please try again later."
+            : "Trop de demandes. Réessayez plus tard.",
+      },
+      {
+        status: 429,
+        headers: { "Retry-After": String(rate.retryAfterSec) },
+      },
+    );
+  }
 
   const result = validateLeadMagnetForm(body);
   if (!result.ok) {
@@ -100,7 +118,7 @@ export async function POST(request: Request) {
 
   const teamResult = await resend.emails.send({
     from,
-    to: [...LEAD_MAGNET_NOTIFICATION_RECIPIENTS],
+    to: getLeadMagnetNotificationRecipients(),
     replyTo: result.data.email,
     subject: teamEmail.subject,
     text: teamEmail.text,
