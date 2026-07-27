@@ -6,6 +6,7 @@ import { localizePath } from "@/lib/i18n";
 import { SITE_PAGES, SITE_URL } from "@/lib/site";
 
 const EN_STATIC_PATHS = [
+  "/en",
   "/en/produit",
   "/en/secteurs",
   "/en/secteurs/hopital",
@@ -32,7 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${SITE_URL}${path}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
-    priority: 0.75,
+    priority: path === "/en" ? 1 : 0.75,
   }));
 
   const articles = getResourceArticles("fr").map((article) => ({
