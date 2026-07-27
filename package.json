@@ -7,6 +7,8 @@
     "build": "npm run lead-magnets:pdf && next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "seo:competitors": "node tools/competitor-keyword-research.mjs",
     "lead-magnets:pdf": "node tools/generate-lead-magnet-pdfs.mjs"
   },
@@ -27,6 +29,8 @@
     "eslint-config-next": "16.2.9",
     "pdf-lib": "^1.17.1",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.1.10"
   }
 }

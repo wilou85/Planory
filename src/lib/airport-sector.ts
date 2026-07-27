@@ -92,7 +92,7 @@ export const AIRPORT_SECTOR = {
     {
       question: "Que signifie la référence pilote Orly ?",
       answer:
-        "Un pilote est en cours à l'Aéroport de Paris-Orly. Il illustre le positionnement de Planory sur des plannings aéroportuaires complexes — sans remplacer votre SIRH ou GTA.",
+        "Un pilote est en cours à l'Aéroport de Paris-Orly. Il illustre le positionnement de Planory sur des plannings aéroportuaires complexes — en complément du SIRH, avec la GTA portée côté planification.",
     },
     {
       question: "Planory gère-t-il les incidents et remplacements ?",
@@ -102,7 +102,7 @@ export const AIRPORT_SECTOR = {
     {
       question: "Planory remplace-t-il le SIRH ou la badgeuse ?",
       answer:
-        "Non. Planory se concentre sur la planification opérationnelle. Il complète un SIRH / GTA : l'IA propose, le planificateur valide.",
+        "Planory porte la GTA côté planification opérationnelle 24/7. Il ne remplace pas un SIRH de paie/RH globale. Selon le contexte, la badgeuse et le suivi des temps pointés peuvent rester dans un outil existant ou être cadrés en déploiement : l'IA propose, le planificateur valide.",
     },
   ],
 } as const;

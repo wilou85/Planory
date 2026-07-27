@@ -16,18 +16,6 @@ import { SITE_URL } from "@/lib/site";
 
 const BASE_PATH = "/secteurs/aeroport";
 
-const TITLE: Record<Locale, string> = {
-  fr: "Planning aéroport & ATC 24/7 avec IA | Planory",
-  en: "Airport & ATC scheduling software with AI | Planory",
-};
-
-const DESCRIPTION: Record<Locale, string> = {
-  fr:
-    "Logiciel de planning aéroportuaire : quarts 24/7, repos réglementaires, postes critiques, relèves et gestion des incidents. Pilote Orly — SKYNET.",
-  en:
-    "Airport workforce scheduling: 24/7 shifts, statutory rest, critical posts, handovers and incident cover. Orly pilot — SKYNET AI.",
-};
-
 const KEYWORDS: Record<Locale, string[]> = {
   fr: [
     "planning aéroport",
@@ -61,8 +49,6 @@ export async function generateMetadata({ params }: Props) {
 
   return createPageMetadata({
     path,
-    title: TITLE[locale],
-    description: DESCRIPTION[locale],
     keywords: KEYWORDS[locale],
   });
 }

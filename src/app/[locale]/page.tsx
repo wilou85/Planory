@@ -6,7 +6,7 @@ import { Hero } from "@/components/Hero";
 import { ValuePropositionSection } from "@/components/ValuePropositionSection";
 import { HomeLeadMagnetSection } from "@/components/HomeLeadMagnetSection";
 import type { Locale } from "@/lib/i18n";
-import { EN_SITE, homePath } from "@/lib/i18n";
+import { homePath } from "@/lib/i18n";
 import { generateLocaleStaticParams, parseLocaleParam } from "@/lib/locale-params";
 import { breadcrumbJsonLd, createPageMetadata, webPageJsonLd } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
@@ -23,23 +23,20 @@ export async function generateMetadata({ params }: Props) {
   const url = `${SITE_URL}${path}`;
 
   return {
-    ...createPageMetadata(
-      locale === "en"
-        ? {
-            path,
-            title: EN_SITE.title,
-            description: EN_SITE.description,
-            keywords: [
+    ...createPageMetadata({
+      path,
+      keywords:
+        locale === "en"
+          ? [
               "healthcare workforce scheduling software",
               "workforce scheduling software",
               "shift planning software",
               "hospital workforce scheduling",
               "AI scheduling",
               "24/7 team scheduling",
-            ],
-          }
-        : { path },
-    ),
+            ]
+          : undefined,
+    }),
     alternates: {
       canonical: locale === "en" ? url : SITE_URL,
       languages: {

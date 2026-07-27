@@ -14,11 +14,12 @@ export function ProductShowcase({ locale = "fr" }: ProductShowcaseProps) {
 
   return (
     <motion.div
+      id="exemple"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.5, delay: 0.05 }}
-      className="mt-8 grid gap-4 sm:mt-10 sm:gap-5 lg:grid-cols-2"
+      className="mt-8 scroll-mt-28 grid gap-4 sm:mt-10 sm:gap-5 sm:scroll-mt-32 lg:grid-cols-2"
     >
       {items.map((item) => (
         <figure

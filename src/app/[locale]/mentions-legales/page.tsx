@@ -5,7 +5,6 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import type { Locale } from "@/lib/i18n";
 import { homePath, localizePath } from "@/lib/i18n";
 import { generateLocaleStaticParams, parseLocaleParam } from "@/lib/locale-params";
-import { getLegalDoc } from "@/lib/legal";
 import { breadcrumbJsonLd, createPageMetadata, webPageJsonLd } from "@/lib/seo";
 
 const BASE_PATH = "/mentions-legales";
@@ -20,13 +19,8 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
   const locale = parseLocaleParam((await params).locale);
   const path = localizePath(BASE_PATH, locale);
-  const doc = getLegalDoc("mentions", locale);
 
-  return createPageMetadata({
-    path,
-    title: doc.title,
-    description: doc.description,
-  });
+  return createPageMetadata({ path });
 }
 
 export default async function MentionsLegalesPage({ params }: Props) {

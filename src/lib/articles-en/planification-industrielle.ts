@@ -72,7 +72,7 @@ export const planificationIndustrielle: ResourceArticle = {
     },
     {
       type: "p",
-      text: "Beyond fixed shifts, industrial planning integrates maintenance on-call duties, technical standby coverage, and seasonal reinforcements. These statuses have distinct rest and rotation rules — they must be modeled at generation, not added manually afterward.",
+      text: "Beyond fixed shifts, industrial planning integrates maintenance on-call duties, technical standby coverage, and seasonal reinforcements. In Planory, an on-call activity with a standard status can enter generation; the dedicated on-call availability status is managed manually, especially to balance distribution.",
     },
     {
       type: "h2",

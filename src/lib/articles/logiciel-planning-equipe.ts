@@ -19,7 +19,7 @@ export const logicielPlanningEquipe: ResourceArticle = {
   relatedLinks: [
     { href: "/produit", label: "Modules Planory" },
     { href: "/ressources/planning-social", label: "Planning social" },
-    { href: "/faq", label: "FAQ Planory vs GTA" },
+    { href: "/faq", label: "FAQ Planory et GTA" },
   ],
   sections: [
     {

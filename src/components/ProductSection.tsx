@@ -35,6 +35,13 @@ export function ProductSection({ locale = "fr" }: ProductSectionProps) {
   useEffect(() => {
     const syncFromHash = () => {
       const hash = window.location.hash.slice(1);
+      if (hash === "exemple") {
+        setActiveModuleId("planning");
+        requestAnimationFrame(() => {
+          document.getElementById("exemple")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+        return;
+      }
       if (hash && modules.some((m) => m.id === hash)) {
         setActiveModuleId(hash);
       }

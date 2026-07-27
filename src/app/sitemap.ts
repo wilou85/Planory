@@ -49,13 +49,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.55,
   }));
 
-  const toolsHub = {
-    url: `${SITE_URL}${TOOLS_HUB_PATH}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: 0.65,
-  };
-
   const leadMagnets = LEAD_MAGNETS.flatMap((magnet) => [
     {
       url: `${SITE_URL}${magnet.path}`,
@@ -71,5 +64,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]);
 
-  return [...pages, ...enPages, ...articles, ...enArticles, toolsHub, ...leadMagnets];
+  return [...pages, ...enPages, ...articles, ...enArticles, ...leadMagnets];
 }

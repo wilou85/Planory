@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 import { useLocale } from "@/components/LanguageSwitcher";
-import { getContactPath } from "@/lib/contact-nav";
+import { getContactMailtoHref } from "@/lib/contact-nav";
 
 type ContactButtonProps = {
   children: React.ReactNode;
@@ -23,7 +23,7 @@ export function ContactButton({
 
   return (
     <Button
-      href={getContactPath(locale)}
+      href={getContactMailtoHref(locale)}
       variant={variant}
       size={size}
       className={className}

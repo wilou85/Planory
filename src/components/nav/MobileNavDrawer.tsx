@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Mail } from "lucide-react";
 import { getDrawerNavSections, getHeaderCopy, getLocaleFromPath } from "@/lib/i18n";
-import { getContactPath } from "@/lib/contact-nav";
+import { getContactMailtoHref } from "@/lib/contact-nav";
 import { getNavItemIcon } from "@/lib/icons";
 import { useNavDrawer } from "@/components/nav/NavDrawerContext";
 
@@ -189,7 +189,7 @@ export function MobileNavDrawer() {
               style={{ paddingBottom: "calc(1rem + env(safe-area-inset-bottom, 0px))" }}
             >
               <Link
-                href={getContactPath(locale)}
+                href={getContactMailtoHref(locale)}
                 onClick={closeDrawer}
                 className="flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-white text-sm font-medium text-[#050a14]"
               >

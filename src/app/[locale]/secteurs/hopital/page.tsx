@@ -16,18 +16,6 @@ import { SITE_URL } from "@/lib/site";
 
 const BASE_PATH = "/secteurs/hopital";
 
-const TITLE: Record<Locale, string> = {
-  fr: "Planning hospitalier, planning médical & planning hôpital | Planory",
-  en: "Hospital scheduling, medical rostering & on-call planning | Planory",
-};
-
-const DESCRIPTION: Record<Locale, string> = {
-  fr:
-    "Logiciel de planning hospitalier et planning médical avec IA : gardes, planning de garde, planning roulement hospitalier, astreintes 12h et réglementation FPH.",
-  en:
-    "Hospital and medical scheduling software with AI: on-call duties, hospital rotation planning, 12-hour shifts and public healthcare compliance.",
-};
-
 const KEYWORDS: Record<Locale, string[]> = {
   fr: [
     "planning hospitalier",
@@ -64,8 +52,6 @@ export async function generateMetadata({ params }: Props) {
 
   return createPageMetadata({
     path,
-    title: TITLE[locale],
-    description: DESCRIPTION[locale],
     keywords: KEYWORDS[locale],
   });
 }

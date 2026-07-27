@@ -7,6 +7,7 @@ export type ContactFormData = {
   email: string;
   phone: string;
   gdprConsent: boolean;
+  locale: Locale;
 };
 
 /** Honeypot rempli → bot ; succès silencieux sans envoi. */
@@ -71,7 +72,7 @@ export function validateContactForm(
 
   return {
     ok: true,
-    data: { firstName, lastName, email, phone, gdprConsent },
+    data: { firstName, lastName, email, phone, gdprConsent, locale },
   };
 }
 
@@ -81,10 +82,12 @@ export function formatContactEmail(data: ContactFormData): {
   html: string;
 } {
   const phoneDisplay = data.phone || "—";
-  const subject = `Nouveau contact Planory — ${data.firstName} ${data.lastName}`;
+  const langTag = data.locale === "en" ? "EN" : "FR";
+  const subject = `Nouveau contact Planory [${langTag}] — ${data.firstName} ${data.lastName}`;
   const text = [
     "Nouvelle demande de contact Planory",
     "",
+    `Langue : ${langTag}`,
     `Prénom : ${data.firstName}`,
     `Nom : ${data.lastName}`,
     `Email : ${data.email}`,
@@ -95,6 +98,7 @@ export function formatContactEmail(data: ContactFormData): {
 
   const html = `
     <h2>Nouvelle demande de contact Planory</h2>
+    <p><strong>Langue :</strong> ${langTag}</p>
     <p><strong>Prénom :</strong> ${escapeHtml(data.firstName)}</p>
     <p><strong>Nom :</strong> ${escapeHtml(data.lastName)}</p>
     <p><strong>Email :</strong> <a href="mailto:${escapeHtml(data.email)}">${escapeHtml(data.email)}</a></p>

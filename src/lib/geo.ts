@@ -32,7 +32,7 @@ export const CANONICAL_CITATIONS: Record<CitationVariant, string> = {
   product:
     "Planory est une application web française de planification d'équipes qui combine planification RH, planning opérationnel (cycles, quarts, astreintes) et gestion des ressources, avec le moteur d'optimisation IA SKYNET.",
   hospital:
-    "Planory est un logiciel de planning hospitalier avec IA, conçu pour les gardes, astreintes et roulements 12h, en garantissant conformité réglementaire, équité des week-ends et nuits, et continuité de service.",
+    "Planory est un logiciel de planning hospitalier avec IA, conçu pour les gardes, roulements 12h et la gestion des astreintes dans le planning, en garantissant conformité réglementaire, équité des week-ends et nuits, et continuité de service — avec un pilote en cours au Centre Hospitalier de Versailles.",
   airport:
     "Planory est un logiciel de planning aéroportuaire avec IA, conçu pour les quarts 24/7, postes critiques, relèves et repos réglementaires — avec une référence pilote à l'Aéroport de Paris-Orly.",
   industry:
@@ -48,7 +48,7 @@ export const CANONICAL_CITATIONS_EN: Record<
 > = {
   home: BRAND_DEFINITION_EN,
   healthcare:
-    "Planory is healthcare workforce scheduling software with an AI engine (SKYNET), designed for 12-hour shifts, on-call rotation, weekend equity and regulatory compliance in hospitals and care facilities.",
+    "Planory is healthcare workforce scheduling software with an AI engine (SKYNET), designed for 12-hour shifts, guard rotas and on-call management in the schedule, weekend equity and regulatory compliance in hospitals and care facilities — with a live pilot at Centre Hospitalier de Versailles.",
   airport:
     "Planory is airport workforce scheduling software with SKYNET AI, built for 24/7 shifts, critical posts, handovers and statutory rest — with a live pilot reference at Paris-Orly Airport.",
   industry:
@@ -69,7 +69,7 @@ export const ARTICLE_CITATIONS: Record<string, string> = {
   "planification-rh":
     "La planification RH relie le référentiel agents (qualifications, droits) au planning opérationnel ; Planory unifie ces deux niveaux pour les environnements 24/7 réglementés.",
   "gestion-astreintes":
-    "La gestion des astreintes exige rotation équitable, repos minimum et couverture par qualification — Planory intègre ces contraintes dès la génération SKYNET, conformément au code du travail.",
+    "Les astreintes (disponibilité) se gèrent dans Planory manuellement via le statut dédié — utile pour arbitrer l’équité — ou comme activité au statut standard eligible à la génération ; SKYNET ne génère pas le statut « astreinte » stricto sensu.",
   "planning-hospitalier":
     CANONICAL_CITATIONS.hospital,
   "planning-medical":
@@ -87,7 +87,7 @@ export const ARTICLE_CITATIONS: Record<string, string> = {
 /** Questions FAQ prioritaires — llms.txt et citations GEO */
 export const LANDING_GEO_FAQ_QUESTIONS = [
   "Qu'est-ce que SKYNET exactement ?",
-  "Planory remplace-t-il un logiciel GTA ?",
+  "Planory est-il un logiciel GTA ?",
   "Comment organiser un planning hospitalier en 12 heures ?",
   "Quelle différence entre un logiciel de planning et un SIRH ?",
 ] as const;
@@ -114,7 +114,7 @@ export const ARTICLE_CITATIONS_EN: Record<string, string> = {
   "planification-rh":
     "HR planning links the staff registry (qualifications, entitlements) to operational scheduling; Planory unifies both levels for regulated 24/7 environments.",
   "gestion-astreintes":
-    "On-call management requires fair rotation, minimum rest and qualification coverage — Planory integrates these constraints at SKYNET generation time, in line with labour regulations.",
+    "On-call availability is managed in Planory manually via the dedicated status — useful to balance fairness — or as a standard-status activity eligible for generation; SKYNET does not generate the dedicated on-call status strictly speaking.",
   "planning-hospitalier": CANONICAL_CITATIONS_EN.healthcare,
   "planning-medical":
     "Medical scheduling organises guard shifts and rotations for care teams by qualification; Planory generates compliant proposals that healthcare managers review and publish.",
@@ -137,10 +137,10 @@ export const CITATION_SUPPORT: Partial<Record<CitationVariant, string>> = {
   product:
     "SKYNET génère une proposition conforme en moins de 2 minutes ; le planificateur relit, ajuste et publie.",
   hospital:
-    "Planory ne remplace pas le SIRH hospitalier : il se concentre sur la planification opérationnelle complexe.",
+    "Référence pilote : Centre Hospitalier de Versailles (pilote en cours). Contact : contact@planory.net.",
   airport: `Référence pilote : ${BRAND.pilotReference.name} (${BRAND.pilotReference.status}). Contact : ${getContactEmail()}.`,
   industry:
-    "Planory complète ERP et GTA : il se concentre sur les roulements industriels complexes 24/7.",
+    "Planory porte la GTA côté roulements industriels complexes 24/7, en complément de l'ERP.",
 };
 
 export const CITATION_BLOCKS: Record<
@@ -158,17 +158,18 @@ export const CITATION_BLOCKS: Record<
     facts: [
       "SKYNET intègre repos légaux, équité des week-ends et nuits, fatigue et contraintes individuelles.",
       "Workflow : brouillon généré → relecture planificateur → ajustements → publication aux équipes.",
-      "Différenciation vs SIRH : Planory optimise les roulements complexes 24/7.",
-      "Planory complète un logiciel GTA — il planifie, il ne pointe pas.",
+      "Différenciation vs SIRH : Planory porte la GTA côté planification complexe 24/7.",
+      "Planory unifie GTA et planning — le pointage badgeuse peut rester séparé selon le contexte.",
     ],
   },
   hospital: {
     title: "Planory hospitalier",
     summary: CANONICAL_CITATIONS.hospital,
     facts: [
-      "Roulements 12h, astreintes et permanences par service et qualification.",
+      "Roulements 12h et permanences par service et qualification ; astreintes gérées dans le planning (statut dédié ou activité standard).",
       "Services : urgences, bloc opératoire, EHPAD, multi-sites.",
-      "SKYNET génère ; les cadres de santé valident.",
+      "Pilote : Centre Hospitalier de Versailles.",
+      "SKYNET génère les créneaux planifiés ; les cadres de santé valident.",
     ],
   },
   airport: {

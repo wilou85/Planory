@@ -12,7 +12,7 @@ export const PRODUCT_BENEFITS = [
   "Publication maîtrisée du brouillon à la validation",
   "Gestion planning personnel : qualifications, repos, équité et couverture par poste.",
   "Gestion des plannings sur horizons longs (semaines à trimestre).",
-  "Complément à votre SIRH ou GTA — Planory se concentre sur la planification, pas le pointage.",
+  "Logiciel GTA orienté planification 24/7 — roulements, astreintes et conformité dans un même outil.",
   "Échanges, astreintes, renforts gérés en temps réel",
 ] as const;
 
@@ -47,7 +47,7 @@ export const PRODUCT_MODULES = [
     details: [
       {
         title: "Génération automatique conforme",
-        text: "SKYNET produit une proposition respectant repos réglementaires, astreintes, qualifications par poste et cycles 3×8 ou 2×12.",
+        text: "SKYNET produit une proposition respectant repos réglementaires, qualifications par poste et cycles 3×8 ou 2×12.",
       },
       {
         title: "Échanges et renforts en temps réel",
@@ -264,17 +264,17 @@ export const FAQ_ITEMS = [
   {
     question: "Quelle différence entre un logiciel de planning et un SIRH ?",
     answer:
-      "Un SIRH gère les absences, la paie et les talents. Planory se concentre sur la génération de plannings complexes 24/7 : roulements, astreintes, équité et conformité réglementaire. Les deux peuvent coexister — Planory peut s'intégrer à votre SIRH existant.",
+      "Un SIRH gère les absences, la paie et les talents. Planory est un logiciel GTA centré sur la génération de plannings complexes 24/7 : roulements, astreintes, équité et conformité réglementaire. Les deux peuvent coexister — Planory peut s'intégrer à votre SIRH existant.",
   },
   {
-    question: "Planory remplace-t-il un logiciel GTA ?",
+    question: "Planory est-il un logiciel GTA ?",
     answer:
-      "Non. Un logiciel GTA (gestion des temps et activités) gère le pointage, les absences et les éléments variables de paie. Planory se concentre sur la planification complexe 24/7 : roulements, astreintes, équité et génération conforme via SKYNET. Les deux se complètent — Planory peut coexister avec votre GTA ou SIRH existant sans remplacer le suivi des temps.",
+      "Oui. Planory est un logiciel de GTA (gestion des temps et activités) centré sur la planification complexe 24/7 : roulements, astreintes, absences planifiées, équité et génération conforme via SKYNET. Pour les organisations qui veulent unifier GTA et planning dans le même outil — notamment en santé — c’est le périmètre porté par Planory. Selon votre contexte, le pointage badgeuse et les éléments variables de paie peuvent rester dans un outil existant ou être cadrés lors du déploiement.",
   },
   {
     question: "Comment gérer les astreintes avec Planory ?",
     answer:
-      "Les astreintes sont paramétrées comme contraintes dans SKYNET : rotation, repos minimum entre gardes, équité entre agents et couverture par qualification. Le moteur génère une proposition conforme ; vos cadres valident avant publication.",
+      "Les astreintes (disponibilité à domicile ou sur site) ne sont pas générées par SKYNET stricto sensu. Vous pouvez les répartir manuellement avec le statut dédié « astreinte », utile notamment pour arbitrer l’équité. Vous pouvez aussi créer une activité du type « garde astreinte » : elle a alors un statut standard et peut entrer dans la génération comme n’importe quelle activité planifiée. L’intégration du statut « astreinte » au générateur pourra venir plus tard.",
   },
   {
     question: "Planory remplace-t-il Excel pour les plannings ?",
@@ -317,7 +317,7 @@ export const PAGE_UI = {
         { href: "/ressources/logiciel-planning-equipe", label: "logiciel planning équipe" },
         { href: "/ressources/planning-social", label: "planning social" },
         { href: "/ressources/travail-nuit-planning-2x8", label: "travail de nuit et 2×8" },
-        { href: "/faq", label: "FAQ Planory vs GTA" },
+        { href: "/faq", label: "FAQ Planory et GTA" },
       ],
     },
   },

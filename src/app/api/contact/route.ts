@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
 import {
   formatContactEmail,
   isContactHoneypotTripped,
@@ -11,9 +10,9 @@ import { getContactFormRecipients } from "@/lib/mail-recipients";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import {
   emailNotConfiguredResponse,
-  getContactEmailFrom,
-  getResendApiKey,
+  isEmailConfigured,
   isEmailDevBypass,
+  sendEmail,
 } from "@/lib/email";
 
 export async function POST(request: Request) {
@@ -60,12 +59,11 @@ export async function POST(request: Request) {
   }
 
   if (isEmailDevBypass()) {
-    console.info("[contact] mode dev — RESEND_API_KEY absent, pas d'email envoyé", result.data);
+    console.info("[contact] mode dev — email provider absent, pas d'email envoyé", result.data);
     return NextResponse.json({ ok: true, devBypass: true });
   }
 
-  const apiKey = getResendApiKey();
-  if (!apiKey) {
+  if (!isEmailConfigured()) {
     return emailNotConfiguredResponse(locale);
   }
 
@@ -75,12 +73,8 @@ export async function POST(request: Request) {
     return emailNotConfiguredResponse(locale);
   }
 
-  const from = getContactEmailFrom();
   const { subject, text, html } = formatContactEmail(result.data);
-
-  const resend = new Resend(apiKey);
-  const { error } = await resend.emails.send({
-    from,
+  const sent = await sendEmail({
     to: recipients,
     replyTo: result.data.email,
     subject,
@@ -88,8 +82,8 @@ export async function POST(request: Request) {
     html,
   });
 
-  if (error) {
-    console.error("[contact]", error);
+  if (!sent.ok) {
+    console.error("[contact]", sent.error);
     return NextResponse.json(
       {
         error:

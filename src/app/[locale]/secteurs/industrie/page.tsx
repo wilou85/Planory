@@ -16,18 +16,6 @@ import { SITE_URL } from "@/lib/site";
 
 const BASE_PATH = "/secteurs/industrie";
 
-const TITLE: Record<Locale, string> = {
-  fr: "Planification industrielle 3×8 & 2×12 avec IA | Planory",
-  en: "Industrial scheduling: 3×8 & 2×12 rotations with AI | Planory",
-};
-
-const DESCRIPTION: Record<Locale, string> = {
-  fr:
-    "Logiciel de planification industrielle : roulements 3×8, 2×12, absences, compteurs d'heures et conformité. SKYNET pour l'industrie continue.",
-  en:
-    "Industrial workforce scheduling software: 3×8 and 2×12 rotations, absence cover, hour balances and compliance. SKYNET for continuous industry.",
-};
-
 const KEYWORDS: Record<Locale, string[]> = {
   fr: [
     "planification industrielle",
@@ -64,8 +52,6 @@ export async function generateMetadata({ params }: Props) {
 
   return createPageMetadata({
     path,
-    title: TITLE[locale],
-    description: DESCRIPTION[locale],
     keywords: KEYWORDS[locale],
   });
 }

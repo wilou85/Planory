@@ -29,7 +29,7 @@ export const gestionAstreintes: ResourceArticle = {
     },
     {
       type: "h2",
-      text: "Constraints to integrate from generation",
+      text: "Constraints to keep in the schedule",
     },
     {
       type: "ul",
@@ -60,7 +60,7 @@ export const gestionAstreintes: ResourceArticle = {
     },
     {
       type: "p",
-      text: "Knowing the regulations is not enough: the schedule must reject assignments that violate them. Planory encodes these rules in SKYNET — see also our guide on night work and 2×8 shifts for constraints associated with standby duties.",
+      text: "Knowing the regulations is not enough: the schedule must make them operational. In Planory, guard shifts and scheduled activities go through SKYNET; on-call availability is managed manually via the dedicated status — to balance fairness — or as a standard-status activity. See also our guide on night work and 2×8 shifts.",
     },
     {
       type: "h2",
@@ -76,7 +76,7 @@ export const gestionAstreintes: ResourceArticle = {
     },
     {
       type: "p",
-      text: "An employee falls ill, a surge in activity requires backup: the schedule must absorb the change while respecting cumulative constraints. Planory treats on-call duties and reinforcements as first-class constraints, recalculated in real time before validation.",
+      text: "An employee falls ill, a surge in activity requires backup: the schedule must absorb the change while respecting cumulative constraints. In Planory, replacements and reinforcements adjust on the existing proposal; dedicated on-call status slots stay manually balanced, while a standard-status “on-call duty” activity can be regenerated like other slots.",
     },
     {
       type: "h2",

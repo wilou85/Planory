@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
-import { ContactForm } from "@/components/ContactForm";
+import { ContactButton } from "@/components/ContactButton";
 import { getContactTopics, getPageUi } from "@/lib/get-content";
 import type { Locale } from "@/lib/i18n";
 import { CONTACT_TOPIC_ICONS } from "@/lib/icons";
@@ -17,6 +17,7 @@ export function ContactSection({ standalone = false, locale = "fr" }: ContactSec
   const ui = getPageUi(locale);
   const topics = getContactTopics(locale);
   const Heading = standalone ? "h1" : "h2";
+  const ctaLabel = locale === "en" ? "Open your email client" : "Ouvrir votre boîte mail";
 
   return (
     <section
@@ -54,10 +55,35 @@ export function ContactSection({ standalone = false, locale = "fr" }: ContactSec
                 );
               })}
             </ul>
-          </div>
 
-          <div className="mt-8">
-            <ContactForm />
+            <div className="mt-8 flex justify-center">
+              <ContactButton variant="primary" showArrow>
+                {ctaLabel}
+              </ContactButton>
+            </div>
+            <p className="mt-4 text-sm text-slate-500">
+              {locale === "en" ? (
+                <>
+                  Or write to{" "}
+                  <a
+                    href="mailto:contact@planory.net"
+                    className="text-sky-400 hover:text-sky-300"
+                  >
+                    contact@planory.net
+                  </a>
+                </>
+              ) : (
+                <>
+                  Ou écrivez à{" "}
+                  <a
+                    href="mailto:contact@planory.net"
+                    className="text-sky-400 hover:text-sky-300"
+                  >
+                    contact@planory.net
+                  </a>
+                </>
+              )}
+            </p>
           </div>
         </motion.div>
       </div>

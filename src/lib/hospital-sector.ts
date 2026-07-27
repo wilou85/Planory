@@ -3,7 +3,7 @@ export const HOSPITAL_SECTOR = {
     label: "Secteur hospitalier",
     title: "Planning hospitalier, planning médical et planning hôpital avec IA",
     intro:
-      "Planory planifie gardes, astreintes et planning roulement hospitalier en respectant la réglementation du travail de nuit, l'équité des week-ends et la continuité des services. SKYNET génère une proposition en moins de 2 minutes ; vos cadres de santé valident et publient.",
+      "Planory organise le planning roulement hospitalier, les gardes et la continuité de service en respectant la réglementation du travail de nuit et l'équité des week-ends. SKYNET génère une proposition en moins de 2 minutes ; vos cadres de santé valident et publient. Les astreintes (disponibilité) se gèrent dans le planning — manuellement via le statut dédié, ou comme activité au statut standard. Un pilote est également en cours au Centre Hospitalier de Versailles.",
   },
   medicalPlanning: {
     title: "Planning médical, planning hôpital et planning de garde",
@@ -20,7 +20,7 @@ export const HOSPITAL_SECTOR = {
       },
       {
         title: "Planning de garde et permanences",
-        text: "Astreintes médicales, gardes de nuit et permanences de jour — statuts différents, contraintes de repos et rotation équitable intégrées dès la génération.",
+        text: "Gardes de nuit et permanences de jour entrent dans la génération SKYNET. Les astreintes (disponibilité à domicile ou sur site) passent par le statut dédié géré manuellement — utile pour arbitrer l’équité — ou par une activité au statut standard si vous les modélisez ainsi.",
       },
     ],
   },
@@ -92,12 +92,17 @@ export const HOSPITAL_SECTOR = {
     {
       question: "Planory convient-il au planning médical et au planning hôpital ?",
       answer:
-        "Oui. Planory modélise les gardes, astreintes et permanences par qualification et par service — que vous organisiez un planning médical spécialisé ou un planning hôpital multi-unités.",
+        "Oui. Planory modélise les gardes et permanences par qualification et par service — que vous organisiez un planning médical spécialisé ou un planning hôpital multi-unités. Les astreintes (disponibilité) se gèrent manuellement via le statut dédié, ou comme activité au statut standard.",
     },
     {
       question: "Comment Planory traite-t-il les astreintes ?",
       answer:
-        "Les astreintes sont des contraintes de première classe : rotation, repos minimum, équité entre agents et couverture par qualification sont intégrés à la génération.",
+        "Les astreintes (disponibilité) ne sont pas générées par SKYNET stricto sensu. Statut dédié « astreinte » en saisie manuelle pour arbitrer la répartition ; ou activité nommée (ex. « garde astreinte ») au statut standard, alors eligible à la génération. L’intégration du statut « astreinte » au générateur pourra venir plus tard.",
+    },
+    {
+      question: "Existe-t-il une référence pilote en milieu hospitalier ?",
+      answer:
+        "Oui. Un pilote est en cours au Centre Hospitalier de Versailles. Il illustre le positionnement de Planory sur des plannings hospitaliers complexes — sans remplacer votre SIRH.",
     },
     {
       question: "Planory remplace-t-il le SIRH hospitalier ?",

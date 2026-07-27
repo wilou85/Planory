@@ -133,11 +133,12 @@ export function formatLeadMagnetTeamEmail(data: LeadMagnetFormData): {
   const roleLabel = roleLabels[data.role];
   const sectorLabel = sectorLabels[data.sector];
 
-  const subject = `Lead magnet — ${data.email} — ${data.firstName} ${data.lastName}`;
+  const langTag = locale === "en" ? "EN" : "FR";
+  const subject = `Lead magnet [${langTag}] — ${data.email} — ${data.firstName} ${data.lastName}`;
   const text = [
     "Nouveau téléchargement lead magnet Planory",
     "",
-    `Langue : ${locale === "en" ? "EN" : "FR"}`,
+    `Langue : ${langTag}`,
     `Email du contact : ${data.email}`,
     `Ressource : ${magnet.title}`,
     `Prénom : ${data.firstName}`,
@@ -151,7 +152,7 @@ export function formatLeadMagnetTeamEmail(data: LeadMagnetFormData): {
 
   const html = `
     <h2>Nouveau téléchargement lead magnet</h2>
-    <p><strong>Langue :</strong> ${locale === "en" ? "EN" : "FR"}</p>
+    <p><strong>Langue :</strong> ${langTag}</p>
     <p><strong>Email du contact :</strong> <a href="mailto:${escapeHtml(data.email)}">${escapeHtml(data.email)}</a></p>
     <p><strong>Ressource :</strong> ${escapeHtml(magnet.title)}</p>
     <p><strong>Prénom :</strong> ${escapeHtml(data.firstName)}</p>

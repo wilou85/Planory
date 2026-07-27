@@ -59,13 +59,14 @@ export function Button({
     </>
   );
 
-  if (external) {
+  if (external || href.startsWith("mailto:")) {
     return (
       <motion.a
         href={href}
         className={classes}
-        target="_blank"
-        rel="noopener noreferrer"
+        {...(href.startsWith("mailto:")
+          ? {}
+          : { target: "_blank", rel: "noopener noreferrer" })}
         whileTap={tapScale}
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.15 }}

@@ -72,7 +72,7 @@ export const planificationIndustrielle: ResourceArticle = {
     },
     {
       type: "p",
-      text: "Au-delà des postes fixes, la planification industrielle intègre des astreintes maintenance, des permanences techniques et des renforts saisonniers. Ces statuts ont des règles de repos et de rotation distinctes — ils doivent être modélisés dès la génération, pas ajoutés manuellement après coup.",
+      text: "Au-delà des postes fixes, la planification industrielle intègre des astreintes maintenance, des permanences techniques et des renforts saisonniers. Dans Planory, une activité d’astreinte au statut standard peut entrer dans la génération ; le statut dédié « astreinte » (disponibilité) se gère manuellement, notamment pour arbitrer la répartition.",
     },
     {
       type: "h2",
@@ -85,7 +85,7 @@ export const planificationIndustrielle: ResourceArticle = {
         "Moteur de contraintes : repos, équité, couverture minimale.",
         "Absorption des absences et remplacements sans repartir de zéro.",
         "Workflow validation responsable production / RH.",
-        "Complément au GTA : Planory planifie, le logiciel de temps suit.",
+        "GTA et planning unifiés côté roulements 24/7 — le pointage peut rester séparé selon le contexte.",
       ],
     },
     {

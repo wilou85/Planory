@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getFaqItems } from "@/lib/get-content";
-import { EN_SITE, getLocaleFromPath, localizePath, stripLocalePrefix, type Locale } from "@/lib/i18n";
+import { getLocaleFromPath, localizePath, stripLocalePrefix, type Locale } from "@/lib/i18n";
 import { getLeadMagnet, LEAD_MAGNETS, TOOLS_HUB_PATH } from "@/lib/lead-magnets";
 import { getArticleUpdatedAt, getResourceArticle, RESOURCE_ARTICLES } from "@/lib/resources";
 import {
@@ -13,6 +13,7 @@ import {
   SITE_REGION,
   SITE_TAGLINE,
   SITE_URL,
+  getPageSeo,
   getSitePage,
   getBrandSameAs,
 } from "@/lib/site";
@@ -22,70 +23,6 @@ type PageMetaInput = {
   title?: string;
   description?: string;
   keywords?: string[];
-};
-
-/** Titres/descriptions EN pour WebPage JSON-LD (pages sans entrée SITE_PAGES EN) */
-const EN_WEB_PAGE_META: Record<string, { title: string; description: string }> = {
-  "/": { title: EN_SITE.title, description: EN_SITE.description },
-  "/produit": {
-    title: "Team scheduling software, HR planning & social scheduling | Planory",
-    description:
-      "Workforce scheduling software for 24/7 teams: HR planning, shift scheduling, personal schedule management and SKYNET optimisation.",
-  },
-  "/secteurs": {
-    title: "Hospital, airport, industry & retail scheduling | Planory",
-    description:
-      "Hospital scheduling, on-call duties, 3×8 industrial rotations, retail staffing and 24/7 airport planning. Concrete use cases by sector with Planory.",
-  },
-  "/secteurs/hopital": {
-    title: "Hospital scheduling, medical rostering & on-call planning | Planory",
-    description:
-      "Hospital and medical scheduling software with AI: on-call duties, hospital rotation planning, 12-hour shifts and public healthcare compliance.",
-  },
-  "/secteurs/aeroport": {
-    title: "Airport & ATC scheduling software with AI | Planory",
-    description:
-      "Airport workforce scheduling: 24/7 shifts, statutory rest, critical posts, handovers and incident cover. Orly pilot — SKYNET AI.",
-  },
-  "/secteurs/industrie": {
-    title: "Industrial scheduling: 3×8 & 2×12 rotations with AI | Planory",
-    description:
-      "Industrial workforce scheduling software: 3×8 and 2×12 rotations, absence cover, hour balances and compliance. SKYNET for continuous industry.",
-  },
-  "/ressources": {
-    title: "Scheduling guides & team planning | Planory",
-    description: "Practical guides on team scheduling, on-call duties and 24/7 shift patterns.",
-  },
-  "/ressources/outils": {
-    title: "Free tools — grids and scheduling templates | Planory",
-    description:
-      "Free Planory tools: Excel vs software self-assessment grids, templates and checklists to scope a 24/7 team scheduling project.",
-  },
-  "/offre": {
-    title: "Planory pricing: Self-serve, Supported, Mission-critical",
-    description:
-      "Three engagement levels to deploy Planory: self-serve, supported with a dedicated contact, or mission-critical for regulated 24/7 environments.",
-  },
-  "/faq": {
-    title: "Planory FAQ: scheduling, on-call, SKYNET and deployment",
-    description:
-      "Answers on HR planning, on-call duties, SKYNET, workforce scheduling, deployment and HRIS integration.",
-  },
-  "/contact": {
-    title: "Contact Planory — Demo request and inquiry",
-    description:
-      "Contact Planory for a 20-minute call about your 24/7 team scheduling context. Contact form — quick response.",
-  },
-  "/mentions-legales": {
-    title: "Legal notice | Planory",
-    description:
-      "Planory legal notice: publisher, hosting provider, contact and intellectual property.",
-  },
-  "/confidentialite": {
-    title: "Privacy policy | Planory",
-    description:
-      "Planory privacy policy: data collected via forms, purposes, retention and GDPR rights.",
-  },
 };
 
 const EN_NAV_LABELS: Record<string, string> = {
@@ -151,11 +88,9 @@ export function createPageMetadata({
 }: PageMetaInput): Metadata {
   const locale = resolvePageLanguage(path);
   const basePath = stripLocalePrefix(path);
-  const page = getSitePage(basePath);
-  const enMeta = locale === "en" ? EN_WEB_PAGE_META[basePath] : undefined;
-  const pageTitle = title ?? enMeta?.title ?? page?.title ?? SITE_NAME;
-  const pageDescription =
-    description ?? enMeta?.description ?? page?.description ?? SITE_DESCRIPTION;
+  const seo = getPageSeo(basePath, locale);
+  const pageTitle = title ?? seo?.title ?? SITE_NAME;
+  const pageDescription = description ?? seo?.description ?? SITE_DESCRIPTION;
   const url = `${SITE_URL}${path}`;
 
   return {
@@ -359,23 +294,10 @@ function resolveWebPageMeta(path: string): {
 
   const page = getSitePage(basePath);
   if (page) {
-    const enMeta = locale === "en" ? EN_WEB_PAGE_META[basePath] : undefined;
+    const seo = getPageSeo(basePath, locale)!;
     return {
-      title: enMeta?.title ?? page.title,
-      description: enMeta?.description ?? page.description,
-      inLanguage,
-    };
-  }
-
-  if (basePath === "/ressources/outils") {
-    const meta = EN_WEB_PAGE_META["/ressources/outils"];
-    if (locale === "en" && meta) {
-      return { ...meta, inLanguage };
-    }
-    return {
-      title: "Outils gratuits — grilles et modèles planification | Planory",
-      description:
-        "Outils gratuits Planory : grilles d'auto-diagnostic Excel vs logiciel, modèles et checklists pour cadrer un projet de planification d'équipes 24/7.",
+      title: seo.title,
+      description: seo.description,
       inLanguage,
     };
   }

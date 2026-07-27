@@ -29,7 +29,7 @@ export const gestionAstreintes: ResourceArticle = {
     },
     {
       type: "h2",
-      text: "Les contraintes à intégrer dès la génération",
+      text: "Les contraintes à tenir dans le planning",
     },
     {
       type: "ul",
@@ -60,7 +60,7 @@ export const gestionAstreintes: ResourceArticle = {
     },
     {
       type: "p",
-      text: "Connaître la réglementation ne suffit pas : le planning doit refuser les affectations qui la violent. Planory encode ces règles dans SKYNET — voir aussi notre guide sur le travail de nuit et les horaires en 2×8 pour les contraintes associées aux gardes.",
+      text: "Connaître la réglementation ne suffit pas : le planning doit la rendre opérationnelle. Dans Planory, les gardes et activités planifiées passent par SKYNET ; les astreintes (disponibilité) se gèrent manuellement via le statut dédié — pour arbitrer l’équité — ou comme activité au statut standard. Voir aussi notre guide sur le travail de nuit et les horaires en 2×8.",
     },
     {
       type: "h2",
@@ -76,7 +76,7 @@ export const gestionAstreintes: ResourceArticle = {
     },
     {
       type: "p",
-      text: "Un agent tombe malade, un pic d'activité impose un renfort : le planning doit absorber le changement tout en respectant les contraintes cumulées. Planory traite astreintes et renforts comme des contraintes de première classe, recalculées en temps réel avant validation.",
+      text: "Un agent tombe malade, un pic d'activité impose un renfort : le planning doit absorber le changement tout en respectant les contraintes cumulées. Dans Planory, les remplacements et renforts s’ajustent sur la proposition existante ; les astreintes au statut dédié restent arbitrées manuellement, tandis qu’une activité « garde astreinte » au statut standard peut être régénérée comme les autres créneaux.",
     },
     {
       type: "h2",

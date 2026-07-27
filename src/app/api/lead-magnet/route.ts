@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
 import {
   formatLeadMagnetTeamEmail,
   formatLeadMagnetUserEmail,
@@ -11,11 +10,11 @@ import type { Locale } from "@/lib/i18n";
 import { getLeadMagnetNotificationRecipients } from "@/lib/mail-recipients";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import {
+  emailErrorMessage,
   emailNotConfiguredResponse,
-  getContactEmailFrom,
-  getResendApiKey,
+  isEmailConfigured,
   isEmailDevBypass,
-  resendErrorMessage,
+  sendEmail,
 } from "@/lib/email";
 
 function resolveRequestLocale(body: unknown): Locale {
@@ -71,7 +70,7 @@ export async function POST(request: Request) {
   }
 
   if (isEmailDevBypass()) {
-    console.info("[lead-magnet] mode dev — RESEND_API_KEY absent, pas d'email envoyé", {
+    console.info("[lead-magnet] mode dev — email provider absent, pas d'email envoyé", {
       ...result.data,
       magnet: magnet.slug,
     });
@@ -82,33 +81,29 @@ export async function POST(request: Request) {
     });
   }
 
-  const apiKey = getResendApiKey();
-  if (!apiKey) {
+  if (!isEmailConfigured()) {
     return emailNotConfiguredResponse(locale);
   }
 
-  const from = getContactEmailFrom();
   const teamEmail = formatLeadMagnetTeamEmail(result.data);
   const userEmail = formatLeadMagnetUserEmail(result.data);
   const pdfAttachment = loadLeadMagnetPdfAttachment(magnet);
+  const attachments = pdfAttachment ? [pdfAttachment] : undefined;
 
-  const resend = new Resend(apiKey);
-
-  const userResult = await resend.emails.send({
-    from,
-    to: [result.data.email],
+  const userSent = await sendEmail({
+    to: result.data.email,
     replyTo: "contact@planory.net",
     subject: userEmail.subject,
     text: userEmail.text,
     html: userEmail.html,
-    ...(pdfAttachment ? { attachments: [pdfAttachment] } : {}),
+    attachments,
   });
 
-  if (userResult.error) {
-    console.error("[lead-magnet] user email", userResult.error);
+  if (!userSent.ok) {
+    console.error("[lead-magnet] user email", userSent.error);
     return NextResponse.json(
       {
-        error: resendErrorMessage(userResult.error, apiCopy.emailSendFailed, locale),
+        error: emailErrorMessage(userSent, apiCopy.emailSendFailed, locale),
         downloadPath: magnet.downloadPath,
         emailFailed: true,
       },
@@ -116,23 +111,22 @@ export async function POST(request: Request) {
     );
   }
 
-  const teamResult = await resend.emails.send({
-    from,
+  const teamSent = await sendEmail({
     to: getLeadMagnetNotificationRecipients(),
     replyTo: result.data.email,
     subject: teamEmail.subject,
     text: teamEmail.text,
     html: teamEmail.html,
-    ...(pdfAttachment ? { attachments: [pdfAttachment] } : {}),
+    attachments,
   });
 
-  if (teamResult.error) {
-    console.error("[lead-magnet] team notification", teamResult.error);
+  if (!teamSent.ok) {
+    console.error("[lead-magnet] team notification", teamSent.error);
   }
 
   return NextResponse.json({
     ok: true,
     downloadPath: magnet.downloadPath,
-    teamNotifyFailed: Boolean(teamResult.error),
+    teamNotifyFailed: !teamSent.ok,
   });
 }

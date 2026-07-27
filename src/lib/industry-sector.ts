@@ -26,7 +26,7 @@ export const INDUSTRY_SECTOR = {
   },
   regulation: {
     title: "Compteurs, annualisation et conformité",
-    text: "Les sites industriels cumulent souvent modulation ou annualisation, travail de nuit et astreintes maintenance. Planory encode ces règles métier et légales ; SKYNET les applique à chaque proposition, avec une traçabilité utile en audit RH.",
+    text: "Les sites industriels cumulent souvent modulation ou annualisation, travail de nuit et astreintes maintenance. Planory encode les règles métier et légales pour les roulements générés ; les astreintes (disponibilité) se gèrent manuellement via le statut dédié ou comme activité au statut standard.",
   },
   challenges: {
     title: "Les défis de la planification industrielle",
@@ -100,9 +100,9 @@ export const INDUSTRY_SECTOR = {
         "Les renforts et échanges s'appuient sur une proposition déjà contrainte : vous réaffectez sans repartir d'un tableur vide.",
     },
     {
-      question: "Planory remplace-t-il l'ERP ou la GTA ?",
+      question: "Planory remplace-t-il l'ERP ?",
       answer:
-        "Non. Planory se concentre sur la planification d'équipes 24/7. Il complète ERP / GTA / SIRH : l'IA propose, le planificateur valide.",
+        "Planory porte la GTA côté planification d'équipes 24/7 (roulements, astreintes, conformité SKYNET). Il ne remplace pas un ERP de production : les deux se complètent. Selon le contexte, le pointage et la paie peuvent rester dans un outil existant ou être cadrés en déploiement.",
     },
   ],
 } as const;

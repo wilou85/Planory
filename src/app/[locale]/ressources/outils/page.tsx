@@ -8,18 +8,6 @@ import { generateLocaleStaticParams, parseLocaleParam } from "@/lib/locale-param
 import { TOOLS_HUB_PATH } from "@/lib/lead-magnets";
 import { breadcrumbJsonLd, createPageMetadata, toolsItemListJsonLd, webPageJsonLd } from "@/lib/seo";
 
-const TITLE: Record<Locale, string> = {
-  fr: "Outils gratuits — grilles et modèles planification | Planory",
-  en: "Free tools — grids and scheduling templates | Planory",
-};
-
-const DESCRIPTION: Record<Locale, string> = {
-  fr:
-    "Outils gratuits Planory : grilles d'auto-diagnostic Excel vs logiciel, modèles et checklists pour cadrer un projet de planification d'équipes 24/7.",
-  en:
-    "Free Planory tools: Excel vs software self-assessment grids, templates and checklists to scope a 24/7 team scheduling project.",
-};
-
 const KEYWORDS: Record<Locale, string[]> = {
   fr: [
     "outil planning gratuit",
@@ -50,8 +38,6 @@ export async function generateMetadata({ params }: Props) {
 
   return createPageMetadata({
     path,
-    title: TITLE[locale],
-    description: DESCRIPTION[locale],
     keywords: KEYWORDS[locale],
   });
 }
