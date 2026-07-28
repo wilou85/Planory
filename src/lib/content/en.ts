@@ -105,8 +105,8 @@ export const SECTORS = [
     title: "Hospital",
     href: "/secteurs/hopital",
     description:
-      "Hospital scheduling and rotation planning: on-call duties, 12-hour shifts, weekend fairness, and service continuity.",
-    tags: ["On-call", "Fairness", "Continuity"],
+      "Hospital scheduling and rotation planning: on-call duties, 12-hour shifts, weekend fairness, and service continuity. Pilot underway at Centre Hospitalier de Versailles.",
+    tags: ["On-call", "Fairness", "CH Versailles pilot"],
   },
   {
     icon: "factory" as const,
@@ -300,6 +300,7 @@ export const CONTACT_TOPICS = [
 export const HOSPITAL_SECTOR_EN = {
   hero: {
     label: "Healthcare sector",
+    pilotNote: "Pilot underway — Centre Hospitalier de Versailles",
     title: "Hospital scheduling, medical rosters, and AI-powered ward planning",
     intro:
       "Planory organises hospital rotation planning, guard shifts and service continuity while respecting night-work regulations and weekend fairness. SKYNET generates a proposal in under 2 minutes; your clinical managers validate and publish. On-call availability is managed in the schedule — manually via the dedicated status, or as a standard-status activity. A pilot is also underway at Centre Hospitalier de Versailles.",

@@ -5,7 +5,7 @@ import { MessageCircle } from "lucide-react";
 import { ContactButton } from "@/components/ContactButton";
 import { getContactTopics, getPageUi } from "@/lib/get-content";
 import type { Locale } from "@/lib/i18n";
-import { CONTACT_EMAIL } from "@/lib/contact-nav";
+import { CONTACT_EMAIL, getContactMailtoHref } from "@/lib/contact-nav";
 import { CONTACT_TOPIC_ICONS } from "@/lib/icons";
 import { sectionY } from "@/components/ui/section";
 
@@ -67,7 +67,7 @@ export function ContactSection({ standalone = false, locale = "fr" }: ContactSec
                 <>
                   Or write to{" "}
                   <a
-                    href={`mailto:${CONTACT_EMAIL}`}
+                    href={getContactMailtoHref("en")}
                     className="text-sky-400 hover:text-sky-300"
                   >
                     {CONTACT_EMAIL}
@@ -77,7 +77,7 @@ export function ContactSection({ standalone = false, locale = "fr" }: ContactSec
                 <>
                   Ou écrivez à{" "}
                   <a
-                    href={`mailto:${CONTACT_EMAIL}`}
+                    href={getContactMailtoHref("fr")}
                     className="text-sky-400 hover:text-sky-300"
                   >
                     {CONTACT_EMAIL}

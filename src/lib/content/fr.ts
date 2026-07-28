@@ -113,8 +113,8 @@ export const SECTORS = [
     title: "Hôpital",
     href: "/secteurs/hopital",
     description:
-      "Planning hospitalier et planning roulement hospitalier : gardes, astreintes 12h, équité des week-ends et continuité de service.",
-    tags: ["Astreintes", "Équité", "Continuité"],
+      "Planning hospitalier et planning roulement hospitalier : gardes, astreintes 12h, équité des week-ends et continuité de service. Pilote en cours au Centre Hospitalier de Versailles.",
+    tags: ["Astreintes", "Équité", "Pilote CH Versailles"],
   },
   {
     icon: "factory" as const,

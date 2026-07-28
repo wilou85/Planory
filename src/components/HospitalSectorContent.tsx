@@ -22,6 +22,9 @@ export function HospitalSectorContent({ locale = "fr" }: HospitalSectorContentPr
           <p className="text-xs font-semibold uppercase tracking-[0.15em] text-sky-400">
             {hero.label}
           </p>
+          {"pilotNote" in hero && hero.pilotNote ? (
+            <p className="mt-2 text-sm font-medium text-sky-300/90">{hero.pilotNote}</p>
+          ) : null}
           <h1 className="text-fluid-heading mt-3 font-bold text-white">
             {hero.title}
           </h1>

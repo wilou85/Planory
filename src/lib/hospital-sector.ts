@@ -1,6 +1,7 @@
 export const HOSPITAL_SECTOR = {
   hero: {
     label: "Secteur hospitalier",
+    pilotNote: "Pilote en cours — Centre Hospitalier de Versailles",
     title: "Planning hospitalier, planning médical et planning hôpital avec IA",
     intro:
       "Planory organise le planning roulement hospitalier, les gardes et la continuité de service en respectant la réglementation du travail de nuit et l'équité des week-ends. SKYNET génère une proposition en moins de 2 minutes ; vos cadres de santé valident et publient. Les astreintes (disponibilité) se gèrent dans le planning — manuellement via le statut dédié, ou comme activité au statut standard. Un pilote est également en cours au Centre Hospitalier de Versailles.",
