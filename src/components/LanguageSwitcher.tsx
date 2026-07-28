@@ -12,7 +12,10 @@ import {
 
 type LanguageSwitcherProps = {
   className?: string;
-  /** Densité réduite pour le header (cibles tactiles conservées). */
+  /**
+   * Header mobile : une seule pastille vers l’autre langue (ex. EN si FR),
+   * pour laisser la place au wordmark + Contact.
+   */
   compact?: boolean;
 };
 
@@ -22,6 +25,25 @@ export function LanguageSwitcher({
 }: LanguageSwitcherProps) {
   const pathname = usePathname();
   const current = getLocaleFromPath(pathname);
+
+  if (compact) {
+    const other = LOCALES.find((locale) => locale.code !== current) ?? LOCALES[0];
+    const href = localePath(other.code, pathname);
+    return (
+      <Link
+        href={href}
+        hrefLang={other.htmlLang}
+        title={other.label}
+        aria-label={
+          current === "en" ? `Switch to ${other.label}` : `Passer en ${other.label}`
+        }
+        className={`inline-flex min-h-9 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10 px-2.5 text-[11px] font-semibold uppercase tracking-wide text-white ring-1 ring-white/15 transition-colors hover:bg-white/15 sm:min-h-10 sm:px-3 ${className}`}
+      >
+        {other.code}
+        <span className="sr-only">{other.label}</span>
+      </Link>
+    );
+  }
 
   return (
     <div
@@ -39,17 +61,13 @@ export function LanguageSwitcher({
             hrefLang={locale.htmlLang}
             aria-current={isActive ? "true" : undefined}
             title={locale.label}
-            className={`inline-flex items-center font-medium uppercase tracking-wide transition-colors ${
-              compact
-                ? "min-h-9 gap-1 rounded-full px-2.5 py-1.5 text-[11px] sm:min-h-10 sm:px-3"
-                : "min-h-[44px] gap-1.5 rounded-full px-3 py-2 text-xs sm:gap-2 sm:px-3.5"
-            } ${
+            className={`inline-flex min-h-[44px] items-center gap-1.5 rounded-full px-3 py-2 text-xs font-medium uppercase tracking-wide transition-colors sm:gap-2 sm:px-3.5 ${
               isActive
                 ? "bg-white/15 text-white ring-1 ring-white/20"
                 : "text-slate-400 hover:bg-white/10 hover:text-white"
             }`}
           >
-            {!compact && <FlagIcon code={locale.flagCode} />}
+            <FlagIcon code={locale.flagCode} />
             <span>{locale.code}</span>
             <span className="sr-only">{locale.label}</span>
           </Link>

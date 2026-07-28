@@ -146,12 +146,12 @@ export function Header() {
       }`}
       style={{ paddingTop: "var(--safe-top)" }}
     >
-      <div className="mx-auto flex h-[var(--header-h)] w-full items-center justify-between gap-3 px-4 sm:px-6 md:gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-6 lg:px-8 xl:px-12 2xl:px-16">
-        <div className="flex min-w-0 items-center gap-2 lg:justify-self-start">
+      <div className="mx-auto flex h-[var(--header-h)] w-full items-center justify-between gap-1.5 px-3 sm:gap-3 sm:px-6 md:gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-6 lg:px-8 xl:px-12 2xl:px-16">
+        <div className="flex min-w-0 items-center gap-1 sm:gap-2 lg:justify-self-start">
           <button
             type="button"
             onClick={openDrawer}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-slate-300 hover:bg-white/5 hover:text-white md:hidden"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-300 hover:bg-white/5 hover:text-white sm:h-11 sm:w-11 md:hidden"
             aria-label={copy.openMenu}
             aria-controls="mobile-nav-drawer"
             aria-expanded={open}
@@ -159,7 +159,7 @@ export function Header() {
           >
             <Menu className="h-5 w-5" />
           </button>
-          <PlanoryLogo size={36} locale={locale} />
+          <PlanoryLogo size={30} locale={locale} />
         </div>
 
         <nav
@@ -189,8 +189,9 @@ export function Header() {
           })}
         </nav>
 
-        <div className="flex shrink-0 items-center justify-end gap-1.5 lg:justify-self-end lg:gap-2">
-          <LanguageSwitcher compact className="shrink-0" />
+        <div className="flex shrink-0 items-center justify-end gap-1 sm:gap-1.5 lg:justify-self-end lg:gap-2">
+          <LanguageSwitcher compact className="md:hidden" />
+          <LanguageSwitcher className="!hidden md:!inline-flex" />
           <Button
             href={localizePath(copy.ctaExampleHref, locale)}
             variant="ghost"
@@ -199,7 +200,7 @@ export function Header() {
           >
             {copy.ctaExample}
           </Button>
-          <ContactButton variant="primary" size="sm">
+          <ContactButton variant="primary" size="sm" className="!px-3 sm:!px-4">
             <span className="hidden sm:inline">{copy.ctaContact}</span>
             <span className="sm:hidden">{copy.ctaContactShort}</span>
           </ContactButton>
