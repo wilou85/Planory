@@ -5,6 +5,8 @@ import {
   localizePath,
   stripLocalePrefix,
 } from "@/lib/i18n";
+import { LEAD_MAGNETS } from "@/lib/lead-magnets";
+import { getResourceArticles } from "@/lib/resources";
 import { getPageSeo, SITE_PAGES, SITE_URL } from "@/lib/site";
 import sitemap from "@/app/sitemap";
 
@@ -71,5 +73,28 @@ describe("sitemap from SITE_PAGES", () => {
       expect(urls.has(frUrl)).toBe(true);
       expect(urls.has(enUrl)).toBe(true);
     }
+  });
+
+  it("lists FR/EN articles and lead magnets without duplicates", () => {
+    const entries = sitemap();
+    const urls = entries.map((e) => e.url);
+
+    expect(new Set(urls).size).toBe(urls.length);
+
+    for (const article of getResourceArticles("fr")) {
+      expect(urls).toContain(`${SITE_URL}${article.path}`);
+      expect(urls).toContain(`${SITE_URL}${localizePath(article.path, "en")}`);
+    }
+    for (const magnet of LEAD_MAGNETS) {
+      expect(urls).toContain(`${SITE_URL}${magnet.path}`);
+      expect(urls).toContain(`${SITE_URL}${localizePath(magnet.path, "en")}`);
+    }
+  });
+
+  it("includes hreflang alternates on each entry", () => {
+    const home = sitemap().find((e) => e.url === SITE_URL);
+    expect(home?.alternates?.languages?.["fr-FR"]).toBe(SITE_URL);
+    expect(home?.alternates?.languages?.["en-GB"]).toBe(`${SITE_URL}/en`);
+    expect(home?.alternates?.languages?.["x-default"]).toBe(SITE_URL);
   });
 });
