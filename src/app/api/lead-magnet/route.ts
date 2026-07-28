@@ -5,12 +5,7 @@ import {
   loadLeadMagnetPdfAttachment,
   validateLeadMagnetForm,
 } from "@/lib/lead-magnet";
-import {
-  storeLeadMagnetSubmission,
-  type LeadMagnetEmailStatus,
-} from "@/lib/lead-magnet-store";
 import { getLeadMagnet, getLeadMagnetFormCopy } from "@/lib/lead-magnets";
-import type { LeadMagnetFormData } from "@/lib/lead-magnets/types";
 import type { Locale } from "@/lib/i18n";
 import { getLeadMagnetNotificationRecipients } from "@/lib/mail-recipients";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
@@ -27,20 +22,6 @@ function resolveRequestLocale(body: unknown): Locale {
     return "en";
   }
   return "fr";
-}
-
-async function persistLead(opts: {
-  data: LeadMagnetFormData;
-  emailStatus: LeadMagnetEmailStatus;
-  ip: string;
-  request: Request;
-}) {
-  await storeLeadMagnetSubmission({
-    data: opts.data,
-    emailStatus: opts.emailStatus,
-    ip: opts.ip,
-    userAgent: opts.request.headers.get("user-agent"),
-  });
 }
 
 export async function POST(request: Request) {
@@ -89,12 +70,6 @@ export async function POST(request: Request) {
   }
 
   if (isEmailDevBypass()) {
-    await persistLead({
-      data: result.data,
-      emailStatus: "bypassed",
-      ip,
-      request,
-    });
     console.info("[lead-magnet] mode dev — email provider absent, pas d'email envoyé", {
       ...result.data,
       magnet: magnet.slug,
@@ -107,12 +82,6 @@ export async function POST(request: Request) {
   }
 
   if (!isEmailConfigured()) {
-    await persistLead({
-      data: result.data,
-      emailStatus: "skipped",
-      ip,
-      request,
-    });
     return emailNotConfiguredResponse(locale);
   }
 
@@ -132,12 +101,6 @@ export async function POST(request: Request) {
 
   if (!userSent.ok) {
     console.error("[lead-magnet] user email", userSent.error);
-    await persistLead({
-      data: result.data,
-      emailStatus: "failed",
-      ip,
-      request,
-    });
     return NextResponse.json(
       {
         error: emailErrorMessage(userSent, apiCopy.emailSendFailed, locale),
@@ -160,13 +123,6 @@ export async function POST(request: Request) {
   if (!teamSent.ok) {
     console.error("[lead-magnet] team notification", teamSent.error);
   }
-
-  await persistLead({
-    data: result.data,
-    emailStatus: "sent",
-    ip,
-    request,
-  });
 
   return NextResponse.json({
     ok: true,
