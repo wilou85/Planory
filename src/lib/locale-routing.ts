@@ -18,14 +18,14 @@ export const LOCALE_REDIRECTS = [
 ] as const;
 
 /**
- * Rewrites internes vers `[locale]=fr`.
+ * Rewrites internes vers `[locale]=fr` (à monter en `beforeFiles`).
  * Exclut api, _next, en, fr, et fichiers avec extension (assets / llms.txt).
  */
 export const LOCALE_REWRITES = [
   { source: "/", destination: "/fr" },
   {
-    source: "/((?!api|_next|en|fr|.*\\..*).*)",
-    destination: "/fr/$1",
+    source: "/:path((?!api|_next|en|fr|.*\\..*).*)",
+    destination: "/fr/:path",
   },
 ] as const;
 
