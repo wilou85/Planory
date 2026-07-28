@@ -7,6 +7,7 @@
     "build": "npm run lead-magnets:pdf && next build",
     "start": "next start",
     "lint": "eslint",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "seo:competitors": "node tools/competitor-keyword-research.mjs",

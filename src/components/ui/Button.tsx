@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { tapScale } from "@/components/ui/motion";
+import { handleSameRouteHashClick } from "@/lib/same-route-hash";
 
 type ButtonVariant = "primary" | "secondary" | "ghost";
 type ButtonSize = "default" | "sm";
@@ -76,12 +77,6 @@ export function Button({
     );
   }
 
-  function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
-    if (!href.startsWith("#")) return;
-    e.preventDefault();
-    document.getElementById(href.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
   return (
     <motion.div
       className={className.includes("w-full") ? "w-full sm:w-auto" : "inline-flex"}
@@ -89,7 +84,13 @@ export function Button({
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.15 }}
     >
-      <Link href={href} className={classes} onClick={handleClick}>
+      <Link
+        href={href}
+        className={classes}
+        onClick={(e) => {
+          handleSameRouteHashClick(href, e);
+        }}
+      >
         {content}
       </Link>
     </motion.div>

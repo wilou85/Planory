@@ -68,7 +68,7 @@ describe("proxy locale routing", () => {
   });
 
   it("bypasses API routes", async () => {
-    const response = await proxy(req("/api/contact"));
+    const response = await proxy(req("/api/lead-magnet"));
     expect(isRewrite(response)).toBe(false);
     expect(getRedirectUrl(response)).toBeNull();
     expect(response.headers.get("x-locale")).toBeNull();

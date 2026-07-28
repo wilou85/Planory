@@ -286,10 +286,10 @@ export const SITE_PAGES: readonly SitePage[] = [
     navLabel: "Contact",
     title: "Contact Planory — Demande de démo et échange",
     description:
-      "Contactez Planory pour un échange de 20 minutes sur votre contexte de planification d'équipes 24/7. Formulaire de contact — réponse rapide.",
+      "Contactez Planory pour un échange de 20 minutes sur votre contexte de planification d'équipes 24/7. Écrivez-nous par e-mail — réponse rapide.",
     titleEn: "Contact Planory — Demo request and inquiry",
     descriptionEn:
-      "Contact Planory for a 20-minute call about your 24/7 team scheduling context. Contact form — quick response.",
+      "Contact Planory for a 20-minute call about your 24/7 team scheduling context. Email us — quick response.",
     snippet: "Prendre contact — échange de 20 minutes sans prérequis.",
     changeFrequency: "monthly",
     priority: 0.75,
@@ -316,10 +316,10 @@ export const SITE_PAGES: readonly SitePage[] = [
     navLabel: "Confidentialité",
     title: "Politique de confidentialité | Planory",
     description:
-      "Politique de confidentialité Planory : données collectées, finalités, conservation et droits RGPD.",
+      "Politique de confidentialité Planory : données collectées via le site (contact e-mail et outils), conservation et droits RGPD.",
     titleEn: "Privacy policy | Planory",
     descriptionEn:
-      "Planory privacy policy: data collected via forms, purposes, retention and GDPR rights.",
+      "Planory privacy policy: data collected via the site (email contact and tools), purposes, retention and GDPR rights.",
     snippet: "Traitement des données personnelles et droits RGPD.",
     changeFrequency: "yearly",
     priority: 0.3,

@@ -40,7 +40,7 @@ export async function POST(request: Request) {
   const apiCopy = getLeadMagnetFormCopy(locale).api;
 
   const ip = getClientIp(request);
-  const rate = checkRateLimit(`lead-magnet:${ip}`, { limit: 8, windowMs: 15 * 60 * 1000 });
+  const rate = await checkRateLimit(`lead-magnet:${ip}`, { limit: 8, windowMs: 15 * 60 * 1000 });
   if (!rate.ok) {
     return NextResponse.json(
       {

@@ -50,24 +50,9 @@ export function ProductSection({ locale = "fr" }: ProductSectionProps) {
     syncFromHash();
     window.addEventListener("hashchange", syncFromHash);
     window.addEventListener("popstate", syncFromHash);
-
-    // Next.js same-route hash links use history.pushState — no hashchange / pathname change.
-    const { pushState, replaceState } = window.history;
-    const notify = () => queueMicrotask(syncFromHash);
-    window.history.pushState = (...args) => {
-      pushState.apply(window.history, args);
-      notify();
-    };
-    window.history.replaceState = (...args) => {
-      replaceState.apply(window.history, args);
-      notify();
-    };
-
     return () => {
       window.removeEventListener("hashchange", syncFromHash);
       window.removeEventListener("popstate", syncFromHash);
-      window.history.pushState = pushState;
-      window.history.replaceState = replaceState;
     };
   }, [modules, pathname]);
 

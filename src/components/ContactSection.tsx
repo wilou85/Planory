@@ -5,6 +5,7 @@ import { MessageCircle } from "lucide-react";
 import { ContactButton } from "@/components/ContactButton";
 import { getContactTopics, getPageUi } from "@/lib/get-content";
 import type { Locale } from "@/lib/i18n";
+import { CONTACT_EMAIL } from "@/lib/contact-nav";
 import { CONTACT_TOPIC_ICONS } from "@/lib/icons";
 import { sectionY } from "@/components/ui/section";
 
@@ -66,20 +67,20 @@ export function ContactSection({ standalone = false, locale = "fr" }: ContactSec
                 <>
                   Or write to{" "}
                   <a
-                    href="mailto:contact@planory.net"
+                    href={`mailto:${CONTACT_EMAIL}`}
                     className="text-sky-400 hover:text-sky-300"
                   >
-                    contact@planory.net
+                    {CONTACT_EMAIL}
                   </a>
                 </>
               ) : (
                 <>
                   Ou écrivez à{" "}
                   <a
-                    href="mailto:contact@planory.net"
+                    href={`mailto:${CONTACT_EMAIL}`}
                     className="text-sky-400 hover:text-sky-300"
                   >
-                    contact@planory.net
+                    {CONTACT_EMAIL}
                   </a>
                 </>
               )}

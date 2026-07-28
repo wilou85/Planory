@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getPageUi } from "@/lib/get-content";
+import { CONTACT_EMAIL } from "@/lib/contact-nav";
 import { localizePath, type Locale } from "@/lib/i18n";
 import { getLiveBrandProfiles } from "@/lib/site";
 
@@ -48,10 +49,10 @@ export function Footer({ locale = "fr" }: FooterProps) {
               </a>
             ))}
             <a
-              href="mailto:contact@planory.net"
+              href={`mailto:${CONTACT_EMAIL}`}
               className="inline-flex min-h-[44px] items-center transition-colors hover:text-slate-300 lg:min-h-0"
             >
-              contact@planory.net
+              {CONTACT_EMAIL}
             </a>
           </nav>
         </div>

@@ -10,67 +10,6 @@ import * as FR from "./content/fr";
 import * as EN from "./content/en";
 import type { Locale } from "./i18n";
 
-export const CONTACT_FORM_COPY = {
-  fr: {
-    firstNameLabel: "Prénom",
-    lastNameLabel: "Nom",
-    emailLabel: "Email",
-    phoneLabel: "Téléphone",
-    phoneOptional: "(facultatif)",
-    phonePlaceholder: "06 12 34 56 78",
-    gdprConsent:
-      "J'accepte que Planory traite mes données (nom, prénom, email, et téléphone le cas échéant) afin de répondre à ma demande de contact, conformément au RGPD.",
-    privacyLinkLabel: "Politique de confidentialité",
-    submit: "Envoyer ma demande",
-    submitting: "Envoi en cours…",
-    successTitle: "Message envoyé",
-    successMessage: "Nous vous recontacterons rapidement à l'adresse indiquée.",
-    sendAnother: "Envoyer un autre message",
-    formErrorGeneric: "Une erreur est survenue.",
-    networkError: "Connexion impossible. Vérifiez votre réseau et réessayez.",
-    validation: {
-      invalidData: "Données invalides.",
-      firstNameRequired: "Le prénom est requis.",
-      firstNameTooLong: "Prénom trop long.",
-      lastNameRequired: "Le nom est requis.",
-      lastNameTooLong: "Nom trop long.",
-      emailRequired: "L'email est requis.",
-      emailInvalid: "Email invalide.",
-      phoneInvalid: "Numéro de téléphone invalide.",
-      gdprRequired: "Vous devez accepter le traitement de vos données.",
-    },
-  },
-  en: {
-    firstNameLabel: "First name",
-    lastNameLabel: "Last name",
-    emailLabel: "Email",
-    phoneLabel: "Phone",
-    phoneOptional: "(optional)",
-    phonePlaceholder: "+44 7700 900123",
-    gdprConsent:
-      "I agree that Planory may process my data (name, email, and phone if provided) to respond to my contact request, in accordance with GDPR.",
-    privacyLinkLabel: "Privacy policy",
-    submit: "Send my request",
-    submitting: "Sending…",
-    successTitle: "Message sent",
-    successMessage: "We will get back to you shortly at the address provided.",
-    sendAnother: "Send another message",
-    formErrorGeneric: "Something went wrong.",
-    networkError: "Unable to connect. Check your network and try again.",
-    validation: {
-      invalidData: "Invalid data.",
-      firstNameRequired: "First name is required.",
-      firstNameTooLong: "First name is too long.",
-      lastNameRequired: "Last name is required.",
-      lastNameTooLong: "Last name is too long.",
-      emailRequired: "Email is required.",
-      emailInvalid: "Invalid email address.",
-      phoneInvalid: "Invalid phone number.",
-      gdprRequired: "You must accept data processing.",
-    },
-  },
-} as const;
-
 export function getProductBenefits(locale: Locale) {
   return locale === "en" ? EN.PRODUCT_BENEFITS : FR.PRODUCT_BENEFITS;
 }
@@ -113,10 +52,6 @@ export function getIndustrySector(locale: Locale) {
 
 export function getPageUi(locale: Locale) {
   return locale === "en" ? EN.PAGE_UI : FR.PAGE_UI;
-}
-
-export function getContactFormCopy(locale: Locale) {
-  return CONTACT_FORM_COPY[locale];
 }
 
 export function getContactEmail() {

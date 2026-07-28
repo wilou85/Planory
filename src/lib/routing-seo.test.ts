@@ -1,11 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { formatContactEmail, validateContactForm } from "@/lib/contact";
+import { getContactMailtoHref, CONTACT_EMAIL } from "@/lib/contact-nav";
 import {
   getLocaleFromPath,
   localizePath,
   stripLocalePrefix,
 } from "@/lib/i18n";
-import { getPageSeo } from "@/lib/site";
+import { getPageSeo, SITE_PAGES, SITE_URL } from "@/lib/site";
+import sitemap from "@/app/sitemap";
 
 describe("i18n path helpers", () => {
   it("detects locale from path", () => {
@@ -37,34 +38,36 @@ describe("getPageSeo single source", () => {
   });
 });
 
-describe("formatContactEmail locale", () => {
-  it("tags subject with EN for anglophone leads", () => {
-    const result = validateContactForm({
-      firstName: "Jane",
-      lastName: "Doe",
-      email: "jane@example.com",
-      phone: "",
-      gdprConsent: true,
-      locale: "en",
-    });
-    expect(result.ok).toBe(true);
-    if (!result.ok) return;
-    const email = formatContactEmail(result.data);
-    expect(email.subject).toContain("[EN]");
-    expect(email.text).toContain("Langue : EN");
-  });
+describe("contact mailto", () => {
+  it("builds a prefilled mailto for FR and EN", () => {
+    const fr = getContactMailtoHref("fr");
+    const en = getContactMailtoHref("en");
+    expect(fr.startsWith(`mailto:${CONTACT_EMAIL}?`)).toBe(true);
+    expect(en.startsWith(`mailto:${CONTACT_EMAIL}?`)).toBe(true);
 
-  it("tags subject with FR by default", () => {
-    const result = validateContactForm({
-      firstName: "Jean",
-      lastName: "Dupont",
-      email: "jean@example.com",
-      phone: "",
-      gdprConsent: true,
-    });
-    expect(result.ok).toBe(true);
-    if (!result.ok) return;
-    const email = formatContactEmail(result.data);
-    expect(email.subject).toContain("[FR]");
+    const frParams = new URLSearchParams(fr.slice(fr.indexOf("?") + 1));
+    const enParams = new URLSearchParams(en.slice(en.indexOf("?") + 1));
+    expect(frParams.get("subject")).toBe("Prise de contact — Planory");
+    expect(frParams.get("body")).toContain("Nb d’agents");
+    expect(frParams.get("body")).toContain("Disponibilités pour un premier échange");
+    expect(enParams.get("subject")).toBe("Contact request — Planory");
+    expect(enParams.get("body")).toContain("Availability for a first call");
+  });
+});
+
+describe("sitemap from SITE_PAGES", () => {
+  it("lists FR and EN homepage and mirrors SITE_PAGES", () => {
+    const entries = sitemap();
+    const urls = new Set(entries.map((e) => e.url));
+
+    expect(urls.has(SITE_URL)).toBe(true);
+    expect(urls.has(`${SITE_URL}/en`)).toBe(true);
+
+    for (const page of SITE_PAGES) {
+      const frUrl = page.path === "/" ? SITE_URL : `${SITE_URL}${page.path}`;
+      const enUrl = `${SITE_URL}${localizePath(page.path, "en")}`;
+      expect(urls.has(frUrl)).toBe(true);
+      expect(urls.has(enUrl)).toBe(true);
+    }
   });
 });

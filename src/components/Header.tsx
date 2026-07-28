@@ -11,6 +11,7 @@ import { PlanoryLogo } from "@/components/PlanoryLogo";
 import { useNavDrawer } from "@/components/nav/NavDrawerContext";
 import { getHeaderCopy, getHomeCopy, getLocaleFromPath, getNavItems, localizePath, stripLocalePrefix, type Locale } from "@/lib/i18n";
 import { getNavItemIcon, TOP_NAV_ICONS } from "@/lib/icons";
+import { handleSameRouteHashClick } from "@/lib/same-route-hash";
 import { SITE_PAGES } from "@/lib/site";
 
 function pageSnippet(path: string, locale: Locale) {
@@ -96,7 +97,10 @@ function NavDropdown({ item, isActive }: NavDropdownProps) {
                 <Link
                   key={child.label}
                   href={child.href}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => {
+                    handleSameRouteHashClick(child.href, e);
+                    setOpen(false);
+                  }}
                   className="flex gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-white/5"
                 >
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-slate-400">

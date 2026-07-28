@@ -8,6 +8,7 @@ import { X, Mail } from "lucide-react";
 import { getDrawerNavSections, getHeaderCopy, getLocaleFromPath } from "@/lib/i18n";
 import { getContactMailtoHref } from "@/lib/contact-nav";
 import { getNavItemIcon } from "@/lib/icons";
+import { handleSameRouteHashClick } from "@/lib/same-route-hash";
 import { useNavDrawer } from "@/components/nav/NavDrawerContext";
 
 const FOCUSABLE =
@@ -157,7 +158,10 @@ export function MobileNavDrawer() {
                         <li key={item.href}>
                           <Link
                             href={item.href}
-                            onClick={closeDrawer}
+                            onClick={(e) => {
+                              handleSameRouteHashClick(item.href, e);
+                              closeDrawer();
+                            }}
                             className={`flex min-h-[44px] items-start gap-3 rounded-xl px-3 py-2.5 transition-colors ${
                               isActive
                                 ? "bg-white/10 text-white"
