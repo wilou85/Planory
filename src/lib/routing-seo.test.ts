@@ -39,11 +39,13 @@ describe("getPageSeo single source", () => {
 });
 
 describe("contact mailto", () => {
-  it("builds a prefilled mailto for FR and EN", () => {
+  it("builds a prefilled mailto for FR and EN with %20 spaces", () => {
     const fr = getContactMailtoHref("fr");
     const en = getContactMailtoHref("en");
     expect(fr.startsWith(`mailto:${CONTACT_EMAIL}?`)).toBe(true);
     expect(en.startsWith(`mailto:${CONTACT_EMAIL}?`)).toBe(true);
+    expect(fr).not.toMatch(/\+/);
+    expect(fr).toContain("%20");
 
     const frParams = new URLSearchParams(fr.slice(fr.indexOf("?") + 1));
     const enParams = new URLSearchParams(en.slice(en.indexOf("?") + 1));

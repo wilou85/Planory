@@ -58,9 +58,8 @@ const MAILTO_COPY = {
 /** Ouvre la boîte mail avec sujet + corps préremplis (sans Resend). */
 export function getContactMailtoHref(locale: Locale = "fr"): string {
   const copy = MAILTO_COPY[locale];
-  const params = new URLSearchParams({
-    subject: copy.subject,
-    body: copy.body,
-  });
-  return `mailto:${CONTACT_EMAIL}?${params.toString()}`;
+  // encodeURIComponent → %20 (pas +) : Outlook / certains clients mailto ne décodent pas le +.
+  const subject = encodeURIComponent(copy.subject);
+  const body = encodeURIComponent(copy.body);
+  return `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
 }
