@@ -1,0 +1,10 @@
+# Netlify — Next.js (OpenNext adapter auto-détecté)
+# Le routage i18n est dans next.config (pas de proxy/middleware Edge).
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NEXT_PUBLIC_SITE_URL = "https://www.planory.net"
