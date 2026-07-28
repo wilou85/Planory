@@ -23,7 +23,7 @@ export function ProductSidebar({
       aria-label={ui.productSidebar.navAriaLabel}
       className="hidden lg:block lg:w-48 lg:shrink-0 xl:w-52"
     >
-      <div className="sticky top-[calc(3.5rem+1rem)] space-y-1 sm:top-[calc(3.75rem+1rem)]">
+      <div className="sticky top-[calc(var(--header-h)+1rem)] space-y-1">
         <p className="mb-3 text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">
           {ui.productSidebar.label}
         </p>

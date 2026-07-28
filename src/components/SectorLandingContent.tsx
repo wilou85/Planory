@@ -58,7 +58,7 @@ export function SectorLandingContent({
           <p className="text-xs font-semibold uppercase tracking-[0.15em] text-sky-400">
             {hero.label}
           </p>
-          <h1 className="mt-3 text-3xl font-bold leading-tight text-white sm:text-4xl">
+          <h1 className="text-fluid-heading mt-3 font-bold text-white">
             {hero.title}
           </h1>
           <p className="mt-4 text-lg leading-relaxed text-slate-400">{hero.intro}</p>

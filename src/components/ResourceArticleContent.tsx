@@ -20,7 +20,7 @@ export function ResourceArticleContent({ article, locale = "fr" }: ResourceArtic
 
   return (
     <article className="relative py-14 sm:py-20 lg:py-24">
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[68ch] px-4 sm:px-6 lg:px-8">
         <header>
           <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">
             {ui.guidePrefix} {article.readTime}
@@ -38,7 +38,7 @@ export function ResourceArticleContent({ article, locale = "fr" }: ResourceArtic
               </>
             ) : null}
           </p>
-          <h1 className="mt-3 text-3xl font-bold leading-tight text-white sm:text-4xl">
+          <h1 className="text-fluid-heading mt-3 font-bold text-white">
             {article.title}
           </h1>
           <p className="mt-4 text-lg leading-relaxed text-slate-400">{article.description}</p>

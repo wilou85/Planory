@@ -6,7 +6,19 @@
   --muted: #94a3b8;
   --card: #0c1220;
   --accent: #38bdf8;
+  --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* Chrome fixe : source unique pour header, tab bar et barre contact mobile. */
+  --header-h: 3.5rem;
+  --tabbar-h: 3.5rem;
+  --contactbar-h: 3.5rem;
+}
+
+@media (min-width: 40rem) {
+  :root {
+    --header-h: 3.75rem;
+  }
 }
 
 @theme inline {
@@ -22,6 +34,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* Safety net — decorative blurs/scrollers are clipped at component level first. */
   overflow-x: clip;
   max-width: 100%;
 }
@@ -47,15 +60,21 @@ svg {
   height: auto;
 }
 
-/* Décalage sous le header fixe (h-14 → sm:h-[3.75rem]) + safe area */
+/* Décalage sous le header fixe + safe area */
 .site-header-offset {
-  padding-top: calc(3.5rem + env(safe-area-inset-top, 0px));
+  padding-top: calc(var(--header-h) + var(--safe-top));
 }
 
-@media (min-width: 640px) {
-  .site-header-offset {
-    padding-top: calc(3.75rem + env(safe-area-inset-top, 0px));
-  }
+/* Titres fluides : évite le saut de taille aux breakpoints */
+@utility text-fluid-display {
+  font-size: clamp(1.75rem, 1.15rem + 2.6vw, 3.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+@utility text-fluid-heading {
+  font-size: clamp(1.875rem, 1.67rem + 0.9vw, 2.25rem);
+  line-height: 1.15;
 }
 
 ::selection {

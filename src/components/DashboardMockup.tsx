@@ -36,6 +36,9 @@ const SHIFT_LABELS_COMPACT: Record<string, string> = {
   "—": "·",
 };
 
+/** Jours visibles en version compacte (hero mobile) — tient sans scroll horizontal. */
+const COMPACT_DAY_COUNT = 4;
+
 type DashboardMockupProps = {
   /** Version réduite pour mobile sous les CTAs */
   compact?: boolean;
@@ -53,6 +56,8 @@ export function DashboardMockup({ compact = false, locale = "fr" }: DashboardMoc
   const copy = getMockupCopy(locale);
   const [float, setFloat] = useState(false);
   const agents = compact ? AGENTS.slice(0, 2) : AGENTS;
+  const dayCount = compact ? COMPACT_DAY_COUNT : copy.days.length;
+  const days = copy.days.slice(0, dayCount);
 
   useEffect(() => {
     const update = () => setFloat(canEnableFloat(compact));
@@ -70,11 +75,11 @@ export function DashboardMockup({ compact = false, locale = "fr" }: DashboardMoc
 
   return (
     <motion.div
-      className="relative w-full max-w-full"
+      className="relative w-full max-w-full overflow-x-clip"
       animate={float ? { y: [0, -6, 0] } : undefined}
       transition={float ? { duration: 5, repeat: Infinity, ease: "easeInOut" } : undefined}
     >
-      <div className="pointer-events-none absolute -inset-4 rounded-3xl bg-gradient-to-br from-sky-500/10 via-transparent to-violet-500/10 blur-2xl" />
+      <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-sky-500/10 via-transparent to-violet-500/10 blur-2xl" />
       <div
         className={`relative overflow-hidden rounded-2xl border border-white/10 bg-[#0c1220]/80 shadow-2xl backdrop-blur-sm ${compact ? "scale-[0.98]" : ""}`}
       >
@@ -84,26 +89,32 @@ export function DashboardMockup({ compact = false, locale = "fr" }: DashboardMoc
             <span className="h-2.5 w-2.5 rounded-full bg-amber-500/80" />
             <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" />
           </div>
-          <p className="min-w-0 truncate text-[10px] text-slate-400 sm:text-xs">
+          <p className="min-w-0 truncate text-[11px] text-slate-400 sm:text-xs">
             <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
             <span className="sm:hidden">{copy.skynetShort}</span>
             <span className="hidden sm:inline">{copy.skynetLong}</span>
           </p>
           <div className="flex shrink-0 gap-2">
-            <span className="rounded-md border border-emerald-500/40 px-2 py-0.5 text-[10px] text-emerald-400">
+            <span className="rounded-md border border-emerald-500/40 px-2 py-0.5 text-[11px] text-emerald-400">
               {copy.compliant}
             </span>
-            <span className="hidden rounded-md border border-sky-500/40 px-2 py-0.5 text-[10px] text-sky-400 sm:inline">
+            <span className="hidden rounded-md border border-sky-500/40 px-2 py-0.5 text-[11px] text-sky-400 sm:inline">
               {copy.draft}
             </span>
           </div>
         </div>
 
-        <div className="-mx-px overflow-x-auto overscroll-x-contain">
-          <div className="min-w-[300px] px-3 py-3 sm:min-w-[480px] sm:px-4">
-            <div className="mb-2 grid grid-cols-[minmax(88px,1fr)_repeat(7,minmax(28px,1fr))] gap-0.5 text-[9px] font-medium uppercase tracking-wider text-slate-500 sm:grid-cols-[120px_repeat(7,1fr)] sm:gap-1 sm:text-[10px]">
+        <div className={compact ? "px-3 py-3" : "-mx-px overflow-x-auto overscroll-x-contain"}>
+          <div className={compact ? undefined : "min-w-[320px] px-3 py-3 sm:min-w-[480px] sm:px-4"}>
+            <div
+              className={`mb-2 grid gap-0.5 text-[11px] font-medium uppercase tracking-wider text-slate-500 sm:gap-1 ${
+                compact
+                  ? "grid-cols-[minmax(72px,1.1fr)_repeat(4,minmax(0,1fr))]"
+                  : "grid-cols-[minmax(96px,1fr)_repeat(7,minmax(30px,1fr))] sm:grid-cols-[120px_repeat(7,1fr)]"
+              }`}
+            >
               <span>{copy.agent}</span>
-              {copy.days.map((d) => (
+              {days.map((d) => (
                 <span key={d} className="text-center">
                   {d}
                 </span>
@@ -113,32 +124,42 @@ export function DashboardMockup({ compact = false, locale = "fr" }: DashboardMoc
             {agents.map((agent) => (
               <div
                 key={agent.initials}
-                className="mb-1 grid grid-cols-[minmax(88px,1fr)_repeat(7,minmax(28px,1fr))] items-center gap-0.5 sm:grid-cols-[120px_repeat(7,1fr)] sm:gap-1"
+                className={`mb-1 grid items-center gap-0.5 sm:gap-1 ${
+                  compact
+                    ? "grid-cols-[minmax(72px,1.1fr)_repeat(4,minmax(0,1fr))]"
+                    : "grid-cols-[minmax(96px,1fr)_repeat(7,minmax(30px,1fr))] sm:grid-cols-[120px_repeat(7,1fr)]"
+                }`}
               >
                 <div className="flex min-w-0 items-center gap-1.5 py-1 sm:gap-2">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/10 text-[9px] font-semibold text-white sm:h-7 sm:w-7 sm:text-[10px]">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/10 text-[11px] font-semibold text-white sm:h-7 sm:w-7">
                     {agent.initials}
                   </span>
                   <span className="min-w-0">
-                    <span className="block truncate text-[11px] font-medium text-white sm:text-xs">
+                    <span className="block truncate text-xs font-medium text-white sm:text-sm">
                       {agent.name}
                     </span>
-                    <span className="block truncate text-[9px] text-slate-500 sm:text-[10px]">
+                    <span className="block truncate text-[11px] text-slate-500">
                       {agent.role}
                     </span>
                   </span>
                 </div>
-                {agent.shifts.map((shift, i) => (
+                {agent.shifts.slice(0, dayCount).map((shift, i) => (
                   <div key={i} className="flex justify-center py-0.5">
                     {shift !== "—" ? (
                       <span
-                        className={`inline-block rounded px-1 py-0.5 text-[8px] font-medium sm:px-1.5 sm:text-[9px] ${SHIFT_STYLES[shift]}`}
+                        className={`inline-block rounded px-1 py-0.5 text-[11px] font-medium sm:px-1.5 ${SHIFT_STYLES[shift]}`}
                       >
-                        <span className="sm:hidden">{SHIFT_LABELS_COMPACT[shift]}</span>
-                        <span className="hidden sm:inline">{SHIFT_LABELS[shift]}</span>
+                        {compact ? (
+                          SHIFT_LABELS_COMPACT[shift]
+                        ) : (
+                          <>
+                            <span className="sm:hidden">{SHIFT_LABELS_COMPACT[shift]}</span>
+                            <span className="hidden sm:inline">{SHIFT_LABELS[shift]}</span>
+                          </>
+                        )}
                       </span>
                     ) : (
-                      <span className="text-[9px] text-slate-700">·</span>
+                      <span className="text-[11px] text-slate-700">·</span>
                     )}
                   </div>
                 ))}
@@ -149,7 +170,7 @@ export function DashboardMockup({ compact = false, locale = "fr" }: DashboardMoc
 
         {!compact && (
           <div className="flex flex-col gap-3 border-t border-white/10 px-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-4">
-            <div className="flex flex-wrap gap-x-4 gap-y-1 text-[10px] sm:text-[11px]">
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] sm:text-xs">
               <span>
                 <strong className="text-white">98%</strong>{" "}
                 <span className="text-slate-500">{copy.equity}</span>

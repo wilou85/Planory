@@ -44,7 +44,7 @@ export function PlanoryLogo({
       {showWordmark && (
         <span className="flex flex-col justify-center leading-tight">
           <span className="text-base font-semibold text-white">Planory</span>
-          <span className="text-[11px] text-slate-400">{copy.tagline}</span>
+          <span className="hidden text-[11px] text-slate-400 lg:block">{copy.tagline}</span>
         </span>
       )}
     </Link>

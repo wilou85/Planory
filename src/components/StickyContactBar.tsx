@@ -27,16 +27,30 @@ export function StickyContactBar({ hasTabBar = true }: StickyContactBarProps) {
 
   if (!visible) return null;
 
+  /**
+   * Avec la tab bar : barre accolée (même fond, bord partagé) pour lire comme
+   * un seul chrome bas. Sans tab bar : îlot flottant.
+   */
   return (
     <div
-      className="fixed inset-x-0 z-40 px-3 lg:hidden"
+      className={`fixed inset-x-0 z-40 md:hidden ${
+        hasTabBar
+          ? "min-h-[var(--contactbar-h)] border-t border-white/10 bg-[#050a14]/95 px-3 py-1.5 backdrop-blur-xl"
+          : "px-3"
+      }`}
       style={{
         bottom: hasTabBar
-          ? "calc(3.75rem + env(safe-area-inset-bottom, 0px))"
-          : "calc(0.75rem + env(safe-area-inset-bottom, 0px))",
+          ? "calc(var(--tabbar-h) + var(--safe-bottom))"
+          : "calc(0.75rem + var(--safe-bottom))",
       }}
     >
-      <div className="mx-auto max-w-lg rounded-2xl border border-white/15 bg-[#0c1220]/95 p-2 shadow-2xl backdrop-blur-xl">
+      <div
+        className={
+          hasTabBar
+            ? "mx-auto max-w-lg"
+            : "mx-auto max-w-lg rounded-2xl border border-white/15 bg-[#0c1220]/95 p-2 shadow-2xl backdrop-blur-xl"
+        }
+      >
         <Link
           href={contactHref}
           className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full bg-white px-4 text-sm font-medium text-[#050a14]"

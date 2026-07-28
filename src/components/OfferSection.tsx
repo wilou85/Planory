@@ -21,7 +21,7 @@ export function OfferSection({ locale = "fr" }: OfferSectionProps) {
   const offers = getOffers(locale);
 
   return (
-    <section id="offre" className={`relative ${sectionY}`}>
+    <section id="offre" className={`relative overflow-x-clip ${sectionY}`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className={`${sectionHeadMb} grid gap-4 lg:grid-cols-2 lg:gap-8`}>
           <motion.div
@@ -31,7 +31,7 @@ export function OfferSection({ locale = "fr" }: OfferSectionProps) {
             transition={{ duration: 0.5 }}
           >
             <SectionLabel>{ui.offer.sectionLabel}</SectionLabel>
-            <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl">
+            <h2 className="text-fluid-heading font-bold text-white">
               {ui.offer.heading}
             </h2>
           </motion.div>

@@ -84,7 +84,7 @@ export function ToolsHub({ locale = "fr" }: ToolsLocaleProps) {
     <section className={`relative ${sectionY}`}>
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <SectionLabel>{copy.sectionLabel}</SectionLabel>
-        <h1 className="text-3xl font-bold text-white sm:text-4xl">{copy.heading}</h1>
+        <h1 className="text-fluid-heading font-bold text-white">{copy.heading}</h1>
         <p className="mt-4 text-lg leading-relaxed text-slate-400">{copy.intro}</p>
         <LeadMagnetsList locale={locale} />
         <p className="mt-8 text-sm text-slate-500">

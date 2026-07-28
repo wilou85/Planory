@@ -28,7 +28,7 @@ export function SectorsSection({ locale = "fr" }: SectorsSectionProps) {
             transition={{ duration: 0.5 }}
           >
             <SectionLabel>{ui.sectors.sectionLabel}</SectionLabel>
-            <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl">
+            <h2 className="text-fluid-heading font-bold text-white">
               {ui.sectors.heading}
             </h2>
           </motion.div>

@@ -7,6 +7,7 @@ import { ChevronDown, Menu } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { ContactButton } from "@/components/ContactButton";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { PlanoryLogo } from "@/components/PlanoryLogo";
 import { useNavDrawer } from "@/components/nav/NavDrawerContext";
 import { getHeaderCopy, getHomeCopy, getLocaleFromPath, getNavItems, localizePath, stripLocalePrefix, type Locale } from "@/lib/i18n";
@@ -29,7 +30,7 @@ function pageSnippet(path: string, locale: Locale) {
 }
 
 const navLinkClass = (isActive: boolean) =>
-  `inline-flex h-9 items-center rounded-lg px-3.5 text-sm transition-colors ${
+  `inline-flex h-9 items-center rounded-lg px-2.5 text-sm transition-colors lg:px-3.5 ${
     isActive
       ? "bg-white/10 text-white"
       : "text-slate-300 hover:bg-white/5 hover:text-white"
@@ -75,7 +76,7 @@ function NavDropdown({ item, isActive }: NavDropdownProps) {
         onClick={() => setOpen((v) => !v)}
         className={`${navLinkClass(isActive)} gap-1.5`}
       >
-        {NavIcon && <NavIcon className="h-4 w-4 shrink-0 opacity-70" aria-hidden />}
+        {NavIcon && <NavIcon className="hidden h-4 w-4 shrink-0 opacity-70 lg:block" aria-hidden />}
         {item.label}
         <ChevronDown
           className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`}
@@ -143,14 +144,14 @@ export function Header() {
           ? "bg-[#050a14]/92 backdrop-blur-xl shadow-lg shadow-black/20"
           : "bg-[#050a14]/80 backdrop-blur-md lg:bg-transparent lg:backdrop-blur-none"
       }`}
-      style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
+      style={{ paddingTop: "var(--safe-top)" }}
     >
-      <div className="mx-auto flex h-14 w-full items-center justify-between gap-3 px-4 sm:h-[3.75rem] sm:px-6 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-6 lg:px-8 xl:px-12 2xl:px-16">
+      <div className="mx-auto flex h-[var(--header-h)] w-full items-center justify-between gap-3 px-4 sm:px-6 md:gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-6 lg:px-8 xl:px-12 2xl:px-16">
         <div className="flex min-w-0 items-center gap-2 lg:justify-self-start">
           <button
             type="button"
             onClick={openDrawer}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-slate-300 hover:bg-white/5 hover:text-white lg:hidden"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-slate-300 hover:bg-white/5 hover:text-white md:hidden"
             aria-label={copy.openMenu}
             aria-controls="mobile-nav-drawer"
             aria-expanded={open}
@@ -162,7 +163,7 @@ export function Header() {
         </div>
 
         <nav
-          className="hidden items-center gap-0.5 lg:flex lg:justify-self-center"
+          className="hidden items-center gap-0.5 md:flex lg:justify-self-center"
           aria-label={copy.mainNav}
         >
           {navItems.map((item) => {
@@ -179,7 +180,9 @@ export function Header() {
                 title={pageSnippet(item.href, locale)}
                 className={`${navLinkClass(isActive)} gap-1.5`}
               >
-                {NavIcon && <NavIcon className="h-4 w-4 shrink-0 opacity-70" aria-hidden />}
+                {NavIcon && (
+                  <NavIcon className="hidden h-4 w-4 shrink-0 opacity-70 lg:block" aria-hidden />
+                )}
                 {item.label}
               </Link>
             );
@@ -187,6 +190,7 @@ export function Header() {
         </nav>
 
         <div className="flex shrink-0 items-center justify-end gap-1.5 lg:justify-self-end lg:gap-2">
+          <LanguageSwitcher compact className="shrink-0" />
           <Button
             href={localizePath(copy.ctaExampleHref, locale)}
             variant="ghost"

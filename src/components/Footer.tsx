@@ -20,9 +20,9 @@ export function Footer({ locale = "fr" }: FooterProps) {
   ];
 
   return (
-    <footer className="py-5 sm:py-6 lg:pb-8">
+    <footer className="py-5 sm:py-6 md:pb-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-between gap-3 text-xs text-slate-500 sm:flex-row">
+        <div className="flex flex-col items-center justify-between gap-3 text-xs text-slate-400 sm:flex-row">
           <p suppressHydrationWarning>© {year} Planory</p>
           <nav
             aria-label={ui.footer.navAriaLabel}
@@ -32,7 +32,7 @@ export function Footer({ locale = "fr" }: FooterProps) {
               <Link
                 key={link.href}
                 href={link.href}
-                className="inline-flex min-h-[44px] items-center transition-colors hover:text-slate-300 lg:min-h-0"
+                className="inline-flex min-h-[44px] items-center transition-colors hover:text-slate-300 md:min-h-0"
               >
                 {link.label}
               </Link>
@@ -43,14 +43,14 @@ export function Footer({ locale = "fr" }: FooterProps) {
                 href={profile.url}
                 target="_blank"
                 rel="noopener noreferrer me"
-                className="inline-flex min-h-[44px] items-center transition-colors hover:text-slate-300 lg:min-h-0"
+                className="inline-flex min-h-[44px] items-center transition-colors hover:text-slate-300 md:min-h-0"
               >
                 {profile.platform}
               </a>
             ))}
             <a
               href={`mailto:${CONTACT_EMAIL}`}
-              className="inline-flex min-h-[44px] items-center transition-colors hover:text-slate-300 lg:min-h-0"
+              className="inline-flex min-h-[44px] items-center transition-colors hover:text-slate-300 md:min-h-0"
             >
               {CONTACT_EMAIL}
             </a>

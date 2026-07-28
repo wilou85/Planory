@@ -28,7 +28,7 @@ export function FaqSection({ locale = "fr" }: FaqSectionProps) {
           className={sectionHeadMb}
         >
           <SectionLabel>{ui.faq.sectionLabel}</SectionLabel>
-          <h2 className="flex items-center gap-3 text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="text-fluid-heading flex items-center gap-3 font-bold text-white">
             <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-sky-400">
               <CircleHelp className="h-5 w-5" aria-hidden />
             </span>

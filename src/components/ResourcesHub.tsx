@@ -22,7 +22,7 @@ export function ResourcesHub({ locale = "fr" }: ResourcesHubProps) {
     <section className={`relative ${sectionY}`}>
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <SectionLabel>{ui.sectionLabel}</SectionLabel>
-        <h1 className="text-3xl font-bold text-white sm:text-4xl">{ui.heading}</h1>
+        <h1 className="text-fluid-heading font-bold text-white">{ui.heading}</h1>
         <p className="mt-4 text-lg leading-relaxed text-slate-400">{ui.intro}</p>
 
         {articles.length > 0 ? (

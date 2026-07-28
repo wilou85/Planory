@@ -36,6 +36,18 @@ export function MobileNavDrawer() {
     };
   }, [open]);
 
+  // Le drawer est masqué en CSS dès md : sans ça, le scroll du body resterait bloqué.
+  useEffect(() => {
+    if (!open) return;
+    const mq = window.matchMedia("(min-width: 48rem)");
+    const sync = () => {
+      if (mq.matches) closeDrawer();
+    };
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, [open, closeDrawer]);
+
   useEffect(() => {
     if (!open) return;
 
@@ -110,7 +122,7 @@ export function MobileNavDrawer() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm md:hidden"
             onClick={closeDrawer}
             tabIndex={-1}
           />
@@ -125,8 +137,8 @@ export function MobileNavDrawer() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", stiffness: 380, damping: 36 }}
-            className="fixed inset-y-0 right-0 z-[70] flex w-[min(100%,20rem)] flex-col border-l border-white/10 bg-[#0c1220] shadow-2xl outline-none lg:hidden"
-            style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
+            className="fixed inset-y-0 right-0 z-[70] flex w-[min(100%,20rem)] flex-col border-l border-white/10 bg-[#0c1220] shadow-2xl outline-none md:hidden"
+            style={{ paddingTop: "var(--safe-top)" }}
           >
             <div className="flex items-center justify-between px-4 py-3">
               <span className="text-sm font-semibold text-white">{copy.menu}</span>
@@ -190,7 +202,7 @@ export function MobileNavDrawer() {
 
             <div
               className="p-4"
-              style={{ paddingBottom: "calc(1rem + env(safe-area-inset-bottom, 0px))" }}
+              style={{ paddingBottom: "calc(1rem + var(--safe-bottom))" }}
             >
               <Link
                 href={getContactMailtoHref(locale)}

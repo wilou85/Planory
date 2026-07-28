@@ -57,7 +57,7 @@ export function ProductSection({ locale = "fr" }: ProductSectionProps) {
   }, [modules, pathname]);
 
   return (
-    <section id="produit" className={`relative ${sectionY}`}>
+    <section id="produit" className={`relative overflow-x-clip ${sectionY}`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className={`flex flex-col ${sectionStack} lg:flex-row`}>
           <ProductSidebar
@@ -65,7 +65,7 @@ export function ProductSection({ locale = "fr" }: ProductSectionProps) {
             activeModuleId={activeModuleId}
             onSelectModule={selectModule}
           />
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex-1 overflow-x-clip">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -73,7 +73,7 @@ export function ProductSection({ locale = "fr" }: ProductSectionProps) {
               transition={{ duration: 0.5 }}
             >
               <SectionLabel>{ui.product.sectionLabel}</SectionLabel>
-              <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl">
+              <h2 className="text-fluid-heading font-bold text-white">
                 {ui.product.heading[0]}
                 <br />
                 {ui.product.heading[1]}

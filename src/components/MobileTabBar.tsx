@@ -35,9 +35,9 @@ export function MobileTabBar() {
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-50 bg-[#050a14]/95 backdrop-blur-xl lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-50 bg-[#050a14]/95 backdrop-blur-xl md:hidden"
       aria-label={copy.mobileNavLabel}
-      style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+      style={{ paddingBottom: "var(--safe-bottom)" }}
     >
       <ul className="mx-auto flex max-w-lg items-stretch justify-between px-1 sm:max-w-xl">
         {tabs.map(({ href, label, title, icon: Icon }) => {
@@ -49,7 +49,7 @@ export function MobileTabBar() {
               <Link
                 href={href}
                 title={title}
-                className="relative flex min-h-[56px] flex-col items-center justify-center gap-0.5 px-1 py-2 text-[11px] font-medium"
+                className="relative flex min-h-[var(--tabbar-h)] flex-col items-center justify-center gap-0.5 px-1 py-2 text-[11px] font-medium"
                 aria-current={active ? "page" : undefined}
               >
                 {active && (
@@ -73,7 +73,7 @@ export function MobileTabBar() {
             type="button"
             onClick={openDrawer}
             title={copy.moreTabTitle}
-            className="relative flex min-h-[56px] w-full flex-col items-center justify-center gap-0.5 px-1 py-2 text-[11px] font-medium"
+            className="relative flex min-h-[var(--tabbar-h)] w-full flex-col items-center justify-center gap-0.5 px-1 py-2 text-[11px] font-medium"
             aria-controls="mobile-nav-drawer"
             aria-expanded={open}
             aria-haspopup="dialog"

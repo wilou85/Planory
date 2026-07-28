@@ -19,20 +19,20 @@ function shouldSuppressSticky(path: string): boolean {
 }
 
 /**
- * Espace bas pour tabs (~3.5rem) + sticky (~3.75rem au-dessus) + marge.
+ * Espace bas pour le chrome mobile fixe (hauteurs dans globals.css).
  * Appliqué au wrapper main+footer pour que le footer ne passe pas sous les barres.
  */
 function chromeBottomClass(showTabBar: boolean, showSticky: boolean): string {
   if (showTabBar && showSticky) {
-    return "pb-[calc(8.25rem+env(safe-area-inset-bottom))] lg:pb-0";
+    return "pb-[calc(var(--tabbar-h)+var(--contactbar-h)+1rem+var(--safe-bottom))] md:pb-0";
   }
   if (showTabBar) {
-    return "pb-[calc(4.5rem+env(safe-area-inset-bottom))] lg:pb-0";
+    return "pb-[calc(var(--tabbar-h)+1rem+var(--safe-bottom))] md:pb-0";
   }
   if (showSticky) {
-    return "pb-[calc(5.25rem+env(safe-area-inset-bottom))] lg:pb-0";
+    return "pb-[calc(var(--contactbar-h)+1.5rem+var(--safe-bottom))] md:pb-0";
   }
-  return "pb-[calc(0.5rem+env(safe-area-inset-bottom))] lg:pb-0";
+  return "pb-[calc(0.5rem+var(--safe-bottom))] md:pb-0";
 }
 
 type SiteShellProps = {

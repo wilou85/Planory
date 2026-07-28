@@ -18,7 +18,7 @@ export function HomeLeadMagnetSection({ locale = "fr" }: HomeLeadMagnetSectionPr
     <section
       id="outil-gratuit"
       aria-labelledby="home-lead-magnet-heading"
-      className="relative w-full bg-[#0c1220]/40 pb-10 pt-4 sm:pb-12 sm:pt-6 lg:pb-14"
+      className="relative w-full overflow-x-clip bg-[#0c1220]/40 pb-10 pt-4 sm:pb-12 sm:pt-6 lg:pb-14"
     >
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex w-full flex-col gap-6 rounded-2xl border border-sky-500/20 bg-gradient-to-br from-sky-500/8 to-transparent p-6 shadow-[0_0_56px_-20px_rgba(56,189,248,0.2)] lg:flex-row lg:items-center lg:gap-10 lg:p-8 xl:gap-12">

@@ -24,7 +24,7 @@ export function DiscoverPlanory({ locale = "fr" }: DiscoverPlanoryProps) {
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-400 sm:text-base">
           {copy.intro}
         </p>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-500 sm:text-base">
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-400 sm:text-base">
           {copy.subintro}
         </p>
 

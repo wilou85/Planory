@@ -7,7 +7,6 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { ContactButton } from "@/components/ContactButton";
 import { HeroMockup } from "@/components/HeroMockup";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { fadeUp, staggerContainer } from "@/components/ui/motion";
 import { HERO_COPY, localizePath, type Locale } from "@/lib/i18n";
 
@@ -26,69 +25,72 @@ export function Hero({ locale = "fr" }: HeroProps) {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden pt-[5.25rem] pb-10 sm:pt-24 sm:pb-12 lg:pt-28 lg:pb-14"
+      className="relative overflow-hidden pt-[4.75rem] pb-8 sm:pt-24 sm:pb-12 lg:pt-28 lg:pb-14"
     >
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/2 top-0 h-[420px] w-full max-w-[900px] -translate-x-1/2 rounded-full bg-sky-500/8 blur-[100px] sm:h-[600px] sm:blur-[120px] lg:left-[65%]" />
       </div>
 
-      <div className="relative mx-auto grid w-full min-w-0 items-center gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:gap-10 xl:gap-12 lg:px-8 xl:px-12 2xl:px-16">
+      <div className="relative mx-auto grid w-full min-w-0 items-center gap-5 px-4 sm:gap-8 sm:px-6 lg:grid-cols-2 lg:gap-10 xl:gap-12 lg:px-8 xl:px-12 2xl:px-16">
         <motion.div variants={staggerContainer} initial={false} animate="visible" className="min-w-0">
-          <motion.div
-            custom={0}
-            variants={fadeUp}
-            className="mb-5 flex flex-wrap items-center gap-2 sm:mb-6"
-          >
-            <LanguageSwitcher />
-          </motion.div>
-
-          <h1 className="text-[1.75rem] font-bold leading-[1.12] tracking-tight text-white sm:text-4xl lg:text-[3.25rem]">
+          <h1 className="text-fluid-display font-bold text-white">
             {copy.title}
           </h1>
 
+          {/* Mobile: une seule phrase. Desktop: sous-titre + tagline + description. */}
           <motion.p
-            custom={2}
+            custom={1}
             variants={fadeUp}
-            className="mt-2 text-sm font-medium text-sky-400/90 sm:text-base"
+            className="mt-3 max-w-xl text-base leading-relaxed text-slate-400 lg:hidden"
+          >
+            {copy.description}
+          </motion.p>
+
+          <motion.p
+            custom={1}
+            variants={fadeUp}
+            className="mt-2 hidden text-sm font-medium text-sky-400/90 sm:text-base lg:block"
           >
             {copy.subtitle}
           </motion.p>
 
           <motion.p
-            custom={3}
+            custom={2}
             variants={fadeUp}
-            className="mt-3 text-sm font-semibold text-white/90 sm:mt-2 sm:text-base"
+            className="mt-2 hidden text-sm font-semibold text-white/90 sm:text-base lg:block"
           >
             {copy.skynetTagline}
           </motion.p>
 
           <motion.p
-            custom={4}
+            custom={3}
             variants={fadeUp}
-            className="mt-2 max-w-xl text-base leading-relaxed text-slate-400 sm:text-lg"
+            className="mt-2 hidden max-w-xl text-base leading-relaxed text-slate-400 sm:text-lg lg:block"
           >
             {copy.description}
           </motion.p>
 
           <motion.div
-            custom={5}
+            custom={4}
             variants={fadeUp}
-            className="mt-5 flex flex-col gap-3"
+            className="mt-4 flex flex-col gap-3 sm:mt-5"
           >
             <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:gap-3">
               <ContactButton variant="primary" size="default" showArrow className="w-full sm:w-auto">
                 {copy.ctaPrimary}
               </ContactButton>
-              <Button
-                href={localizePath(copy.ctaSecondaryHref, locale)}
-                variant="secondary"
-                size="default"
-                className="w-full sm:w-auto"
-              >
-                {copy.ctaSecondary}
-              </Button>
+              <div className="hidden lg:contents">
+                <Button
+                  href={localizePath(copy.ctaSecondaryHref, locale)}
+                  variant="secondary"
+                  size="default"
+                  className="w-full sm:w-auto"
+                >
+                  {copy.ctaSecondary}
+                </Button>
+              </div>
             </div>
-            <p>
+            <p className="hidden lg:block">
               <Link
                 href={localizePath(copy.ctaLeadMagnetHref, locale)}
                 className="inline-flex items-center gap-1 text-sm font-medium text-sky-400 transition-colors hover:text-sky-300"
@@ -100,17 +102,17 @@ export function Hero({ locale = "fr" }: HeroProps) {
           </motion.div>
 
           <motion.div
-            custom={6}
+            custom={5}
             variants={fadeUp}
-            className="mt-6 lg:hidden"
+            className="mt-5 lg:hidden"
           >
             <HeroMockup compact locale={locale} />
           </motion.div>
 
           <motion.div
-            custom={7}
+            custom={6}
             variants={fadeUp}
-            className="mt-6 pt-0 lg:mt-8"
+            className="mt-5 hidden pt-0 sm:mt-6 lg:mt-8 lg:block"
           >
             <ul className="flex flex-col gap-2.5 min-[420px]:flex-row min-[420px]:flex-wrap min-[420px]:items-center min-[420px]:gap-x-2 min-[420px]:gap-y-1.5 xl:flex-nowrap xl:gap-x-3">
               {copy.stats.map((stat, i) => (

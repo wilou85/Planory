@@ -13,7 +13,7 @@ export function LegalDocument({ id, locale = "fr" }: LegalDocumentProps) {
   return (
     <section className={`relative ${sectionY}`}>
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-white sm:text-4xl">{doc.heading}</h1>
+        <h1 className="text-fluid-heading font-bold text-white">{doc.heading}</h1>
         <p className="mt-3 text-sm text-slate-500">{doc.updatedLabel}</p>
         <div className="mt-10 space-y-10">
           {doc.sections.map((section) => (
