@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
 import type { Locale } from "@/lib/i18n";
 
 export type EmailAttachment = {
@@ -27,35 +26,18 @@ export type SendEmailResult =
       code: "not_configured" | "provider" | "domain" | "sandbox";
     };
 
-type EmailProvider = "resend" | "brevo";
-
-function getResendApiKey(): string | undefined {
-  const key = process.env.RESEND_API_KEY?.trim();
-  return key || undefined;
-}
-
 function getBrevoApiKey(): string | undefined {
   const key = process.env.BREVO_API_KEY?.trim();
   return key || undefined;
 }
 
-function resolveEmailProvider(): EmailProvider | null {
-  const forced = process.env.EMAIL_PROVIDER?.trim().toLowerCase();
-  if (forced === "resend" && getResendApiKey()) return "resend";
-  if (forced === "brevo" && getBrevoApiKey()) return "brevo";
-  if (forced === "resend" || forced === "brevo") return null;
-  if (getResendApiKey()) return "resend";
-  if (getBrevoApiKey()) return "brevo";
-  return null;
-}
-
 export function getContactEmailFrom(): string {
-  return process.env.CONTACT_EMAIL_FROM ?? "Planory <onboarding@resend.dev>";
+  return process.env.CONTACT_EMAIL_FROM ?? "Planory <noreply@planory.net>";
 }
 
-/** True si Resend ou Brevo est configuré. */
+/** True si Brevo est configuré. */
 export function isEmailConfigured(): boolean {
-  return resolveEmailProvider() !== null;
+  return Boolean(getBrevoApiKey());
 }
 
 /** En local sans clé API : pas d’envoi, réponses “ok” côté routes. */
@@ -65,11 +47,11 @@ export function isEmailDevBypass(): boolean {
 
 const EMAIL_NOT_CONFIGURED = {
   fr: {
-    dev: "Service email non configuré : ajoutez RESEND_API_KEY ou BREVO_API_KEY dans .env (voir .env.example).",
+    dev: "Service email non configuré : ajoutez BREVO_API_KEY dans .env (voir .env.example).",
     prod: "Service email temporairement indisponible. Écrivez à contact@planory.net.",
   },
   en: {
-    dev: "Email service not configured: add RESEND_API_KEY or BREVO_API_KEY to .env (see .env.example).",
+    dev: "Email service not configured: add BREVO_API_KEY to .env (see .env.example).",
     prod: "Email service temporarily unavailable. Write to contact@planory.net.",
   },
 } as const;
@@ -104,7 +86,7 @@ function classifyProviderError(message: string): "provider" | "domain" | "sandbo
   return "provider";
 }
 
-/** Message utilisateur à partir d’un échec d’envoi (indépendant du provider). */
+/** Message utilisateur à partir d’un échec d’envoi. */
 export function emailErrorMessage(
   result: Extract<SendEmailResult, { ok: false }> | null | undefined,
   fallback: string,
@@ -122,17 +104,6 @@ export function emailErrorMessage(
   return fallback;
 }
 
-/** @deprecated Préférer emailErrorMessage */
-export function resendErrorMessage(
-  error: { message?: string } | null | undefined,
-  fallback: string,
-  locale: Locale = "fr",
-): string {
-  if (!error?.message) return fallback;
-  const code = classifyProviderError(error.message);
-  return emailErrorMessage({ ok: false, error: error.message, code }, fallback, locale);
-}
-
 function parseFromAddress(from: string): { name?: string; email: string } {
   const match = from.match(/^\s*(.*?)\s*<([^>]+)>\s*$/);
   if (match) {
@@ -141,41 +112,6 @@ function parseFromAddress(from: string): { name?: string; email: string } {
     if (email) return name ? { name, email } : { email };
   }
   return { email: from.trim() };
-}
-
-async function sendViaResend(
-  input: SendEmailInput,
-  apiKey: string,
-  to: string[],
-): Promise<SendEmailResult> {
-  const resend = new Resend(apiKey);
-  const { error } = await resend.emails.send({
-    from: input.from ?? getContactEmailFrom(),
-    to,
-    replyTo: input.replyTo,
-    subject: input.subject,
-    text: input.text,
-    html: input.html,
-    ...(input.attachments?.length
-      ? {
-          attachments: input.attachments.map((a) => ({
-            filename: a.filename,
-            content: a.content,
-          })),
-        }
-      : {}),
-  });
-
-  if (error) {
-    const message = error.message ?? String(error);
-    return {
-      ok: false,
-      error: message,
-      code: classifyProviderError(message),
-    };
-  }
-
-  return { ok: true };
 }
 
 async function sendViaBrevo(
@@ -229,16 +165,13 @@ async function sendViaBrevo(
   return { ok: true };
 }
 
-/**
- * Envoi transactionnel — Resend (défaut) ou Brevo.
- * `EMAIL_PROVIDER=resend|brevo` force le choix ; sinon première clé dispo.
- */
+/** Envoi transactionnel via Brevo (`BREVO_API_KEY`). */
 export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult> {
-  const provider = resolveEmailProvider();
-  if (!provider) {
+  const apiKey = getBrevoApiKey();
+  if (!apiKey) {
     return {
       ok: false,
-      error: "Email provider not configured (RESEND_API_KEY or BREVO_API_KEY missing).",
+      error: "Email provider not configured (BREVO_API_KEY missing).",
       code: "not_configured",
     };
   }
@@ -248,17 +181,5 @@ export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult>
     return { ok: false, error: "No recipients.", code: "provider" };
   }
 
-  if (provider === "brevo") {
-    const apiKey = getBrevoApiKey();
-    if (!apiKey) {
-      return { ok: false, error: "BREVO_API_KEY missing.", code: "not_configured" };
-    }
-    return sendViaBrevo(input, apiKey, to);
-  }
-
-  const apiKey = getResendApiKey();
-  if (!apiKey) {
-    return { ok: false, error: "RESEND_API_KEY missing.", code: "not_configured" };
-  }
-  return sendViaResend(input, apiKey, to);
+  return sendViaBrevo(input, apiKey, to);
 }

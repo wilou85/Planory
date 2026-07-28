@@ -55,7 +55,7 @@ const MAILTO_COPY = {
   },
 } as const;
 
-/** Ouvre la boîte mail avec sujet + corps préremplis (sans Resend). */
+/** Ouvre la boîte mail avec sujet + corps préremplis. */
 export function getContactMailtoHref(locale: Locale = "fr"): string {
   const copy = MAILTO_COPY[locale];
   // encodeURIComponent → %20 (pas +) : Outlook / certains clients mailto ne décodent pas le +.

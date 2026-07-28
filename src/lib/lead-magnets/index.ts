@@ -151,7 +151,7 @@ export const LEAD_MAGNET_FORM_COPY = {
     receivePdf: "Recevoir le PDF",
     successTitle: "Ressource prête",
     successDevBypass:
-      "Mode local : le PDF est disponible ci-dessous (email non envoyé — configurez RESEND_API_KEY pour la prod).",
+      "Mode local : le PDF est disponible ci-dessous (email non envoyé — configurez BREVO_API_KEY pour la prod).",
     successEmailFailed:
       "L'email n'a pas pu être envoyé (configuration en cours). Téléchargez le PDF directement ci-dessous.",
     successEmailSent: "Un email avec le lien de téléchargement vient de vous être envoyé.",
@@ -192,7 +192,7 @@ export const LEAD_MAGNET_FORM_COPY = {
     receivePdf: "Receive the PDF",
     successTitle: "Your resource is ready",
     successDevBypass:
-      "Local mode: the PDF is available below (email not sent — set RESEND_API_KEY for production).",
+      "Local mode: the PDF is available below (email not sent — set BREVO_API_KEY for production).",
     successEmailFailed:
       "The email could not be sent (configuration in progress). Download the PDF directly below.",
     successEmailSent: "An email with the download link has just been sent to you.",
