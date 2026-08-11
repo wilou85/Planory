@@ -45,7 +45,7 @@ export function ProductShowcase({ locale = "fr" }: ProductShowcaseProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.5, delay: 0.05 }}
-      className="mt-8 scroll-mt-28 sm:mt-10 sm:scroll-mt-32"
+      className="mt-8 scroll-mt-24 sm:mt-10 sm:scroll-mt-28"
     >
       {/* Mobile / tablette : un visuel dominant + swipe */}
       <div className="lg:hidden">

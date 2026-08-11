@@ -58,7 +58,7 @@ export function localePath(targetLocale: Locale, currentPath = "/"): string {
   return localizePath(stripLocalePrefix(currentPath), targetLocale);
 }
 
-/** Lien « Voir un exemple » → captures d’écran planning produit */
+/** Lien « Voir un exemple » → haut de la page produit (captures + module planning) */
 export const PRODUCT_EXAMPLE_HREF = "/produit#exemple";
 
 export const HERO_COPY = {

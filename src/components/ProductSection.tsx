@@ -38,7 +38,7 @@ export function ProductSection({ locale = "fr" }: ProductSectionProps) {
       if (hash === "exemple") {
         setActiveModuleId("planning");
         requestAnimationFrame(() => {
-          document.getElementById("exemple")?.scrollIntoView({ behavior: "smooth", block: "start" });
+          window.scrollTo({ top: 0, behavior: "smooth" });
         });
         return;
       }
@@ -83,6 +83,8 @@ export function ProductSection({ locale = "fr" }: ProductSectionProps) {
               </p>
             </motion.div>
 
+            <ProductShowcase locale={locale} />
+
             <ProductModuleChips
               locale={locale}
               activeModuleId={activeModuleId}
@@ -90,8 +92,6 @@ export function ProductSection({ locale = "fr" }: ProductSectionProps) {
             />
 
             <ProductModulePanel moduleId={activeModuleId} locale={locale} />
-
-            <ProductShowcase locale={locale} />
 
             <motion.div
               initial={{ opacity: 0, y: 24 }}
