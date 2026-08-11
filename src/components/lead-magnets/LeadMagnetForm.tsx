@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, CheckCircle2, Download, Loader2 } from "lucide-react";
 import type { LeadMagnetFormFieldErrors } from "@/lib/lead-magnets/types";
 import type { LeadMagnetSlug } from "@/lib/lead-magnets/types";
@@ -28,6 +28,12 @@ type LeadMagnetFormProps = {
   diagnostic?: LeadMagnetDiagnosticSummary | null;
 };
 
+function diagnosticFingerprint(diagnostic: LeadMagnetDiagnosticSummary | null | undefined) {
+  if (!diagnostic) return "";
+  const ids = [...(diagnostic.checkedIds ?? [])].sort().join(",");
+  return `${diagnostic.score}:${diagnostic.maxScore}:${diagnostic.percentage}:${ids}`;
+}
+
 function triggerPdfDownloadFromUrl(downloadPath: string, downloadFileName: string) {
   const link = document.createElement("a");
   link.href = downloadPath;
@@ -47,7 +53,6 @@ function triggerPdfDownloadFromBase64(base64: string, downloadFileName: string) 
   const blob = new Blob([bytes], { type: "application/pdf" });
   const url = URL.createObjectURL(blob);
   triggerPdfDownloadFromUrl(url, downloadFileName);
-  // Keep URL alive briefly for the success "download again" link
   return url;
 }
 
@@ -75,6 +80,27 @@ export function LeadMagnetForm({
   const [formError, setFormError] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
   const [pdfObjectUrl, setPdfObjectUrl] = useState<string | null>(null);
+  const pdfDiagnosticKeyRef = useRef<string | null>(null);
+
+  // Changement du questionnaire après génération → invalider le PDF prêt.
+  useEffect(() => {
+    if (status !== "success" || pdfDiagnosticKeyRef.current === null) return;
+    if (diagnosticFingerprint(diagnostic) === pdfDiagnosticKeyRef.current) return;
+
+    setPdfObjectUrl((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return null;
+    });
+    pdfDiagnosticKeyRef.current = null;
+    setStatus("idle");
+    setFormError(null);
+  }, [diagnostic, status]);
+
+  useEffect(() => {
+    return () => {
+      if (pdfObjectUrl) URL.revokeObjectURL(pdfObjectUrl);
+    };
+  }, [pdfObjectUrl]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -126,15 +152,21 @@ export function LeadMagnetForm({
       }
 
       const fileName = data.downloadFileName || downloadFileName;
+      setPdfObjectUrl((prev) => {
+        if (prev) URL.revokeObjectURL(prev);
+        return null;
+      });
       if (data.pdfBase64) {
         const url = triggerPdfDownloadFromBase64(data.pdfBase64, fileName);
         setPdfObjectUrl(url);
       } else {
         triggerPdfDownloadFromUrl(downloadPath, fileName);
       }
+      pdfDiagnosticKeyRef.current = diagnosticFingerprint(diagnostic);
       setStatus("success");
     } catch {
       triggerPdfDownloadFromUrl(downloadPath, downloadFileName);
+      pdfDiagnosticKeyRef.current = diagnosticFingerprint(diagnostic);
       setStatus("success");
     }
   }
