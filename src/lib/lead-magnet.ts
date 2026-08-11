@@ -37,6 +37,8 @@ export type LeadMagnetDiagnosticSummary = {
   zone: string;
   message: string;
   checkedLabels: string[];
+  /** IDs des critères cochés — source de vérité pour le PDF */
+  checkedIds: string[];
 };
 
 function resolveLocale(value: unknown): Locale {

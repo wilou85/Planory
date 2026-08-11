@@ -53,6 +53,7 @@ export function ExcelDiagnosticChecklist({
       zone: zoneLabels[result.zone],
       message: result.message,
       checkedLabels: criteria.filter((c) => checked.has(c.id)).map((c) => c.label),
+      checkedIds: Array.from(checked),
     });
   }, [checked, criteria, onDiagnosticChange, result, zoneLabels]);
 

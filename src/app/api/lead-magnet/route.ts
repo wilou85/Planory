@@ -4,6 +4,10 @@ import {
   type LeadMagnetDiagnosticSummary,
 } from "@/lib/lead-magnet";
 import { appendLeadMagnetToSheet } from "@/lib/lead-magnet-sheets";
+import {
+  buildPersonalizedExcelDiagnosticPdf,
+  pdfBytesToBase64,
+} from "@/lib/lead-magnet-pdf";
 import { getLeadMagnet, getLeadMagnetFormCopy } from "@/lib/lead-magnets";
 import type { Locale } from "@/lib/i18n";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
@@ -29,6 +33,9 @@ function parseDiagnostic(body: unknown): LeadMagnetDiagnosticSummary | null {
     message: typeof d.message === "string" ? d.message : "",
     checkedLabels: Array.isArray(d.checkedLabels)
       ? d.checkedLabels.filter((x): x is string => typeof x === "string")
+      : [],
+    checkedIds: Array.isArray(d.checkedIds)
+      ? d.checkedIds.filter((x): x is string => typeof x === "string")
       : [],
   };
 }
@@ -83,9 +90,24 @@ export async function POST(request: Request) {
     console.error("[lead-magnet] sheets append failed", sheet.error);
   }
 
+  let pdfBase64: string | null = null;
+  if (diagnostic) {
+    try {
+      const pdfBytes = await buildPersonalizedExcelDiagnosticPdf(
+        diagnostic,
+        result.data.locale ?? locale,
+      );
+      pdfBase64 = pdfBytesToBase64(pdfBytes);
+    } catch (err) {
+      console.error("[lead-magnet] personalized PDF failed", err);
+    }
+  }
+
   return NextResponse.json({
     ok: true,
     downloadPath: magnet.downloadPath,
+    downloadFileName: magnet.downloadFileName,
+    pdfBase64,
     sheetsStored: sheet.ok,
     sheetsSkipped: !sheet.ok && sheet.skipped === true,
   });

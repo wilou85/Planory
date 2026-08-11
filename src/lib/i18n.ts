@@ -207,8 +207,6 @@ export function getHomeCopy(locale: Locale) {
 export const HEADER_COPY = {
   fr: {
     tagline: "IA de planification",
-    ctaExample: "Voir un exemple",
-    ctaExampleHref: PRODUCT_EXAMPLE_HREF,
     ctaContact: "Prendre contact",
     ctaContactShort: "Contact",
     openMenu: "Ouvrir le menu",
@@ -225,8 +223,6 @@ export const HEADER_COPY = {
   },
   en: {
     tagline: "Planning AI",
-    ctaExample: "See an example",
-    ctaExampleHref: PRODUCT_EXAMPLE_HREF,
     ctaContact: "Get in touch",
     ctaContactShort: "Contact",
     openMenu: "Open menu",

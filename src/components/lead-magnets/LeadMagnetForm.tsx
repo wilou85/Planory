@@ -28,7 +28,7 @@ type LeadMagnetFormProps = {
   diagnostic?: LeadMagnetDiagnosticSummary | null;
 };
 
-function triggerPdfDownload(downloadPath: string, downloadFileName: string) {
+function triggerPdfDownloadFromUrl(downloadPath: string, downloadFileName: string) {
   const link = document.createElement("a");
   link.href = downloadPath;
   link.download = downloadFileName;
@@ -36,6 +36,19 @@ function triggerPdfDownload(downloadPath: string, downloadFileName: string) {
   document.body.appendChild(link);
   link.click();
   link.remove();
+}
+
+function triggerPdfDownloadFromBase64(base64: string, downloadFileName: string) {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i += 1) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  const blob = new Blob([bytes], { type: "application/pdf" });
+  const url = URL.createObjectURL(blob);
+  triggerPdfDownloadFromUrl(url, downloadFileName);
+  // Keep URL alive briefly for the success "download again" link
+  return url;
 }
 
 export function LeadMagnetForm({
@@ -61,6 +74,7 @@ export function LeadMagnetForm({
   const [fieldErrors, setFieldErrors] = useState<LeadMagnetFormFieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
+  const [pdfObjectUrl, setPdfObjectUrl] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -100,6 +114,8 @@ export function LeadMagnetForm({
       const data = (await response.json()) as {
         error?: string;
         fields?: LeadMagnetFormFieldErrors;
+        pdfBase64?: string | null;
+        downloadFileName?: string;
       };
 
       if (!response.ok) {
@@ -109,15 +125,22 @@ export function LeadMagnetForm({
         return;
       }
 
-      triggerPdfDownload(downloadPath, downloadFileName);
+      const fileName = data.downloadFileName || downloadFileName;
+      if (data.pdfBase64) {
+        const url = triggerPdfDownloadFromBase64(data.pdfBase64, fileName);
+        setPdfObjectUrl(url);
+      } else {
+        triggerPdfDownloadFromUrl(downloadPath, fileName);
+      }
       setStatus("success");
     } catch {
-      triggerPdfDownload(downloadPath, downloadFileName);
+      triggerPdfDownloadFromUrl(downloadPath, downloadFileName);
       setStatus("success");
     }
   }
 
   if (status === "success") {
+    const href = pdfObjectUrl ?? downloadPath;
     return (
       <div
         className={`rounded-2xl border border-emerald-500/20 bg-emerald-500/5 px-6 py-8 text-center ${className}`}
@@ -127,7 +150,7 @@ export function LeadMagnetForm({
         <p className="mt-4 text-lg font-semibold text-white">{copy.successTitle}</p>
         <p className="mt-2 text-sm text-slate-400">{copy.successDownload}</p>
         <a
-          href={downloadPath}
+          href={href}
           download={downloadFileName}
           className="mt-6 inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-white px-8 text-sm font-medium text-[#050a14] transition-opacity hover:bg-slate-100"
         >
@@ -248,20 +271,18 @@ export function LeadMagnetForm({
         </div>
       </div>
 
-      <label className="flex items-start gap-3 text-sm text-slate-300">
+      <label className="flex cursor-pointer items-start gap-3 text-sm text-slate-400">
         <input
           type="checkbox"
           checked={gdprConsent}
           onChange={(e) => setGdprConsent(e.target.checked)}
-          className="mt-1 h-4 w-4 rounded border-white/20 bg-[#050a14] text-sky-500 focus:ring-sky-500/30"
+          className="mt-0.5 h-4 w-4 shrink-0 rounded border-white/20 bg-[#050a14] text-sky-500"
           aria-invalid={Boolean(fieldErrors.gdprConsent)}
         />
-        <span>
-          {copy.gdprConsent} <span className="text-sky-400">*</span>
-        </span>
+        <span>{copy.gdprConsent}</span>
       </label>
       {fieldErrors.gdprConsent && (
-        <p className="-mt-2 text-xs text-red-400">{fieldErrors.gdprConsent}</p>
+        <p className="text-xs text-red-400">{fieldErrors.gdprConsent}</p>
       )}
 
       {formError && (
@@ -276,16 +297,11 @@ export function LeadMagnetForm({
         className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full bg-white px-8 text-sm font-medium text-[#050a14] transition-opacity hover:bg-slate-100 disabled:opacity-60 sm:w-auto"
       >
         {status === "loading" ? (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-            {copy.submitLoading}
-          </>
+          <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
         ) : (
-          <>
-            {resolvedSubmitLabel}
-            <ArrowRight className="h-4 w-4" aria-hidden />
-          </>
+          <ArrowRight className="h-4 w-4" aria-hidden />
         )}
+        {resolvedSubmitLabel}
       </button>
     </form>
   );
