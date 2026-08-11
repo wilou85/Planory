@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run lead-magnets:pdf && next build",
+    "build": "npm run lead-magnets:pdf && npm run sitemap:generate && next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "validate:responsive": "node tools/responsive-validate.mjs",
     "seo:competitors": "node tools/competitor-keyword-research.mjs",
-    "lead-magnets:pdf": "node tools/generate-lead-magnet-pdfs.mjs"
+    "lead-magnets:pdf": "node tools/generate-lead-magnet-pdfs.mjs",
+    "sitemap:generate": "vitest run src/lib/sitemap-generate.test.ts"
   },
   "dependencies": {
     "framer-motion": "^12.42.0",

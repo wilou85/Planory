@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
+import { useCallback, useState } from "react";
 import { FileDown } from "lucide-react";
 import { LeadMagnetForm } from "@/components/lead-magnets/LeadMagnetForm";
 import { ExcelDiagnosticChecklist } from "@/components/lead-magnets/ExcelDiagnosticChecklist";
 import { localizePath, type Locale } from "@/lib/i18n";
+import type { LeadMagnetDiagnosticSummary } from "@/lib/lead-magnet";
 import { getLeadMagnetLandingCopy } from "@/lib/lead-magnets";
 import type { LeadMagnetDefinition } from "@/lib/lead-magnets/types";
 
@@ -68,6 +72,10 @@ function ExcelGrilleLanding({
   const copy = getLeadMagnetLandingCopy(locale);
   const formAriaLabel =
     locale === "en" ? "Download form" : "Formulaire de téléchargement";
+  const [diagnostic, setDiagnostic] = useState<LeadMagnetDiagnosticSummary | null>(null);
+  const onDiagnosticChange = useCallback((summary: LeadMagnetDiagnosticSummary) => {
+    setDiagnostic(summary);
+  }, []);
 
   return (
     <>
@@ -80,7 +88,7 @@ function ExcelGrilleLanding({
         </h2>
         <p className="mt-2 text-sm leading-relaxed text-slate-400">{copy.step1Intro}</p>
         <div className="mt-6">
-          <ExcelDiagnosticChecklist locale={locale} />
+          <ExcelDiagnosticChecklist locale={locale} onDiagnosticChange={onDiagnosticChange} />
         </div>
       </section>
 
@@ -98,6 +106,7 @@ function ExcelGrilleLanding({
             downloadFileName={magnet.downloadFileName}
             submitLabel={copy.submitPdf}
             locale={locale}
+            diagnostic={diagnostic}
             className="mt-6"
           />
         </div>

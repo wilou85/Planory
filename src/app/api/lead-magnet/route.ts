@@ -1,21 +1,12 @@
 import { NextResponse } from "next/server";
 import {
-  formatLeadMagnetTeamEmail,
-  formatLeadMagnetUserEmail,
-  loadLeadMagnetPdfAttachment,
   validateLeadMagnetForm,
+  type LeadMagnetDiagnosticSummary,
 } from "@/lib/lead-magnet";
+import { appendLeadMagnetToSheet } from "@/lib/lead-magnet-sheets";
 import { getLeadMagnet, getLeadMagnetFormCopy } from "@/lib/lead-magnets";
 import type { Locale } from "@/lib/i18n";
-import { getLeadMagnetNotificationRecipients } from "@/lib/mail-recipients";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
-import {
-  emailErrorMessage,
-  emailNotConfiguredResponse,
-  isEmailConfigured,
-  isEmailDevBypass,
-  sendEmail,
-} from "@/lib/email";
 
 function resolveRequestLocale(body: unknown): Locale {
   if (body && typeof body === "object" && (body as Record<string, unknown>).locale === "en") {
@@ -24,14 +15,31 @@ function resolveRequestLocale(body: unknown): Locale {
   return "fr";
 }
 
+function parseDiagnostic(body: unknown): LeadMagnetDiagnosticSummary | null {
+  if (!body || typeof body !== "object") return null;
+  const diagnostic = (body as Record<string, unknown>).diagnostic;
+  if (!diagnostic || typeof diagnostic !== "object") return null;
+  const d = diagnostic as Record<string, unknown>;
+  if (typeof d.score !== "number" || typeof d.maxScore !== "number") return null;
+  return {
+    score: d.score,
+    maxScore: d.maxScore,
+    percentage: typeof d.percentage === "number" ? d.percentage : 0,
+    zone: typeof d.zone === "string" ? d.zone : "",
+    message: typeof d.message === "string" ? d.message : "",
+    checkedLabels: Array.isArray(d.checkedLabels)
+      ? d.checkedLabels.filter((x): x is string => typeof x === "string")
+      : [],
+  };
+}
+
 export async function POST(request: Request) {
   let body: unknown;
   try {
     body = await request.json();
   } catch {
-    const locale = "fr";
     return NextResponse.json(
-      { error: getLeadMagnetFormCopy(locale).api.invalidBody },
+      { error: getLeadMagnetFormCopy("fr").api.invalidBody },
       { status: 400 },
     );
   }
@@ -69,64 +77,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: apiCopy.notFound }, { status: 404 });
   }
 
-  if (isEmailDevBypass()) {
-    console.info("[lead-magnet] mode dev — email provider absent, pas d'email envoyé", {
-      ...result.data,
-      magnet: magnet.slug,
-    });
-    return NextResponse.json({
-      ok: true,
-      downloadPath: magnet.downloadPath,
-      devBypass: true,
-    });
-  }
-
-  if (!isEmailConfigured()) {
-    return emailNotConfiguredResponse(locale);
-  }
-
-  const teamEmail = formatLeadMagnetTeamEmail(result.data);
-  const userEmail = formatLeadMagnetUserEmail(result.data);
-  const pdfAttachment = loadLeadMagnetPdfAttachment(magnet);
-  const attachments = pdfAttachment ? [pdfAttachment] : undefined;
-
-  const userSent = await sendEmail({
-    to: result.data.email,
-    replyTo: "contact@planory.net",
-    subject: userEmail.subject,
-    text: userEmail.text,
-    html: userEmail.html,
-    attachments,
-  });
-
-  if (!userSent.ok) {
-    console.error("[lead-magnet] user email", userSent.error);
-    return NextResponse.json(
-      {
-        error: emailErrorMessage(userSent, apiCopy.emailSendFailed, locale),
-        downloadPath: magnet.downloadPath,
-        emailFailed: true,
-      },
-      { status: 502 },
-    );
-  }
-
-  const teamSent = await sendEmail({
-    to: getLeadMagnetNotificationRecipients(),
-    replyTo: result.data.email,
-    subject: teamEmail.subject,
-    text: teamEmail.text,
-    html: teamEmail.html,
-    attachments,
-  });
-
-  if (!teamSent.ok) {
-    console.error("[lead-magnet] team notification", teamSent.error);
+  const diagnostic = parseDiagnostic(body);
+  const sheet = await appendLeadMagnetToSheet(result.data, diagnostic);
+  if (!sheet.ok && !sheet.skipped) {
+    console.error("[lead-magnet] sheets append failed", sheet.error);
   }
 
   return NextResponse.json({
     ok: true,
     downloadPath: magnet.downloadPath,
-    teamNotifyFailed: !teamSent.ok,
+    sheetsStored: sheet.ok,
+    sheetsSkipped: !sheet.ok && sheet.skipped === true,
   });
 }

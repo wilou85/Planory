@@ -1,12 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   getExcelDiagnosticCriteria,
   getExcelDiagnosticUi,
   getExcelDiagnosticZoneLabels,
   scoreExcelDiagnostic,
 } from "@/lib/lead-magnets/content";
+import type { LeadMagnetDiagnosticSummary } from "@/lib/lead-magnet";
 import type { Locale } from "@/lib/i18n";
 
 const ZONE_STYLES = {
@@ -29,15 +30,31 @@ const ZONE_STYLES = {
 
 type ExcelDiagnosticChecklistProps = {
   locale?: Locale;
+  onDiagnosticChange?: (summary: LeadMagnetDiagnosticSummary) => void;
 };
 
-export function ExcelDiagnosticChecklist({ locale = "fr" }: ExcelDiagnosticChecklistProps) {
+export function ExcelDiagnosticChecklist({
+  locale = "fr",
+  onDiagnosticChange,
+}: ExcelDiagnosticChecklistProps) {
   const [checked, setChecked] = useState<Set<string>>(new Set());
 
   const criteria = useMemo(() => getExcelDiagnosticCriteria(locale), [locale]);
   const ui = useMemo(() => getExcelDiagnosticUi(locale), [locale]);
   const zoneLabels = useMemo(() => getExcelDiagnosticZoneLabels(locale), [locale]);
   const result = useMemo(() => scoreExcelDiagnostic(checked, locale), [checked, locale]);
+
+  useEffect(() => {
+    if (!onDiagnosticChange) return;
+    onDiagnosticChange({
+      score: result.score,
+      maxScore: result.maxScore,
+      percentage: result.percentage,
+      zone: zoneLabels[result.zone],
+      message: result.message,
+      checkedLabels: criteria.filter((c) => checked.has(c.id)).map((c) => c.label),
+    });
+  }, [checked, criteria, onDiagnosticChange, result, zoneLabels]);
 
   const byCategory = useMemo(() => {
     const map = new Map<string, typeof criteria>();

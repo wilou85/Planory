@@ -8,7 +8,8 @@ import {
 import { LEAD_MAGNETS } from "@/lib/lead-magnets";
 import { getResourceArticles } from "@/lib/resources";
 import { getPageSeo, SITE_PAGES, SITE_URL } from "@/lib/site";
-import sitemap from "@/app/sitemap";
+import { buildSitemapEntries, serializeSitemapXml } from "@/lib/build-sitemap";
+import { getHreflangLanguages } from "@/lib/seo";
 
 describe("i18n path helpers", () => {
   it("detects locale from path", () => {
@@ -61,7 +62,7 @@ describe("contact mailto", () => {
 
 describe("sitemap from SITE_PAGES", () => {
   it("lists FR and EN homepage and mirrors SITE_PAGES", () => {
-    const entries = sitemap();
+    const entries = buildSitemapEntries();
     const urls = new Set(entries.map((e) => e.url));
 
     expect(urls.has(SITE_URL)).toBe(true);
@@ -76,7 +77,7 @@ describe("sitemap from SITE_PAGES", () => {
   });
 
   it("lists FR/EN articles and lead magnets without duplicates", () => {
-    const entries = sitemap();
+    const entries = buildSitemapEntries();
     const urls = entries.map((e) => e.url);
 
     expect(new Set(urls).size).toBe(urls.length);
@@ -92,9 +93,21 @@ describe("sitemap from SITE_PAGES", () => {
   });
 
   it("includes hreflang alternates on each entry", () => {
-    const home = sitemap().find((e) => e.url === SITE_URL);
+    const home = buildSitemapEntries().find((e) => e.url === SITE_URL);
     expect(home?.alternates?.languages?.["fr-FR"]).toBe(SITE_URL);
     expect(home?.alternates?.languages?.["en-GB"]).toBe(`${SITE_URL}/en`);
     expect(home?.alternates?.languages?.["x-default"]).toBe(SITE_URL);
+    expect(getHreflangLanguages("/")["x-default"]).toBe(SITE_URL);
+  });
+
+  it("serializes XML with all locs and xhtml hreflang", () => {
+    const entries = buildSitemapEntries();
+    const xml = serializeSitemapXml(entries);
+    expect(xml).toContain('xmlns:xhtml="http://www.w3.org/1999/xhtml"');
+    expect(xml).toContain(`<loc>${SITE_URL}</loc>`);
+    expect(xml).toContain(`hreflang="en-GB" href="${SITE_URL}/en"`);
+    for (const entry of entries) {
+      expect(xml).toContain(`<loc>${entry.url}</loc>`);
+    }
   });
 });

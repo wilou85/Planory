@@ -9,6 +9,8 @@ import {
   getLeadMagnetRoleLabels,
   getLeadMagnetSectorLabels,
 } from "@/lib/lead-magnets";
+import { validateLeadMagnetForm } from "@/lib/lead-magnet";
+import type { LeadMagnetDiagnosticSummary } from "@/lib/lead-magnet";
 import type { Locale } from "@/lib/i18n";
 
 const inputClassName =
@@ -23,7 +25,18 @@ type LeadMagnetFormProps = {
   submitLabel?: string;
   className?: string;
   locale?: Locale;
+  diagnostic?: LeadMagnetDiagnosticSummary | null;
 };
+
+function triggerPdfDownload(downloadPath: string, downloadFileName: string) {
+  const link = document.createElement("a");
+  link.href = downloadPath;
+  link.download = downloadFileName;
+  link.rel = "noopener";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
 
 export function LeadMagnetForm({
   magnetSlug,
@@ -32,6 +45,7 @@ export function LeadMagnetForm({
   submitLabel,
   className = "",
   locale = "fr",
+  diagnostic = null,
 }: LeadMagnetFormProps) {
   const copy = getLeadMagnetFormCopy(locale);
   const roleLabels = getLeadMagnetRoleLabels(locale);
@@ -47,8 +61,6 @@ export function LeadMagnetForm({
   const [fieldErrors, setFieldErrors] = useState<LeadMagnetFormFieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
-  const [devBypass, setDevBypass] = useState(false);
-  const [emailFailed, setEmailFailed] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -56,49 +68,52 @@ export function LeadMagnetForm({
     setFieldErrors({});
     setStatus("loading");
 
+    const payload = {
+      firstName,
+      lastName,
+      email,
+      role,
+      sector,
+      gdprConsent,
+      magnetSlug,
+      locale,
+    };
+
+    const local = validateLeadMagnetForm(payload);
+    if (!local.ok) {
+      setFieldErrors(local.errors);
+      setFormError(copy.formErrorGeneric);
+      setStatus("idle");
+      return;
+    }
+
     try {
       const response = await fetch("/api/lead-magnet", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          role,
-          sector,
-          gdprConsent,
-          magnetSlug,
-          locale,
+          ...payload,
+          diagnostic: diagnostic ?? undefined,
         }),
       });
 
-      const payload = (await response.json()) as {
+      const data = (await response.json()) as {
         error?: string;
         fields?: LeadMagnetFormFieldErrors;
-        downloadPath?: string;
-        devBypass?: boolean;
-        emailFailed?: boolean;
       };
 
       if (!response.ok) {
-        if (payload.fields) setFieldErrors(payload.fields);
-        if (payload.emailFailed && payload.downloadPath) {
-          setEmailFailed(true);
-          setDevBypass(false);
-          setStatus("success");
-          return;
-        }
-        setFormError(payload.error ?? copy.formErrorGeneric);
+        if (data.fields) setFieldErrors(data.fields);
+        setFormError(data.error ?? copy.formErrorGeneric);
         setStatus("idle");
         return;
       }
 
-      setDevBypass(payload.devBypass === true);
-      setEmailFailed(false);
+      triggerPdfDownload(downloadPath, downloadFileName);
       setStatus("success");
     } catch {
-      setFormError(copy.networkError);
-      setStatus("idle");
+      triggerPdfDownload(downloadPath, downloadFileName);
+      setStatus("success");
     }
   }
 
@@ -110,16 +125,7 @@ export function LeadMagnetForm({
       >
         <CheckCircle2 className="mx-auto h-10 w-10 text-emerald-400" aria-hidden />
         <p className="mt-4 text-lg font-semibold text-white">{copy.successTitle}</p>
-        <p className="mt-2 text-sm text-slate-400">
-          {devBypass
-            ? copy.successDevBypass
-            : emailFailed
-              ? copy.successEmailFailed
-              : copy.successEmailSent}
-        </p>
-        {!devBypass && !emailFailed && (
-          <p className="mt-1 text-xs text-slate-500">{copy.successEmailHint}</p>
-        )}
+        <p className="mt-2 text-sm text-slate-400">{copy.successDownload}</p>
         <a
           href={downloadPath}
           download={downloadFileName}
@@ -184,16 +190,13 @@ export function LeadMagnetForm({
           name="email"
           type="email"
           autoComplete="email"
-          inputMode="email"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className={inputClassName}
           aria-invalid={Boolean(fieldErrors.email)}
         />
-        {fieldErrors.email && (
-          <p className="mt-1 text-xs text-red-400">{fieldErrors.email}</p>
-        )}
+        {fieldErrors.email && <p className="mt-1 text-xs text-red-400">{fieldErrors.email}</p>}
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -210,18 +213,14 @@ export function LeadMagnetForm({
             className={inputClassName}
             aria-invalid={Boolean(fieldErrors.role)}
           >
-            <option value="" disabled>
-              {copy.selectPlaceholder}
-            </option>
+            <option value="">{copy.selectPlaceholder}</option>
             {Object.entries(roleLabels).map(([value, label]) => (
               <option key={value} value={value}>
                 {label}
               </option>
             ))}
           </select>
-          {fieldErrors.role && (
-            <p className="mt-1 text-xs text-red-400">{fieldErrors.role}</p>
-          )}
+          {fieldErrors.role && <p className="mt-1 text-xs text-red-400">{fieldErrors.role}</p>}
         </div>
         <div>
           <label htmlFor="lm-sector" className={labelClassName}>
@@ -236,9 +235,7 @@ export function LeadMagnetForm({
             className={inputClassName}
             aria-invalid={Boolean(fieldErrors.sector)}
           >
-            <option value="" disabled>
-              {copy.selectPlaceholder}
-            </option>
+            <option value="">{copy.selectPlaceholder}</option>
             {Object.entries(sectorLabels).map(([value, label]) => (
               <option key={value} value={value}>
                 {label}
@@ -251,30 +248,24 @@ export function LeadMagnetForm({
         </div>
       </div>
 
-      <div className="rounded-lg border border-white/8 bg-[#050a14]/60 p-4">
-        <label className="flex min-h-[44px] items-start gap-3 text-left">
-          <input
-            type="checkbox"
-            name="gdprConsent"
-            required
-            checked={gdprConsent}
-            onChange={(e) => setGdprConsent(e.target.checked)}
-            className="mt-2.5 h-5 w-5 shrink-0 rounded border-white/20 bg-[#050a14] text-sky-500 focus:ring-sky-500/30"
-          />
-          <span className="text-sm leading-relaxed text-slate-400">
-            {copy.gdprConsent} <span className="text-sky-400">*</span>
-          </span>
-        </label>
-        {fieldErrors.gdprConsent && (
-          <p className="mt-2 text-xs text-red-400">{fieldErrors.gdprConsent}</p>
-        )}
-      </div>
+      <label className="flex items-start gap-3 text-sm text-slate-300">
+        <input
+          type="checkbox"
+          checked={gdprConsent}
+          onChange={(e) => setGdprConsent(e.target.checked)}
+          className="mt-1 h-4 w-4 rounded border-white/20 bg-[#050a14] text-sky-500 focus:ring-sky-500/30"
+          aria-invalid={Boolean(fieldErrors.gdprConsent)}
+        />
+        <span>
+          {copy.gdprConsent} <span className="text-sky-400">*</span>
+        </span>
+      </label>
+      {fieldErrors.gdprConsent && (
+        <p className="-mt-2 text-xs text-red-400">{fieldErrors.gdprConsent}</p>
+      )}
 
       {formError && (
-        <p
-          className="rounded-lg border border-red-500/20 bg-red-500/5 px-4 py-3 text-sm text-red-300"
-          role="alert"
-        >
+        <p className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-300">
           {formError}
         </p>
       )}
@@ -282,7 +273,7 @@ export function LeadMagnetForm({
       <button
         type="submit"
         disabled={status === "loading"}
-        className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full bg-white text-sm font-medium text-[#050a14] transition-opacity hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-8"
+        className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full bg-white px-8 text-sm font-medium text-[#050a14] transition-opacity hover:bg-slate-100 disabled:opacity-60 sm:w-auto"
       >
         {status === "loading" ? (
           <>
