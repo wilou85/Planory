@@ -147,11 +147,16 @@ export const LEAD_MAGNET_FORM_COPY = {
     selectPlaceholder: "Sélectionner…",
     gdprConsent:
       "J'accepte que Planory traite mes données pour m'envoyer cette ressource et, le cas échéant, un suivi commercial, conformément au RGPD.",
-    submitLoading: "Préparation…",
+    submitLoading: "Envoi en cours…",
     receivePdf: "Recevoir le PDF",
     successTitle: "Ressource prête",
-    successDownload: "Votre PDF personnalisé (réponses + interprétation) est prêt.",
-    downloadNow: "Télécharger le PDF",
+    successDevBypass:
+      "Mode local : le PDF est disponible ci-dessous (email non envoyé — configurez RESEND_API_KEY pour la prod).",
+    successEmailFailed:
+      "L'email n'a pas pu être envoyé (configuration en cours). Téléchargez le PDF directement ci-dessous.",
+    successEmailSent: "Un email avec le lien de téléchargement vient de vous être envoyé.",
+    successEmailHint: "Le téléchargement direct est aussi disponible ci-dessous.",
+    downloadNow: "Télécharger maintenant",
     formErrorGeneric: "Une erreur est survenue.",
     networkError: "Connexion impossible. Vérifiez votre réseau et réessayez.",
     api: {
@@ -183,11 +188,16 @@ export const LEAD_MAGNET_FORM_COPY = {
     selectPlaceholder: "Select…",
     gdprConsent:
       "I agree that Planory may process my data to send this resource and, where relevant, follow up commercially, in accordance with GDPR.",
-    submitLoading: "Preparing…",
+    submitLoading: "Sending…",
     receivePdf: "Receive the PDF",
     successTitle: "Your resource is ready",
-    successDownload: "Your personalized PDF (answers + interpretation) is ready.",
-    downloadNow: "Download the PDF",
+    successDevBypass:
+      "Local mode: the PDF is available below (email not sent — set RESEND_API_KEY for production).",
+    successEmailFailed:
+      "The email could not be sent (configuration in progress). Download the PDF directly below.",
+    successEmailSent: "An email with the download link has just been sent to you.",
+    successEmailHint: "Direct download is also available below.",
+    downloadNow: "Download now",
     formErrorGeneric: "Something went wrong.",
     networkError: "Unable to connect. Check your network and try again.",
     api: {
@@ -223,7 +233,7 @@ export const LEAD_MAGNET_LANDING_COPY = {
       "PDF personnalisé avec vos réponses et l'interprétation du score — à télécharger pour une réunion ou un dossier interne.",
     submitPdf: "Recevoir la grille PDF",
     receivePdf: "Recevoir le PDF",
-    receivePdfHint: "Téléchargement direct. Pas de téléphone requis.",
+    receivePdfHint: "Envoyé par email. Pas de téléphone requis.",
     contentHeading: "Contenu",
   },
   en: {
@@ -235,7 +245,7 @@ export const LEAD_MAGNET_LANDING_COPY = {
       "Personalized PDF with your answers and score interpretation — download for a meeting or internal file.",
     submitPdf: "Receive the PDF grid",
     receivePdf: "Receive the PDF",
-    receivePdfHint: "Direct download. No phone number required.",
+    receivePdfHint: "Sent by email. No phone number required.",
     contentHeading: "Contents",
   },
 } as const;

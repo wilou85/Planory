@@ -92,6 +92,7 @@ export function OfferSection({ locale = "fr" }: OfferSectionProps) {
                     variant={offer.highlighted ? "primary" : "ghost"}
                     showArrow
                     className="w-full"
+                    analyticsSource="offer"
                   >
                     {offer.cta}
                   </ContactButton>

@@ -39,7 +39,7 @@ export const PRODUCT_MODULES = [
     details: [
       {
         title: "Compliant automatic generation",
-        text: "SKYNET produces a proposal that respects statutory rest, qualifications per post, and 3×8 or 2×12 cycles.",
+        text: "SKYNET produces a proposal that respects statutory rest, on-call duties, qualifications per post, and 3×8 or 2×12 cycles.",
       },
       {
         title: "Real-time swaps and cover",
@@ -81,7 +81,7 @@ export const PRODUCT_MODULES = [
       },
       {
         title: "Fairness and fatigue built in",
-        text: "Equitable distribution of difficult shifts and cumulative workload over the period.",
+        text: "Equitable distribution of on-call duties and cumulative workload over the period.",
       },
       {
         title: "AI proposes, you decide",
@@ -417,7 +417,7 @@ export const AIRPORT_SECTOR_EN = {
     label: "Airport sector",
     title: "Airport & ATC scheduling: regulated 24/7 shifts with AI",
     intro:
-      "Planory schedules airport shifts and critical posts (ops, security, handling, ATC organisation) while respecting statutory rest, handovers and service continuity. SKYNET generates a proposal in under 2 minutes; planners validate and publish. Live pilot reference: Paris-Orly Airport.",
+      "Planory schedules airport shifts and critical posts (ops, security, handling, ATC organisation) while respecting statutory rest, handovers and service continuity. SKYNET generates a proposal in under 2 minutes; planners validate and publish. Live non-commercial pilot reference: Paris-Orly Airport.",
   },
   domain: {
     title: "Shifts, handovers and critical posts",
@@ -506,7 +506,7 @@ export const AIRPORT_SECTOR_EN = {
     {
       question: "What does the Orly pilot reference mean?",
       answer:
-        "A pilot is underway at Paris-Orly Airport. It illustrates Planory’s fit for complex airport schedules — alongside your HRIS, with WFM / GTA focused on the scheduling layer.",
+        "A non-commercial pilot is underway at Paris-Orly Airport. It illustrates Planory’s fit for complex airport schedules — alongside your HRIS, with WFM / GTA focused on the scheduling layer.",
     },
     {
       question: "Does Planory handle incidents and replacements?",

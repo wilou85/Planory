@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { ArrowRight, CheckCircle2, Download, Loader2 } from "lucide-react";
 import type { LeadMagnetFormFieldErrors } from "@/lib/lead-magnets/types";
 import type { LeadMagnetSlug } from "@/lib/lead-magnets/types";
@@ -9,9 +9,9 @@ import {
   getLeadMagnetRoleLabels,
   getLeadMagnetSectorLabels,
 } from "@/lib/lead-magnets";
-import { validateLeadMagnetForm } from "@/lib/lead-magnet";
-import type { LeadMagnetDiagnosticSummary } from "@/lib/lead-magnet";
 import type { Locale } from "@/lib/i18n";
+import { trackAnalyticsEvent } from "@/lib/analytics/client";
+import { describeFormError, leadMagnetPayload } from "@/lib/analytics/conversions";
 
 const inputClassName =
   "w-full rounded-lg border border-white/10 bg-[#050a14] px-3 py-2.5 text-sm text-white placeholder:text-slate-500 focus:border-sky-500/50 focus:outline-none focus:ring-2 focus:ring-sky-500/20";
@@ -25,36 +25,9 @@ type LeadMagnetFormProps = {
   submitLabel?: string;
   className?: string;
   locale?: Locale;
-  diagnostic?: LeadMagnetDiagnosticSummary | null;
+  /** Optional diagnostic payload from the online checklist (ignored by PDF POST if unused). */
+  diagnostic?: unknown;
 };
-
-function diagnosticFingerprint(diagnostic: LeadMagnetDiagnosticSummary | null | undefined) {
-  if (!diagnostic) return "";
-  const ids = [...(diagnostic.checkedIds ?? [])].sort().join(",");
-  return `${diagnostic.score}:${diagnostic.maxScore}:${diagnostic.percentage}:${ids}`;
-}
-
-function triggerPdfDownloadFromUrl(downloadPath: string, downloadFileName: string) {
-  const link = document.createElement("a");
-  link.href = downloadPath;
-  link.download = downloadFileName;
-  link.rel = "noopener";
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-}
-
-function triggerPdfDownloadFromBase64(base64: string, downloadFileName: string) {
-  const binary = atob(base64);
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i += 1) {
-    bytes[i] = binary.charCodeAt(i);
-  }
-  const blob = new Blob([bytes], { type: "application/pdf" });
-  const url = URL.createObjectURL(blob);
-  triggerPdfDownloadFromUrl(url, downloadFileName);
-  return url;
-}
 
 export function LeadMagnetForm({
   magnetSlug,
@@ -63,7 +36,6 @@ export function LeadMagnetForm({
   submitLabel,
   className = "",
   locale = "fr",
-  diagnostic = null,
 }: LeadMagnetFormProps) {
   const copy = getLeadMagnetFormCopy(locale);
   const roleLabels = getLeadMagnetRoleLabels(locale);
@@ -79,28 +51,9 @@ export function LeadMagnetForm({
   const [fieldErrors, setFieldErrors] = useState<LeadMagnetFormFieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
-  const [pdfObjectUrl, setPdfObjectUrl] = useState<string | null>(null);
-  const pdfDiagnosticKeyRef = useRef<string | null>(null);
-
-  // Changement du questionnaire après génération → invalider le PDF prêt.
-  useEffect(() => {
-    if (status !== "success" || pdfDiagnosticKeyRef.current === null) return;
-    if (diagnosticFingerprint(diagnostic) === pdfDiagnosticKeyRef.current) return;
-
-    setPdfObjectUrl((prev) => {
-      if (prev) URL.revokeObjectURL(prev);
-      return null;
-    });
-    pdfDiagnosticKeyRef.current = null;
-    setStatus("idle");
-    setFormError(null);
-  }, [diagnostic, status]);
-
-  useEffect(() => {
-    return () => {
-      if (pdfObjectUrl) URL.revokeObjectURL(pdfObjectUrl);
-    };
-  }, [pdfObjectUrl]);
+  const [devBypass, setDevBypass] = useState(false);
+  const [emailFailed, setEmailFailed] = useState(false);
+  const started = useRef(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -108,71 +61,67 @@ export function LeadMagnetForm({
     setFieldErrors({});
     setStatus("loading");
 
-    const payload = {
-      firstName,
-      lastName,
-      email,
-      role,
-      sector,
-      gdprConsent,
-      magnetSlug,
-      locale,
-    };
-
-    const local = validateLeadMagnetForm(payload);
-    if (!local.ok) {
-      setFieldErrors(local.errors);
-      setFormError(copy.formErrorGeneric);
-      setStatus("idle");
-      return;
-    }
-
     try {
       const response = await fetch("/api/lead-magnet", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...payload,
-          diagnostic: diagnostic ?? undefined,
+          firstName,
+          lastName,
+          email,
+          role,
+          sector,
+          gdprConsent,
+          magnetSlug,
+          locale,
         }),
       });
 
-      const data = (await response.json()) as {
+      const payload = (await response.json()) as {
         error?: string;
         fields?: LeadMagnetFormFieldErrors;
-        pdfBase64?: string | null;
-        downloadFileName?: string;
+        downloadPath?: string;
+        devBypass?: boolean;
+        emailFailed?: boolean;
       };
 
       if (!response.ok) {
-        if (data.fields) setFieldErrors(data.fields);
-        setFormError(data.error ?? copy.formErrorGeneric);
+        if (payload.fields) setFieldErrors(payload.fields);
+        if (payload.emailFailed && payload.downloadPath) {
+          track("form_submit");
+          setEmailFailed(true);
+          setDevBypass(false);
+          setStatus("success");
+          return;
+        }
+        track("form_error", describeFormError(response.status, payload.fields));
+        setFormError(payload.error ?? copy.formErrorGeneric);
         setStatus("idle");
         return;
       }
 
-      const fileName = data.downloadFileName || downloadFileName;
-      setPdfObjectUrl((prev) => {
-        if (prev) URL.revokeObjectURL(prev);
-        return null;
-      });
-      if (data.pdfBase64) {
-        const url = triggerPdfDownloadFromBase64(data.pdfBase64, fileName);
-        setPdfObjectUrl(url);
-      } else {
-        triggerPdfDownloadFromUrl(downloadPath, fileName);
-      }
-      pdfDiagnosticKeyRef.current = diagnosticFingerprint(diagnostic);
+      track("form_submit");
+      setDevBypass(payload.devBypass === true);
+      setEmailFailed(false);
       setStatus("success");
     } catch {
-      triggerPdfDownloadFromUrl(downloadPath, downloadFileName);
-      pdfDiagnosticKeyRef.current = diagnosticFingerprint(diagnostic);
-      setStatus("success");
+      track("form_error", describeFormError(null, undefined));
+      setFormError(copy.networkError);
+      setStatus("idle");
     }
   }
 
+  function track(type: "form_start" | "form_submit" | "form_error", detail?: object) {
+    void trackAnalyticsEvent(type, { payload: leadMagnetPayload(magnetSlug, detail) });
+  }
+
+  function handleFirstFocus() {
+    if (started.current) return;
+    started.current = true;
+    track("form_start");
+  }
+
   if (status === "success") {
-    const href = pdfObjectUrl ?? downloadPath;
     return (
       <div
         className={`rounded-2xl border border-emerald-500/20 bg-emerald-500/5 px-6 py-8 text-center ${className}`}
@@ -180,9 +129,18 @@ export function LeadMagnetForm({
       >
         <CheckCircle2 className="mx-auto h-10 w-10 text-emerald-400" aria-hidden />
         <p className="mt-4 text-lg font-semibold text-white">{copy.successTitle}</p>
-        <p className="mt-2 text-sm text-slate-400">{copy.successDownload}</p>
+        <p className="mt-2 text-sm text-slate-400">
+          {devBypass
+            ? copy.successDevBypass
+            : emailFailed
+              ? copy.successEmailFailed
+              : copy.successEmailSent}
+        </p>
+        {!devBypass && !emailFailed && (
+          <p className="mt-1 text-xs text-slate-500">{copy.successEmailHint}</p>
+        )}
         <a
-          href={href}
+          href={downloadPath}
           download={downloadFileName}
           className="mt-6 inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-white px-8 text-sm font-medium text-[#050a14] transition-opacity hover:bg-slate-100"
         >
@@ -194,7 +152,12 @@ export function LeadMagnetForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className={`space-y-4 text-left ${className}`} noValidate>
+    <form
+      onSubmit={handleSubmit}
+      onFocus={handleFirstFocus}
+      className={`space-y-4 text-left ${className}`}
+      noValidate
+    >
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="lm-firstName" className={labelClassName}>
@@ -245,13 +208,16 @@ export function LeadMagnetForm({
           name="email"
           type="email"
           autoComplete="email"
+          inputMode="email"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className={inputClassName}
           aria-invalid={Boolean(fieldErrors.email)}
         />
-        {fieldErrors.email && <p className="mt-1 text-xs text-red-400">{fieldErrors.email}</p>}
+        {fieldErrors.email && (
+          <p className="mt-1 text-xs text-red-400">{fieldErrors.email}</p>
+        )}
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -268,14 +234,18 @@ export function LeadMagnetForm({
             className={inputClassName}
             aria-invalid={Boolean(fieldErrors.role)}
           >
-            <option value="">{copy.selectPlaceholder}</option>
+            <option value="" disabled>
+              {copy.selectPlaceholder}
+            </option>
             {Object.entries(roleLabels).map(([value, label]) => (
               <option key={value} value={value}>
                 {label}
               </option>
             ))}
           </select>
-          {fieldErrors.role && <p className="mt-1 text-xs text-red-400">{fieldErrors.role}</p>}
+          {fieldErrors.role && (
+            <p className="mt-1 text-xs text-red-400">{fieldErrors.role}</p>
+          )}
         </div>
         <div>
           <label htmlFor="lm-sector" className={labelClassName}>
@@ -290,7 +260,9 @@ export function LeadMagnetForm({
             className={inputClassName}
             aria-invalid={Boolean(fieldErrors.sector)}
           >
-            <option value="">{copy.selectPlaceholder}</option>
+            <option value="" disabled>
+              {copy.selectPlaceholder}
+            </option>
             {Object.entries(sectorLabels).map(([value, label]) => (
               <option key={value} value={value}>
                 {label}
@@ -303,22 +275,30 @@ export function LeadMagnetForm({
         </div>
       </div>
 
-      <label className="flex cursor-pointer items-start gap-3 text-sm text-slate-400">
-        <input
-          type="checkbox"
-          checked={gdprConsent}
-          onChange={(e) => setGdprConsent(e.target.checked)}
-          className="mt-0.5 h-4 w-4 shrink-0 rounded border-white/20 bg-[#050a14] text-sky-500"
-          aria-invalid={Boolean(fieldErrors.gdprConsent)}
-        />
-        <span>{copy.gdprConsent}</span>
-      </label>
-      {fieldErrors.gdprConsent && (
-        <p className="text-xs text-red-400">{fieldErrors.gdprConsent}</p>
-      )}
+      <div className="rounded-lg border border-white/8 bg-[#050a14]/60 p-4">
+        <label className="flex min-h-[44px] items-start gap-3 text-left">
+          <input
+            type="checkbox"
+            name="gdprConsent"
+            required
+            checked={gdprConsent}
+            onChange={(e) => setGdprConsent(e.target.checked)}
+            className="mt-2.5 h-5 w-5 shrink-0 rounded border-white/20 bg-[#050a14] text-sky-500 focus:ring-sky-500/30"
+          />
+          <span className="text-sm leading-relaxed text-slate-400">
+            {copy.gdprConsent} <span className="text-sky-400">*</span>
+          </span>
+        </label>
+        {fieldErrors.gdprConsent && (
+          <p className="mt-2 text-xs text-red-400">{fieldErrors.gdprConsent}</p>
+        )}
+      </div>
 
       {formError && (
-        <p className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-300">
+        <p
+          className="rounded-lg border border-red-500/20 bg-red-500/5 px-4 py-3 text-sm text-red-300"
+          role="alert"
+        >
           {formError}
         </p>
       )}
@@ -326,14 +306,19 @@ export function LeadMagnetForm({
       <button
         type="submit"
         disabled={status === "loading"}
-        className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full bg-white px-8 text-sm font-medium text-[#050a14] transition-opacity hover:bg-slate-100 disabled:opacity-60 sm:w-auto"
+        className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full bg-white text-sm font-medium text-[#050a14] transition-opacity hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-8"
       >
         {status === "loading" ? (
-          <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+          <>
+            <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+            {copy.submitLoading}
+          </>
         ) : (
-          <ArrowRight className="h-4 w-4" aria-hidden />
+          <>
+            {resolvedSubmitLabel}
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </>
         )}
-        {resolvedSubmitLabel}
       </button>
     </form>
   );

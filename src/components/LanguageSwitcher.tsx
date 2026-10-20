@@ -1,14 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { FlagIcon } from "@/components/flags/FlagIcon";
-import {
-  LOCALES,
-  getLocaleFromPath,
-  localePath,
-  type Locale,
-} from "@/lib/i18n";
+import { usePublicPathname } from "@/components/usePublicPathname";
+import { LOCALES, getLocaleFromPath, type Locale } from "@/lib/i18n";
+import { getLanguageSwitchHref } from "@/lib/language-switch";
 
 type LanguageSwitcherProps = {
   className?: string;
@@ -23,12 +19,12 @@ export function LanguageSwitcher({
   className = "",
   compact = false,
 }: LanguageSwitcherProps) {
-  const pathname = usePathname();
+  const pathname = usePublicPathname();
   const current = getLocaleFromPath(pathname);
 
   if (compact) {
     const other = LOCALES.find((locale) => locale.code !== current) ?? LOCALES[0];
-    const href = localePath(other.code, pathname);
+    const href = getLanguageSwitchHref(other.code, pathname);
     return (
       <Link
         href={href}
@@ -53,7 +49,7 @@ export function LanguageSwitcher({
     >
       {LOCALES.map((locale) => {
         const isActive = current === locale.code;
-        const href = localePath(locale.code, pathname);
+        const href = getLanguageSwitchHref(locale.code, pathname);
         return (
           <Link
             key={locale.code}
@@ -78,6 +74,5 @@ export function LanguageSwitcher({
 }
 
 export function useLocale(): Locale {
-  const pathname = usePathname();
-  return getLocaleFromPath(pathname);
+  return getLocaleFromPath(usePublicPathname());
 }

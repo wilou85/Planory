@@ -116,9 +116,6 @@ export type SitePage = {
   navLabel: string;
   title: string;
   description: string;
-  /** Meta EN (hreflang /en) — source unique, plus de doublon dans seo.ts */
-  titleEn: string;
-  descriptionEn: string;
   snippet: string;
   changeFrequency: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
   priority: number;
@@ -134,9 +131,6 @@ export const SITE_PAGES: readonly SitePage[] = [
     title: "Logiciel de planning d'équipes 24/7 avec IA | Planory",
     description:
       "Planory génère des plannings conformes à vos règles métier, astreintes et contraintes RH. Logiciel français pour hôpitaux, aéroports, industrie et commerce.",
-    titleEn: "Healthcare workforce scheduling software with AI | Planory",
-    descriptionEn:
-      "Healthcare workforce scheduling software and shift planning software for hospitals, airports and 24/7 teams. Planory generates compliant schedules with SKYNET AI — French workforce scheduling software.",
     snippet:
       "Logiciel de planification IA pour équipes 24/7 — hôpitaux, aéroports et industrie.",
     changeFrequency: "weekly",
@@ -150,9 +144,6 @@ export const SITE_PAGES: readonly SitePage[] = [
     title: "Planning social, logiciel planning équipe & planification RH | Planory",
     description:
       "Logiciel de gestion de planning et planification RH : gestion planning personnel, planning logiciel et optimisation SKYNET pour équipes 24/7.",
-    titleEn: "Team scheduling software, HR planning & social scheduling | Planory",
-    descriptionEn:
-      "Workforce scheduling software for 24/7 teams: HR planning, shift scheduling, personal schedule management and SKYNET optimisation.",
     snippet:
       "RH, planning, ressources et SKYNET — modules intégrés pour accélérer la planification.",
     changeFrequency: "monthly",
@@ -165,9 +156,6 @@ export const SITE_PAGES: readonly SitePage[] = [
     title: "Planning hospitalier, aéroport, industrie & commerce | Planory",
     description:
       "Planning hospitalier, astreintes, roulements 3×8 industrie, staffing retail et planification aéroport 24/7. Cas d'usage concrets par secteur avec Planory.",
-    titleEn: "Hospital, airport, industry & retail scheduling | Planory",
-    descriptionEn:
-      "Hospital scheduling, on-call duties, 3×8 industrial rotations, retail staffing and 24/7 airport planning. Concrete use cases by sector with Planory.",
     snippet:
       "Aéroport, hôpital, industrie, commerce, école et services publics — cas d'usage par secteur.",
     changeFrequency: "monthly",
@@ -180,9 +168,6 @@ export const SITE_PAGES: readonly SitePage[] = [
     title: "Planning hospitalier, planning médical & planning hôpital | Planory",
     description:
       "Logiciel de planning hospitalier et planning médical avec IA : gardes, planning de garde, planning roulement hospitalier, astreintes 12h et réglementation FPH.",
-    titleEn: "Hospital scheduling, medical rostering & on-call planning | Planory",
-    descriptionEn:
-      "Hospital and medical scheduling software with AI: on-call duties, hospital rotation planning, 12-hour shifts and public healthcare compliance.",
     snippet:
       "Gardes, astreintes et roulements hospitaliers — conformité, équité et continuité de service.",
     changeFrequency: "monthly",
@@ -195,12 +180,9 @@ export const SITE_PAGES: readonly SitePage[] = [
     navLabel: "Aéroport",
     title: "Planning aéroport & ATC 24/7 avec IA | Planory",
     description:
-      "Logiciel de planning aéroportuaire : quarts 24/7, repos réglementaires, postes critiques, relèves et gestion des incidents. Pilote Orly — SKYNET.",
-    titleEn: "Airport & ATC scheduling software with AI | Planory",
-    descriptionEn:
-      "Airport workforce scheduling: 24/7 shifts, statutory rest, critical posts, handovers and incident cover. Orly pilot — SKYNET AI.",
+      "Logiciel de planning aéroportuaire : vacations 24/7, repos réglementaires, postes critiques, relèves et gestion des incidents. Pilote Orly — SKYNET.",
     snippet:
-      "Quarts aéroportuaires 24/7 — repos, postes critiques et continuité de service.",
+      "vacations 24/7 — repos, postes critiques et continuité de service.",
     changeFrequency: "monthly",
     priority: 0.82,
     sitePlan: false,
@@ -212,9 +194,6 @@ export const SITE_PAGES: readonly SitePage[] = [
     title: "Planification industrielle 3×8 & 2×12 avec IA | Planory",
     description:
       "Logiciel de planification industrielle : roulements 3×8, 2×12, absences, compteurs d'heures et conformité. SKYNET pour l'industrie continue.",
-    titleEn: "Industrial scheduling: 3×8 & 2×12 rotations with AI | Planory",
-    descriptionEn:
-      "Industrial workforce scheduling software: 3×8 and 2×12 rotations, absence cover, hour balances and compliance. SKYNET for continuous industry.",
     snippet:
       "Roulements industriels 3×8 / 2×12 — compétences, absences et compteurs.",
     changeFrequency: "monthly",
@@ -228,8 +207,6 @@ export const SITE_PAGES: readonly SitePage[] = [
     title: "Guides planification & planning équipes | Planory",
     description:
       "Guides pratiques sur la planification d'équipes, les astreintes, les roulements 24/7 et les bonnes pratiques RH.",
-    titleEn: "Scheduling guides & team planning | Planory",
-    descriptionEn: "Practical guides on team scheduling, on-call duties and 24/7 shift patterns.",
     snippet:
       "Guides et articles sur la planification d'équipes, les astreintes et les roulements 24/7.",
     changeFrequency: "weekly",
@@ -242,9 +219,6 @@ export const SITE_PAGES: readonly SitePage[] = [
     title: "Outils gratuits — grilles et modèles planification | Planory",
     description:
       "Outils gratuits Planory : grilles d'auto-diagnostic Excel vs logiciel, modèles et checklists pour cadrer un projet de planification d'équipes 24/7.",
-    titleEn: "Free tools — grids and scheduling templates | Planory",
-    descriptionEn:
-      "Free Planory tools: Excel vs software self-assessment grids, templates and checklists to scope a 24/7 team scheduling project.",
     snippet: "Grilles Excel vs logiciel et outils gratuits de cadrage.",
     changeFrequency: "monthly",
     priority: 0.7,
@@ -257,9 +231,6 @@ export const SITE_PAGES: readonly SitePage[] = [
     title: "Offre Planory : Autonome, Accompagné, Mission critique",
     description:
       "Trois niveaux d'engagement pour déployer Planory : autonome, accompagné avec référent dédié, ou mission critique pour environnements réglementés 24/7.",
-    titleEn: "Planory pricing: Self-serve, Supported, Mission-critical",
-    descriptionEn:
-      "Three engagement levels to deploy Planory: self-serve, supported with a dedicated contact, or mission-critical for regulated 24/7 environments.",
     snippet:
       "Autonome, accompagné ou mission critique — le niveau adapté à votre contexte.",
     changeFrequency: "monthly",
@@ -272,9 +243,6 @@ export const SITE_PAGES: readonly SitePage[] = [
     title: "FAQ Planory : planning, astreintes, SKYNET et déploiement",
     description:
       "Réponses sur la planification RH, les astreintes, SKYNET, le planning social, le déploiement et l'intégration SIRH.",
-    titleEn: "Planory FAQ: scheduling, on-call, SKYNET and deployment",
-    descriptionEn:
-      "Answers on HR planning, on-call duties, SKYNET, workforce scheduling, deployment and HRIS integration.",
     snippet:
       "Questions fréquentes sur SKYNET, le déploiement et la planification réglementée.",
     changeFrequency: "monthly",
@@ -287,9 +255,6 @@ export const SITE_PAGES: readonly SitePage[] = [
     title: "Contact Planory — Demande de démo et échange",
     description:
       "Contactez Planory pour un échange de 20 minutes sur votre contexte de planification d'équipes 24/7. Écrivez-nous par e-mail — réponse rapide.",
-    titleEn: "Contact Planory — Demo request and inquiry",
-    descriptionEn:
-      "Contact Planory for a 20-minute call about your 24/7 team scheduling context. Email us — quick response.",
     snippet: "Prendre contact — échange de 20 minutes sans prérequis.",
     changeFrequency: "monthly",
     priority: 0.75,
@@ -302,9 +267,6 @@ export const SITE_PAGES: readonly SitePage[] = [
     title: "Mentions légales | Planory",
     description:
       "Mentions légales du site Planory : éditeur, hébergeur, contact et propriété intellectuelle.",
-    titleEn: "Legal notice | Planory",
-    descriptionEn:
-      "Planory legal notice: publisher, hosting provider, contact and intellectual property.",
     snippet: "Éditeur, hébergeur et informations légales.",
     changeFrequency: "yearly",
     priority: 0.3,
@@ -317,9 +279,6 @@ export const SITE_PAGES: readonly SitePage[] = [
     title: "Politique de confidentialité | Planory",
     description:
       "Politique de confidentialité Planory : données collectées via le site (contact e-mail et outils), conservation et droits RGPD.",
-    titleEn: "Privacy policy | Planory",
-    descriptionEn:
-      "Planory privacy policy: data collected via the site (email contact and tools), purposes, retention and GDPR rights.",
     snippet: "Traitement des données personnelles et droits RGPD.",
     changeFrequency: "yearly",
     priority: 0.3,
@@ -331,19 +290,6 @@ export const ROUTES = SITE_PAGES;
 
 export function getSitePage(path: string) {
   return SITE_PAGES.find((page) => page.path === path);
-}
-
-/** Titre / description SEO selon la locale (source unique). */
-export function getPageSeo(
-  path: string,
-  locale: "fr" | "en",
-): { title: string; description: string } | undefined {
-  const page = getSitePage(path);
-  if (!page) return undefined;
-  if (locale === "en") {
-    return { title: page.titleEn, description: page.descriptionEn };
-  }
-  return { title: page.title, description: page.description };
 }
 
 /** Pages listées dans le plan du site (footer, Découvrir Planory) */

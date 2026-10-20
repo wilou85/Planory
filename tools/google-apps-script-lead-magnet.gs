@@ -7,7 +7,7 @@
  * 3. Déployer → Nouveau déploiement → Type : Application Web
  *    - Exécuter en tant que : Moi
  *    - Qui a accès : Tous
- * 4. Copier l’URL dans GOOGLE_SHEETS_WEBHOOK_URL (.env / Netlify)
+ * 4. Copier l’URL dans GOOGLE_SHEETS_WEBHOOK_URL (.env / variables d’environnement de l’hébergeur)
  * 5. (Optionnel) même secret dans GOOGLE_SHEETS_WEBHOOK_SECRET et SCRIPT_SECRET
  *
  * Les en-têtes sont créés automatiquement sur la ligne 1 si absents.

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import { ContactButton } from "@/components/ContactButton";
+import { TrackedContactLink } from "@/components/analytics/TrackedContactLink";
 import { getContactTopics, getPageUi } from "@/lib/get-content";
 import type { Locale } from "@/lib/i18n";
 import { CONTACT_EMAIL, getContactMailtoHref } from "@/lib/contact-nav";
@@ -58,7 +59,7 @@ export function ContactSection({ standalone = false, locale = "fr" }: ContactSec
             </ul>
 
             <div className="mt-8 flex justify-center">
-              <ContactButton variant="primary" showArrow>
+              <ContactButton variant="primary" showArrow analyticsSource="contact_section">
                 {ctaLabel}
               </ContactButton>
             </div>
@@ -66,22 +67,24 @@ export function ContactSection({ standalone = false, locale = "fr" }: ContactSec
               {locale === "en" ? (
                 <>
                   Or write to{" "}
-                  <a
+                  <TrackedContactLink
+                    source="contact_section_email"
                     href={getContactMailtoHref("en")}
                     className="text-sky-400 hover:text-sky-300"
                   >
                     {CONTACT_EMAIL}
-                  </a>
+                  </TrackedContactLink>
                 </>
               ) : (
                 <>
                   Ou écrivez à{" "}
-                  <a
+                  <TrackedContactLink
+                    source="contact_section_email"
                     href={getContactMailtoHref("fr")}
                     className="text-sky-400 hover:text-sky-300"
                   >
                     {CONTACT_EMAIL}
-                  </a>
+                  </TrackedContactLink>
                 </>
               )}
             </p>

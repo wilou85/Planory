@@ -22,7 +22,7 @@ export function HospitalSectorContent({ locale = "fr" }: HospitalSectorContentPr
           <p className="text-xs font-semibold uppercase tracking-[0.15em] text-sky-400">
             {hero.label}
           </p>
-          {"pilotNote" in hero && hero.pilotNote ? (
+          {"pilotNote" in hero && typeof hero.pilotNote === "string" && hero.pilotNote ? (
             <p className="mt-2 text-sm font-medium text-sky-300/90">{hero.pilotNote}</p>
           ) : null}
           <h1 className="text-fluid-heading mt-3 font-bold text-white">
@@ -30,7 +30,7 @@ export function HospitalSectorContent({ locale = "fr" }: HospitalSectorContentPr
           </h1>
           <p className="mt-4 text-lg leading-relaxed text-slate-400">{hero.intro}</p>
           <div className="mt-6">
-            <ContactButton variant="primary" showArrow>
+            <ContactButton variant="primary" showArrow analyticsSource="sector_hospital">
               {ui.cta}
             </ContactButton>
           </div>

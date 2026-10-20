@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { SkipToContent } from "@/components/SkipToContent";
 import { createPageMetadata } from "@/lib/seo";
@@ -44,7 +45,7 @@ export default function RootLayout({
       >
         <SkipToContent />
         <JsonLd data={globalGraphJsonLd()} />
-        {children}
+        <AnalyticsProvider>{children}</AnalyticsProvider>
       </body>
     </html>
   );

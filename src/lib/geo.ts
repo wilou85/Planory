@@ -30,11 +30,11 @@ export const BRAND_DEFINITION_EN =
 export const CANONICAL_CITATIONS: Record<CitationVariant, string> = {
   home: BRAND_DEFINITION,
   product:
-    "Planory est une application web française de planification d'équipes qui combine planification RH, planning opérationnel (cycles, quarts, astreintes) et gestion des ressources, avec le moteur d'optimisation IA SKYNET.",
+    "Planory est une application web française de planification d'équipes qui combine planification RH, planning opérationnel (cycles, vacations, astreintes) et gestion des ressources, avec le moteur d'optimisation IA SKYNET.",
   hospital:
     "Planory est un logiciel de planning hospitalier avec IA, conçu pour les gardes, roulements 12h et la gestion des astreintes dans le planning, en garantissant conformité réglementaire, équité des week-ends et nuits, et continuité de service — avec un pilote en cours au Centre Hospitalier de Versailles.",
   airport:
-    "Planory est un logiciel de planning aéroportuaire avec IA, conçu pour les quarts 24/7, postes critiques, relèves et repos réglementaires — avec une référence pilote à l'Aéroport de Paris-Orly.",
+    "Planory est un logiciel de planning aéroportuaire avec IA, conçu pour les vacations 24/7, postes critiques, relèves et repos réglementaires — avec une Référence pilote non-commercial à l'Aéroport de Paris-Orly.",
   industry:
     "Planory est un logiciel de planification industrielle avec IA, conçu pour les roulements 3×8 et 2×12, la couverture par compétence et le suivi des compteurs en environnement continu.",
   sectors:
@@ -48,9 +48,9 @@ export const CANONICAL_CITATIONS_EN: Record<
 > = {
   home: BRAND_DEFINITION_EN,
   healthcare:
-    "Planory is healthcare workforce scheduling software with an AI engine (SKYNET), designed for 12-hour shifts, guard rotas and on-call management in the schedule, weekend equity and regulatory compliance in hospitals and care facilities — with a live pilot at Centre Hospitalier de Versailles.",
+    "Planory is healthcare workforce scheduling software with an AI engine (SKYNET), designed for 12-hour shifts, guard rotas and on-call management in the schedule, weekend equity and regulatory compliance in hospitals and care facilities — with a Live non-commercial pilot at Centre Hospitalier de Versailles.",
   airport:
-    "Planory is airport workforce scheduling software with SKYNET AI, built for 24/7 shifts, critical posts, handovers and statutory rest — with a live pilot reference at Paris-Orly Airport.",
+    "Planory is airport workforce scheduling software with SKYNET AI, built for 24/7 shifts, critical posts, handovers and statutory rest — with a Live non-commercial pilot reference at Paris-Orly Airport.",
   industry:
     "Planory is industrial workforce scheduling software with SKYNET AI, built for 3×8 and 2×12 rotations, skill coverage and hour-balance tracking in continuous operations.",
   sectors:
@@ -137,8 +137,8 @@ export const CITATION_SUPPORT: Partial<Record<CitationVariant, string>> = {
   product:
     "SKYNET génère une proposition conforme en moins de 2 minutes ; le planificateur relit, ajuste et publie.",
   hospital:
-    "Référence pilote : Centre Hospitalier de Versailles (pilote en cours). Contact : contact@planory.net.",
-  airport: `Référence pilote : ${BRAND.pilotReference.name} (${BRAND.pilotReference.status}). Contact : ${getContactEmail()}.`,
+    "Référence pilote non-commercial : Centre Hospitalier de Versailles (pilote en cours). Contact : contact@planory.net.",
+  airport: `Référence pilote non-commercial : ${BRAND.pilotReference.name} (${BRAND.pilotReference.status}). Contact : ${getContactEmail()}.`,
   industry:
     "Planory porte la GTA côté roulements industriels complexes 24/7, en complément de l'ERP.",
 };
@@ -158,18 +158,17 @@ export const CITATION_BLOCKS: Record<
     facts: [
       "SKYNET intègre repos légaux, équité des week-ends et nuits, fatigue et contraintes individuelles.",
       "Workflow : brouillon généré → relecture planificateur → ajustements → publication aux équipes.",
-      "Différenciation vs SIRH : Planory porte la GTA côté planification complexe 24/7.",
-      "Planory unifie GTA et planning — le pointage badgeuse peut rester séparé selon le contexte.",
+      "Différenciation vs SIRH : Planory optimise les roulements complexes 24/7.",
+      "Planory complète un logiciel GTA — il planifie, il ne pointe pas.",
     ],
   },
   hospital: {
     title: "Planory hospitalier",
     summary: CANONICAL_CITATIONS.hospital,
     facts: [
-      "Roulements 12h et permanences par service et qualification ; astreintes gérées dans le planning (statut dédié ou activité standard).",
+      "Roulements 12h, astreintes et permanences par service et qualification.",
       "Services : urgences, bloc opératoire, EHPAD, multi-sites.",
-      "Pilote : Centre Hospitalier de Versailles.",
-      "SKYNET génère les créneaux planifiés ; les cadres de santé valident.",
+      "SKYNET génère ; les cadres de santé valident.",
     ],
   },
   airport: {

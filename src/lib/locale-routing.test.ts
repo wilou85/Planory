@@ -1,41 +1,57 @@
 import { describe, expect, it } from "vitest";
-import { resolveLocaleRouting } from "@/lib/locale-routing";
+import { assertInvariant, assertInvariantForEach } from "@/lib/test/invariants";
+import {
+  FR_INTERNAL_REWRITE_SOURCE,
+  LOCALE_REWRITES,
+  isLocaleRewriteSource,
+} from "@/lib/locale-routing";
 
-describe("locale routing (next.config mirror)", () => {
-  it("rewrites FR public paths to /fr/*", () => {
-    expect(resolveLocaleRouting("/produit")).toEqual({
-      type: "rewrite",
-      to: "/fr/produit",
-    });
-    expect(resolveLocaleRouting("/secteurs/hopital")).toEqual({
-      type: "rewrite",
-      to: "/fr/secteurs/hopital",
-    });
+describe("locale rewrite invariants", () => {
+  it("never rewrites /admin (or /api, /en) into the internal /fr tree", () => {
+    assertInvariantForEach(
+      [
+        "/admin",
+        "/admin/",
+        "/admin/login",
+        "/admin/analytics",
+        "/api",
+        "/api/admin/login",
+        "/en",
+        "/en/faq",
+        "/favicon.ico",
+        "/logo.png",
+        "/sw.js",
+        "/images/hero-immeuble.jpg",
+        "/manifest.webmanifest",
+        "/_next/static/chunk.js",
+      ],
+      (path) => !isLocaleRewriteSource(path),
+      (path) => `${path} must stay outside locale rewrites`,
+    );
   });
 
-  it("rewrites home to /fr", () => {
-    expect(resolveLocaleRouting("/")).toEqual({ type: "rewrite", to: "/fr" });
+  it("rewrites ordinary French public paths (root is app/page.tsx, not rewritten)", () => {
+    assertInvariant(
+      !isLocaleRewriteSource("/"),
+      "root / is served by app/page.tsx, not rewritten",
+    );
+    assertInvariantForEach(
+      ["/faq", "/ressources/planning-hospitalier", "/offre", "/produit"],
+      (path) => isLocaleRewriteSource(path),
+      (path) => `${path} must be rewritten for FR`,
+    );
   });
 
-  it("passes /en through", () => {
-    expect(resolveLocaleRouting("/en")).toEqual({ type: "next" });
-    expect(resolveLocaleRouting("/en/produit")).toEqual({ type: "next" });
-  });
-
-  it("redirects public /fr/* to unprefixed FR URLs", () => {
-    expect(resolveLocaleRouting("/fr/produit")).toEqual({
-      type: "redirect",
-      to: "/produit",
-    });
-    expect(resolveLocaleRouting("/fr")).toEqual({ type: "redirect", to: "/" });
-  });
-
-  it("bypasses API, static assets and llms", () => {
-    expect(resolveLocaleRouting("/api/lead-magnet")).toEqual({ type: "next" });
-    expect(resolveLocaleRouting("/_next/static/chunks/main.js")).toEqual({
-      type: "next",
-    });
-    expect(resolveLocaleRouting("/llms.txt")).toEqual({ type: "next" });
-    expect(resolveLocaleRouting("/og-planory.png")).toEqual({ type: "next" });
+  it("exposes a rewrite whose source excludes admin", () => {
+    assertInvariant(LOCALE_REWRITES.length >= 1, "at least one rewrite");
+    assertInvariant(
+      FR_INTERNAL_REWRITE_SOURCE.includes("admin"),
+      "rewrite source must mention admin in the negative lookahead",
+    );
+    assertInvariantForEach(
+      LOCALE_REWRITES,
+      (rule) => rule.destination === "/fr" || rule.destination.startsWith("/fr/"),
+      (rule) => `${rule.source} must rewrite into /fr`,
+    );
   });
 });

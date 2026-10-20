@@ -13,6 +13,7 @@
 # testing
 /coverage
 /tmp/
+/tools/leads-out/
 
 # next.js
 /.next/
@@ -26,6 +27,7 @@
 *.pem
 .cursor/
 graphify-out/
+/Photos/
 
 # debug
 npm-debug.log*

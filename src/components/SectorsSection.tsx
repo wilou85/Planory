@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { sectionHeadMb, sectionY } from "@/components/ui/section";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { IconBox } from "@/components/ui/IconBox";
+import { trackAnalyticsEvent } from "@/lib/analytics/client";
 import { getPageUi, getSectors } from "@/lib/get-content";
 import { localizePath, type Locale } from "@/lib/i18n";
 import { SECTOR_ICONS } from "@/lib/icons";
@@ -69,6 +70,22 @@ export function SectorsSection({ locale = "fr" }: SectorsSectionProps) {
                   <Link
                     href={localizePath(sector.href, locale)}
                     className="mt-4 inline-flex text-sm font-medium text-sky-400 hover:text-sky-300"
+                    onClick={() => {
+                      void trackAnalyticsEvent("cta_click", {
+                        payload: {
+                          funnel: "sectors",
+                          cta: "learn_more",
+                          sector: sector.href,
+                        },
+                      });
+                      void trackAnalyticsEvent("funnel_step", {
+                        payload: {
+                          funnel: "sectors",
+                          step: "sector_click",
+                          sector: sector.href,
+                        },
+                      });
+                    }}
                   >
                     {ui.sectors.learnMore}
                   </Link>

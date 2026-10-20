@@ -1,45 +1,20 @@
-/**
- * Same-route hash navigation for Next.js App Router.
- * Soft navigations use history.pushState and do not fire `hashchange`;
- * assigning `location.hash` does.
- */
-
-export function applySameRouteHash(hash: string) {
-  const next = hash.startsWith("#") ? hash : `#${hash}`;
-  if (window.location.hash !== next) {
-    window.location.hash = next;
-  } else {
-    window.dispatchEvent(new HashChangeEvent("hashchange"));
-  }
-}
-
-/** @returns true if the click was handled as same-route hash navigation */
+/** Soft-scroll when clicking a hash that targets the current route. */
 export function handleSameRouteHashClick(
   href: string,
-  e: { preventDefault: () => void },
-): boolean {
-  if (typeof window === "undefined") return false;
-
-  if (href.startsWith("#")) {
-    e.preventDefault();
-    applySameRouteHash(href);
-    return true;
-  }
-
+  event: { preventDefault: () => void },
+): void {
+  if (typeof window === "undefined") return;
   try {
-    const target = new URL(href, window.location.href);
-    if (
-      target.origin === window.location.origin &&
-      target.pathname === window.location.pathname &&
-      target.hash
-    ) {
-      e.preventDefault();
-      applySameRouteHash(target.hash);
-      return true;
-    }
+    const url = new URL(href, window.location.origin);
+    if (url.origin !== window.location.origin) return;
+    if (url.pathname !== window.location.pathname) return;
+    if (!url.hash) return;
+    event.preventDefault();
+    const id = decodeURIComponent(url.hash.slice(1));
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    else window.location.hash = url.hash;
   } catch {
-    return false;
+    /* ignore */
   }
-
-  return false;
 }

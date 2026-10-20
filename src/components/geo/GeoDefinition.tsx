@@ -17,7 +17,7 @@ type GeoDefinitionProps = {
   /** Sous-variante EN : home, healthcare, airport, industry… */
   enVariant?: "home" | "healthcare" | "airport" | "industry" | "sectors" | "faq";
   className?: string;
-  /** Afficher le texte de support sous la citation (ex. référence pilote) */
+  /** Afficher le texte de support sous la citation (ex. Référence pilote non-commercial) */
   showSupport?: boolean;
 };
 
@@ -27,7 +27,7 @@ function resolveCitation(props: GeoDefinitionProps): {
   id: string;
 } {
   const { variant, articleSlug, locale = "fr", enVariant = "home" } = props;
-  const enSupport = "Live pilot: Paris-Orly Airport. Contact: contact@planory.net";
+  const enSupport = "Live non-commercial pilot: Paris-Orly Airport. Contact: contact@planory.net";
 
   if (articleSlug) {
     if (locale === "en") {

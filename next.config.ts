@@ -1,17 +1,18 @@
 import type { NextConfig } from "next";
+import { INDEXING_REDIRECTS } from "./src/lib/indexing-redirects";
 import { LOCALE_REDIRECTS, LOCALE_REWRITES } from "./src/lib/locale-routing";
 
 const nextConfig: NextConfig = {
   async redirects() {
-    return [...LOCALE_REDIRECTS];
+    return [...INDEXING_REDIRECTS, ...LOCALE_REDIRECTS];
   },
   /**
-   * beforeFiles: must run before `[locale]` matches the first path segment
-   * (e.g. /ressources → locale=ressources → 404). afterFiles is too late.
+   * afterFiles: public/ assets win first; then unprefixed FR paths rewrite to
+   * /fr/… before dynamic `[locale]` can treat the first segment as a locale.
    */
   async rewrites() {
     return {
-      beforeFiles: [...LOCALE_REWRITES],
+      afterFiles: [...LOCALE_REWRITES],
     };
   },
 };

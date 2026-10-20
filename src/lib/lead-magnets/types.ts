@@ -16,7 +16,23 @@ export type LeadMagnetSector =
   | "services-publics"
   | "autre";
 
-import type { Locale } from "@/lib/i18n";
+export type LeadMagnetDefinition = {
+  slug: LeadMagnetSlug;
+  title: string;
+  description: string;
+  keywords?: string[];
+  path: string;
+  downloadPath: string;
+  downloadFileName: string;
+  subtitle: string;
+  format: string;
+  audience?: string;
+  highlights: string[];
+  previewSections: { title: string; items: string[] }[];
+  ctaAfterDownload?: string;
+  relatedArticlePath?: string;
+  relatedArticleLabel?: string;
+};
 
 export type LeadMagnetFormData = {
   firstName: string;
@@ -24,30 +40,17 @@ export type LeadMagnetFormData = {
   email: string;
   role: LeadMagnetRole;
   sector: LeadMagnetSector;
-  gdprConsent: boolean;
   magnetSlug: LeadMagnetSlug;
-  locale?: Locale;
+  gdprConsent: true;
+  locale: "fr" | "en";
 };
 
-export type LeadMagnetFormFieldErrors = Partial<
-  Record<keyof LeadMagnetFormData, string>
->;
-
-export type LeadMagnetDefinition = {
-  slug: LeadMagnetSlug;
-  path: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  format: string;
-  audience: string;
-  downloadFileName: string;
-  downloadPath: string;
-  keywords: string[];
-  /** Article ou page liée pour maillage interne */
-  relatedArticlePath?: string;
-  relatedArticleLabel?: string;
-  highlights: string[];
-  previewSections: { title: string; items: string[] }[];
-  ctaAfterDownload: string;
-};
+export type LeadMagnetFormFieldErrors = Partial<{
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  sector: string;
+  magnetSlug: string;
+  gdprConsent: string;
+}>;

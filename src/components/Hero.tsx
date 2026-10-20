@@ -76,7 +76,7 @@ export function Hero({ locale = "fr" }: HeroProps) {
             className="mt-4 flex flex-col gap-3 sm:mt-5"
           >
             <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:gap-3">
-              <ContactButton variant="primary" size="default" showArrow className="w-full sm:w-auto">
+              <ContactButton variant="primary" size="default" showArrow className="w-full sm:w-auto" analyticsSource="hero">
                 {copy.ctaPrimary}
               </ContactButton>
               <div className="hidden lg:contents">

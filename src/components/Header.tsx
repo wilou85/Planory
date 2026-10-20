@@ -2,13 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { ChevronDown, Menu } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ContactButton } from "@/components/ContactButton";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { PlanoryLogo } from "@/components/PlanoryLogo";
 import { useNavDrawer } from "@/components/nav/NavDrawerContext";
+import { usePublicPathname } from "@/components/usePublicPathname";
 import { getHeaderCopy, getHomeCopy, getLocaleFromPath, getNavItems, stripLocalePrefix, type Locale } from "@/lib/i18n";
 import { getNavItemIcon, TOP_NAV_ICONS } from "@/lib/icons";
 import { handleSameRouteHashClick } from "@/lib/same-route-hash";
@@ -123,7 +123,7 @@ function NavDropdown({ item, isActive }: NavDropdownProps) {
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
-  const pathname = usePathname();
+  const pathname = usePublicPathname();
   const locale: Locale = getLocaleFromPath(pathname);
   const copy = getHeaderCopy(locale);
   const navItems = getNavItems(locale);
@@ -191,7 +191,7 @@ export function Header() {
         <div className="flex shrink-0 items-center justify-end gap-1 sm:gap-1.5 lg:justify-self-end lg:gap-2">
           <LanguageSwitcher compact className="md:hidden" />
           <LanguageSwitcher className="!hidden md:!inline-flex" />
-          <ContactButton variant="primary" size="sm" className="!px-3 sm:!px-4">
+          <ContactButton variant="primary" size="sm" className="!px-3 sm:!px-4" analyticsSource="header">
             <span className="hidden sm:inline">{copy.ctaContact}</span>
             <span className="sm:hidden">{copy.ctaContactShort}</span>
           </ContactButton>

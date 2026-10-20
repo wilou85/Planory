@@ -99,9 +99,11 @@ export function validateLeadMagnetForm(
       email,
       role,
       sector,
-      gdprConsent,
+      gdprConsent: true,
       magnetSlug,
       locale: resolvedLocale,
     },
   };
 }
+
+export type ValidatedLeadMagnetForm = LeadMagnetFormData;

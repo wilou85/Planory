@@ -17,6 +17,7 @@ type ButtonProps = {
   className?: string;
   showArrow?: boolean;
   external?: boolean;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 };
 
 const variantClasses: Record<ButtonVariant, string> = {
@@ -41,6 +42,7 @@ export function Button({
   className = "",
   showArrow = false,
   external = false,
+  onClick,
 }: ButtonProps) {
   const classes = `inline-flex w-full items-center justify-center rounded-full font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 sm:w-auto ${sizeClasses[size]} ${variantClasses[variant]} ${className}`;
 
@@ -65,6 +67,7 @@ export function Button({
       <motion.a
         href={href}
         className={classes}
+        onClick={onClick}
         {...(href.startsWith("mailto:")
           ? {}
           : { target: "_blank", rel: "noopener noreferrer" })}
@@ -89,6 +92,7 @@ export function Button({
         className={classes}
         onClick={(e) => {
           handleSameRouteHashClick(href, e);
+          onClick?.(e);
         }}
       >
         {content}

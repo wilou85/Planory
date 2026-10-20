@@ -2,11 +2,12 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePublicPathname } from "@/components/usePublicPathname";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Mail } from "lucide-react";
 import { getDrawerNavSections, getHeaderCopy, getLocaleFromPath } from "@/lib/i18n";
 import { getContactMailtoHref } from "@/lib/contact-nav";
+import { trackContactClick } from "@/components/analytics/TrackedContactLink";
 import { getNavItemIcon } from "@/lib/icons";
 import { handleSameRouteHashClick } from "@/lib/same-route-hash";
 import { useNavDrawer } from "@/components/nav/NavDrawerContext";
@@ -16,7 +17,7 @@ const FOCUSABLE =
 
 export function MobileNavDrawer() {
   const { open, closeDrawer } = useNavDrawer();
-  const pathname = usePathname();
+  const pathname = usePublicPathname();
   const locale = getLocaleFromPath(pathname);
   const copy = getHeaderCopy(locale);
   const drawerSections = getDrawerNavSections(locale);
@@ -206,7 +207,10 @@ export function MobileNavDrawer() {
             >
               <Link
                 href={getContactMailtoHref(locale)}
-                onClick={closeDrawer}
+                onClick={() => {
+                  trackContactClick("mobile_menu");
+                  closeDrawer();
+                }}
                 className="flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-white text-sm font-medium text-[#050a14]"
               >
                 <Mail className="h-4 w-4" aria-hidden />

@@ -2,9 +2,9 @@ export const HOSPITAL_SECTOR = {
   hero: {
     label: "Secteur hospitalier",
     pilotNote: "Pilote en cours — Centre Hospitalier de Versailles",
-    title: "Planning hospitalier, planning médical et planning hôpital avec IA",
+    title: "Planning hospitalier et médical avec IA",
     intro:
-      "Planory organise le planning roulement hospitalier, les gardes et la continuité de service en respectant la réglementation du travail de nuit et l'équité des week-ends. SKYNET génère une proposition en moins de 2 minutes ; vos cadres de santé valident et publient. Les astreintes (disponibilité) se gèrent dans le planning — manuellement via le statut dédié, ou comme activité au statut standard. Un pilote est également en cours au Centre Hospitalier de Versailles.",
+      "Planory organise le roulement, les gardes et la continuité de service en respectant la réglementation du travail de nuit et l'équité des week-ends. SKYNET génère une proposition en moins de 2 minutes ; vos cadres de santé valident et publient. Les astreintes (disponibilité) se gèrent facilement dans le planning. Un pilote est également en cours au Centre Hospitalier de Versailles.",
   },
   medicalPlanning: {
     title: "Planning médical, planning hôpital et planning de garde",
@@ -21,7 +21,7 @@ export const HOSPITAL_SECTOR = {
       },
       {
         title: "Planning de garde et permanences",
-        text: "Gardes de nuit et permanences de jour entrent dans la génération SKYNET. Les astreintes (disponibilité à domicile ou sur site) passent par le statut dédié géré manuellement — utile pour arbitrer l’équité — ou par une activité au statut standard si vous les modélisez ainsi.",
+        text: "Gardes de nuit et permanences de jour entrent dans la génération SKYNET. Les astreintes (disponibilité à domicile ou sur site) passent par un statut dédié.",
       },
     ],
   },
@@ -44,7 +44,7 @@ export const HOSPITAL_SECTOR = {
       },
       {
         title: "Équité week-ends et nuits",
-        text: "Répartition mesurable sur la période : personne ne doit cumuler les gardes difficiles sans compensation.",
+        text: "Répartition mesurable sur la période : personne ne doit cumuler les gardes difficiles au détriment d'une répartition juste et configurable, par exemple selon l'ancienneté du médecin.",
       },
       {
         title: "Continuité de service",
@@ -94,11 +94,6 @@ export const HOSPITAL_SECTOR = {
       question: "Planory convient-il au planning médical et au planning hôpital ?",
       answer:
         "Oui. Planory modélise les gardes et permanences par qualification et par service — que vous organisiez un planning médical spécialisé ou un planning hôpital multi-unités. Les astreintes (disponibilité) se gèrent manuellement via le statut dédié, ou comme activité au statut standard.",
-    },
-    {
-      question: "Comment Planory traite-t-il les astreintes ?",
-      answer:
-        "Les astreintes (disponibilité) ne sont pas générées par SKYNET stricto sensu. Statut dédié « astreinte » en saisie manuelle pour arbitrer la répartition ; ou activité nommée (ex. « garde astreinte ») au statut standard, alors eligible à la génération. L’intégration du statut « astreinte » au générateur pourra venir plus tard.",
     },
     {
       question: "Existe-t-il une référence pilote en milieu hospitalier ?",

@@ -63,7 +63,7 @@ export function ResourcesHub({ locale = "fr" }: ResourcesHubProps) {
           <div className="mt-8 rounded-2xl border border-white/8 bg-[#0c1220]/60 p-6 text-center">
             <p className="text-base text-slate-400">{ui.emptyMessage}</p>
             <div className="mt-4">
-              <ContactButton variant="secondary" showArrow>
+              <ContactButton variant="secondary" showArrow analyticsSource="resources_hub">
                 {ui.emptyCta}
               </ContactButton>
             </div>

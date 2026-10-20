@@ -1,17 +1,17 @@
 export const AIRPORT_SECTOR = {
   hero: {
     label: "Secteur aéroportuaire",
-    title: "Planning aéroport et ATC : quarts 24/7 réglementés avec IA",
+    title: "Planning aéroport et ATC : vacations 24/7 réglementés avec IA",
     intro:
-      "Planory planifie les quarts aéroportuaires et les postes critiques (ops, sureté, handling, ATC côté organisation) en respectant les repos réglementaires, les relèves et la continuité de service. SKYNET génère une proposition en moins de 2 minutes ; vos planificateurs valident et publient. Référence pilote : Aéroport de Paris-Orly.",
+      "Planory planifie les vacations et les postes critiques (ops, sureté, handling, ATC côté organisation) en respectant les repos réglementaires, les relèves et la continuité de service. SKYNET génère une proposition en moins de 2 minutes ; vos planificateurs valident et publient. Référence pilote non-commercial : Aéroport de Paris-Orly.",
   },
   domain: {
-    title: "Quarts, relèves et postes critiques",
+    title: "Vacations, relèves et postes critiques",
     intro:
       "Un aéroport cumule des contraintes que les tableurs absorbent mal : amplitude 24/7, qualifications par poste, incidents et remplacements de dernière minute, sans rompre les chaînes de relève.",
     items: [
       {
-        title: "Quarts robustes 24/7",
+        title: "Vacations robustes 24/7",
         text: "Couverture continue des postes ops, sureté et handling avec repos minimum entre deux périodes et plafonds horaires contrôlés dès la génération.",
       },
       {
@@ -39,7 +39,7 @@ export const AIRPORT_SECTOR = {
       },
       {
         title: "Équité des nuits et week-ends",
-        text: "Répartition mesurable des créneaux difficiles — essentielle pour la rétention et le climat social.",
+        text: "Répartition mesurable des créneaux difficiles — essentielle pour la fatigue et le climat social.",
       },
       {
         title: "Multi-équipes / multi-postes",
@@ -87,12 +87,12 @@ export const AIRPORT_SECTOR = {
     {
       question: "Planory est-il adapté au planning aéroportuaire 24/7 ?",
       answer:
-        "Oui. Planory cible les environnements réglementés à couverture continue : quarts, repos, qualifications et équité sont des contraintes de première classe dans SKYNET.",
+        "Oui. Planory cible les environnements réglementés à couverture continue : vacations, repos, qualifications et équité sont des contraintes de première classe dans SKYNET.",
     },
     {
-      question: "Que signifie la référence pilote Orly ?",
+      question: "Que signifie la Référence pilote non-commercial Orly ?",
       answer:
-        "Un pilote est en cours à l'Aéroport de Paris-Orly. Il illustre le positionnement de Planory sur des plannings aéroportuaires complexes — en complément du SIRH, avec la GTA portée côté planification.",
+        "Un pilote non commercial est en cours à l'Aéroport de Paris-Orly. Il illustre le positionnement de Planory sur des plannings aéroportuaires complexes — en complément du SIRH, avec la GTA portée côté planification.",
     },
     {
       question: "Planory gère-t-il les incidents et remplacements ?",

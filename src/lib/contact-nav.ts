@@ -1,14 +1,12 @@
-import { ORGANIZATION } from "@/lib/site";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { getContactEmail } from "@/lib/get-content";
 
 export const CONTACT_PATH = "/contact";
-export const CONTACT_EMAIL = ORGANIZATION.email;
 
-export function getContactPath(locale: Locale = "fr"): string {
-  return localizePath(CONTACT_PATH, locale);
-}
+/** Re-export for footer / mailto CTAs */
+export const CONTACT_EMAIL = getContactEmail();
 
-const MAILTO_COPY = {
+const MAILTO_TEMPLATE: Record<Locale, { subject: string; body: string }> = {
   fr: {
     subject: "Prise de contact — Planory",
     body: [
@@ -53,13 +51,13 @@ const MAILTO_COPY = {
       "Thank you,",
     ].join("\n"),
   },
-} as const;
+};
 
-/** Ouvre la boîte mail avec sujet + corps préremplis. */
+export function getContactPath(locale: Locale = "fr"): string {
+  return localizePath(CONTACT_PATH, locale);
+}
+
 export function getContactMailtoHref(locale: Locale = "fr"): string {
-  const copy = MAILTO_COPY[locale];
-  // encodeURIComponent → %20 (pas +) : Outlook / certains clients mailto ne décodent pas le +.
-  const subject = encodeURIComponent(copy.subject);
-  const body = encodeURIComponent(copy.body);
-  return `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+  const { subject, body } = MAILTO_TEMPLATE[locale];
+  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }

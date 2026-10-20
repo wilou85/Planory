@@ -16,10 +16,12 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
+        disallow: ["/admin", "/admin/", "/api/admin"],
       },
       ...AI_CRAWLERS.map((userAgent) => ({
         userAgent,
         allow: "/" as const,
+        disallow: ["/admin", "/admin/", "/api/admin"] as string[],
       })),
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

@@ -47,7 +47,7 @@ export const PRODUCT_MODULES = [
     details: [
       {
         title: "Génération automatique conforme",
-        text: "SKYNET produit une proposition respectant repos réglementaires, qualifications par poste et cycles 3×8 ou 2×12.",
+        text: "SKYNET produit une proposition respectant repos réglementaires, astreintes, qualifications par poste et cycles 3×8 ou 2×12.",
       },
       {
         title: "Échanges et renforts en temps réel",
@@ -105,7 +105,7 @@ export const SECTORS = [
     title: "Aéroport / ATC",
     href: "/secteurs/aeroport",
     description:
-      "Quarts robustes, règles de repos réglementaires, gestion des incidents et relèves de quart.",
+      "Vacations robustes, règles de repos réglementaires, gestion des incidents et relèves de quart.",
     tags: ["24/7", "Réglementé", "Postes critiques"],
   },
   {

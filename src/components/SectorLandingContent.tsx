@@ -63,7 +63,11 @@ export function SectorLandingContent({
           </h1>
           <p className="mt-4 text-lg leading-relaxed text-slate-400">{hero.intro}</p>
           <div className="mt-6">
-            <ContactButton variant="primary" showArrow>
+            <ContactButton
+              variant="primary"
+              showArrow
+              analyticsSource={`sector_${geoVariant}`}
+            >
               {ui.cta}
             </ContactButton>
           </div>

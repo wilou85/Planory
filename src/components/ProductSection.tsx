@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePublicPathname } from "@/components/usePublicPathname";
 import { Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { sectionStack, sectionY } from "@/components/ui/section";
@@ -13,6 +13,10 @@ import { ProductModulePanel } from "@/components/ProductModulePanel";
 import { ProductShowcase } from "@/components/ProductShowcase";
 import { getPageUi, getProductBenefits, getProductModules } from "@/lib/get-content";
 import { localizePath, type Locale } from "@/lib/i18n";
+import {
+  PRODUCT_MODULE_PANEL_ID,
+  scrollProductModuleIntoView,
+} from "@/lib/product-module-scroll";
 
 type ProductSectionProps = {
   locale?: Locale;
@@ -25,11 +29,17 @@ export function ProductSection({ locale = "fr" }: ProductSectionProps) {
   const defaultModuleId = modules[0]?.id ?? "rh";
 
   const [activeModuleId, setActiveModuleId] = useState<string>(defaultModuleId);
-  const pathname = usePathname();
+  const pathname = usePublicPathname();
 
   const selectModule = useCallback((moduleId: string) => {
     setActiveModuleId(moduleId);
     window.history.replaceState(null, "", `#${moduleId}`);
+    // Wait for the keyed panel to commit, then scroll the article into view.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        scrollProductModuleIntoView(moduleId);
+      });
+    });
   }, []);
 
   useEffect(() => {
@@ -91,7 +101,9 @@ export function ProductSection({ locale = "fr" }: ProductSectionProps) {
               onSelectModule={selectModule}
             />
 
-            <ProductModulePanel moduleId={activeModuleId} locale={locale} />
+            <div id={PRODUCT_MODULE_PANEL_ID} className="scroll-mt-28">
+              <ProductModulePanel moduleId={activeModuleId} locale={locale} />
+            </div>
 
             <motion.div
               initial={{ opacity: 0, y: 24 }}

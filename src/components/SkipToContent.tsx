@@ -3,9 +3,10 @@
 import { usePathname } from "next/navigation";
 import { getPageUi } from "@/lib/get-content";
 import { getLocaleFromPath } from "@/lib/i18n";
+import { toPublicPathname } from "@/lib/public-path";
 
 export function SkipToContent() {
-  const pathname = usePathname();
+  const pathname = toPublicPathname(usePathname() || "/");
   const locale = getLocaleFromPath(pathname);
   const label = getPageUi(locale).layout.skipToContent;
 

@@ -1,53 +1,55 @@
 /**
- * Routage public FR sans préfixe / EN avec /en.
- * Utilisé par next.config (rewrites/redirects) — pas de proxy Edge.
+ * Locale routing for the French-default public site.
+ * Unprefixed paths are rewritten internally to /fr/… for the [locale] segment.
+ * Paths under /en, /api, /admin and static assets must never be rewritten.
  */
-export function shouldBypassLocaleRouting(pathname: string): boolean {
-  return (
-    pathname.startsWith("/api") ||
-    pathname.startsWith("/_next") ||
-    pathname.startsWith("/llms") ||
-    pathname.includes(".")
-  );
-}
+import type { NextConfig } from "next";
 
-/** Redirections canoniques : /fr → URL publique sans préfixe */
-export const LOCALE_REDIRECTS = [
-  { source: "/fr", destination: "/", permanent: false },
-  { source: "/fr/:path*", destination: "/:path*", permanent: false },
-] as const;
+type Redirect = NonNullable<Awaited<ReturnType<NonNullable<NextConfig["redirects"]>>>>[number];
+type Rewrite = {
+  source: string;
+  destination: string;
+};
 
 /**
- * Rewrites internes vers `[locale]=fr` (à monter en `beforeFiles`).
- * Exclut api, _next, en, fr, et fichiers avec extension (assets / llms.txt).
+ * Named `:path` + `/fr/:path` (Next substitutes named params; `$1` is unreliable here).
+ * Negative lookahead skips en / api / admin / _next and any segment with a file
+ * extension (`sw.js`, `hero.jpg`, `manifest.webmanifest`).
+ * Root `/` is not matched (no `:path` segment) — served by `src/app/page.tsx`.
  */
-export const LOCALE_REWRITES = [
-  { source: "/", destination: "/fr" },
+export const FR_INTERNAL_REWRITE_SOURCE =
+  "/:path((?!en(?:/|$)|api(?:/|$)|admin(?:/|$)|_next(?:/|$)|[^/]*\\.[^/]*).*)";
+
+/**
+ * Prefer `afterFiles` in next.config so `public/` assets are checked first.
+ * afterFiles still runs before dynamic `[locale]`, so `/faq` → `/fr/faq` works.
+ */
+export const LOCALE_REWRITES: Rewrite[] = [
   {
-    source: "/:path((?!api|_next|en|fr|.*\\..*).*)",
+    source: FR_INTERNAL_REWRITE_SOURCE,
     destination: "/fr/:path",
   },
-] as const;
+];
 
-/** Miroir de la logique historique du proxy — pour tests unitaires */
-export function resolveLocaleRouting(pathname: string): {
-  type: "next" | "redirect" | "rewrite";
-  to?: string;
-} {
-  if (shouldBypassLocaleRouting(pathname)) {
-    return { type: "next" };
+export const LOCALE_REDIRECTS: Redirect[] = [];
+
+/** Mirror of the rewrite exclusion rules, for unit tests (Next does not expose matcher eval). */
+export function isLocaleRewriteSource(pathname: string): boolean {
+  if (!pathname.startsWith("/")) return false;
+  if (pathname === "/") return false;
+  if (
+    pathname === "/en" ||
+    pathname.startsWith("/en/") ||
+    pathname === "/api" ||
+    pathname.startsWith("/api/") ||
+    pathname === "/admin" ||
+    pathname.startsWith("/admin/") ||
+    pathname.startsWith("/_next/")
+  ) {
+    return false;
   }
-  if (pathname === "/fr" || pathname.startsWith("/fr/")) {
-    return {
-      type: "redirect",
-      to: pathname === "/fr" ? "/" : pathname.slice(3) || "/",
-    };
+  if (pathname.split("/").some((segment) => segment.includes("."))) {
+    return false;
   }
-  if (pathname === "/en" || pathname.startsWith("/en/")) {
-    return { type: "next" };
-  }
-  return {
-    type: "rewrite",
-    to: pathname === "/" ? "/fr" : `/fr${pathname}`,
-  };
+  return true;
 }

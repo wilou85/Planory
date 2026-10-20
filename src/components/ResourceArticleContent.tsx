@@ -95,7 +95,7 @@ export function ResourceArticleContent({ article, locale = "fr" }: ResourceArtic
                       {section.href === "/contact" ||
                       section.href === "#contact" ||
                       section.href === "/en/contact" ? (
-                        <ContactButton variant="primary" showArrow className="!px-8">
+                        <ContactButton variant="primary" showArrow className="!px-8" analyticsSource="article">
                           {section.label}
                         </ContactButton>
                       ) : (

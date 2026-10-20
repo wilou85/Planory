@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePublicPathname } from "@/components/usePublicPathname";
 import { motion } from "framer-motion";
 import { Box, Home, MapPin, MoreHorizontal } from "lucide-react";
 import { getHeaderCopy, getLocaleFromPath, getMobileTabItems, stripLocalePrefix } from "@/lib/i18n";
@@ -18,7 +18,7 @@ function tabIcon(href: string): LucideIcon {
 }
 
 export function MobileTabBar() {
-  const pathname = usePathname();
+  const pathname = usePublicPathname();
   const locale = getLocaleFromPath(pathname);
   const copy = getHeaderCopy(locale);
   const tabs = getMobileTabItems(locale).map((tab) => ({

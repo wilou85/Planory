@@ -21,7 +21,7 @@ const KEYWORDS: Record<Locale, string[]> = {
     "planning aéroport",
     "planning aéroportuaire",
     "planning ATC",
-    "quarts aéroport",
+    "vacations aéroport",
     "planification aéroport 24/7",
     "logiciel planning aéroport",
   ],

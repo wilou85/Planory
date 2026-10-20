@@ -58,7 +58,7 @@ export function localePath(targetLocale: Locale, currentPath = "/"): string {
   return localizePath(stripLocalePrefix(currentPath), targetLocale);
 }
 
-/** Lien « Voir un exemple » → haut de la page produit (captures + module planning) */
+/** Lien « Voir un exemple » → module Planification RH / HR scheduling */
 export const PRODUCT_EXAMPLE_HREF = "/produit#exemple";
 
 export const HERO_COPY = {
@@ -98,6 +98,12 @@ export const HERO_COPY = {
       { value: "France", label: "French-built", labelDesktop: "French 24/7 scheduling" },
     ],
   },
+} as const;
+
+export const EN_SITE = {
+  title: "Healthcare workforce scheduling software with AI | Planory",
+  description:
+    "Healthcare workforce scheduling software and shift planning software for hospitals, airports and 24/7 teams. Planory generates compliant schedules with SKYNET AI — French workforce scheduling software.",
 } as const;
 
 export const HOME_COPY = {
@@ -207,6 +213,8 @@ export function getHomeCopy(locale: Locale) {
 export const HEADER_COPY = {
   fr: {
     tagline: "IA de planification",
+    ctaExample: "Voir un exemple",
+    ctaExampleHref: PRODUCT_EXAMPLE_HREF,
     ctaContact: "Prendre contact",
     ctaContactShort: "Contact",
     openMenu: "Ouvrir le menu",
@@ -223,6 +231,8 @@ export const HEADER_COPY = {
   },
   en: {
     tagline: "Planning AI",
+    ctaExample: "See an example",
+    ctaExampleHref: PRODUCT_EXAMPLE_HREF,
     ctaContact: "Get in touch",
     ctaContactShort: "Contact",
     openMenu: "Open menu",

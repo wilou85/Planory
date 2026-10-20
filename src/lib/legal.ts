@@ -84,7 +84,7 @@ const DOCS: Record<Locale, Record<LegalDocId, LegalDoc>> = {
       path: "/confidentialite",
       title: "Politique de confidentialité | Planory",
       description:
-        "Politique de confidentialité Planory : données collectées via le site (contact e-mail et outils), finalités, durée de conservation et droits RGPD.",
+        "Politique de confidentialité Planory : données collectées via les formulaires, finalités, durée de conservation et droits RGPD.",
       heading: "Politique de confidentialité",
       updatedLabel: "Dernière mise à jour : 27 juillet 2026",
       sections: [
@@ -97,7 +97,7 @@ const DOCS: Record<Locale, Record<LegalDocId, LegalDoc>> = {
         {
           heading: "2. Données collectées",
           paragraphs: [
-            `Via le contact e-mail (${LEGAL_ENTITY.email}) : lorsque vous nous écrivez, les informations présentes dans votre message (identité, adresse e-mail, contenu) sont traitées pour répondre à votre demande.`,
+            "Via le contact e-mail (contact@planory.net) : lorsque vous nous écrivez, les informations présentes dans votre message (identité, adresse e-mail, contenu) sont traitées pour répondre à votre demande.",
             "Via les outils / lead magnets : prénom, nom, adresse e-mail, et le consentement associé le cas échéant.",
             "Des données techniques de navigation (journaux serveur, cookies strictement nécessaires au fonctionnement) peuvent être traitées pour assurer la sécurité et la disponibilité du site.",
           ],
@@ -207,7 +207,7 @@ const DOCS: Record<Locale, Record<LegalDocId, LegalDoc>> = {
         {
           heading: "2. Data we collect",
           paragraphs: [
-            `Via email contact (${LEGAL_ENTITY.email}): when you write to us, information in your message (identity, email address, content) is processed to respond to your request.`,
+            "Via email contact (contact@planory.net): when you write to us, information in your message (identity, email address, content) is processed to respond to your request.",
             "Via tools / lead magnets: first name, last name, email address, and associated consent where applicable.",
             "Technical browsing data (server logs, strictly necessary cookies) may be processed to keep the site secure and available.",
           ],
